@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
+import { createHistory } from "history";
 import 'current-input';
 
 import App from './components/App';
@@ -9,6 +10,9 @@ import PageNotFound from './components/PageNotFound';
 import ExampleComponent from './components/ExampleComponent';
 import ExampleTwoDeepComponent from './components/ExampleTwoDeepComponent';
 
+const browserHistory = useRouterHistory(createHistory)({
+    basename: "/reverse-archaeology-2"
+});
 
 const routes = (
   <Route path="/" mapMenuTitle="Home" component={App}>
@@ -25,7 +29,7 @@ const routes = (
 
 render(
   <Router
-    history={hashHistory}
+    history={browserHistory}
     routes={routes}
   />,
   document.getElementById('root')
