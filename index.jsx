@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import 'current-input';
 
 import App from './components/App';
@@ -25,7 +25,7 @@ const routes = (
 
 render(
   <Router
-    history={browserHistory}
+    history={hashHistory}
     routes={routes}
   />,
   document.getElementById('root')
