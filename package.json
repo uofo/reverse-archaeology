@@ -14,9 +14,16 @@
   "license": "MIT",
   "dependencies": {
     "current-input": "^1.1.0",
+    "ent": "^2.2.0",
+    "es6-promise": "^3.2.1",
+    "isomorphic-fetch": "^2.2.1",
+    "json-loader": "^0.5.4",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "react-router": "^2.8.0"
+    "react-redux": "^4.4.5",
+    "react-router": "^2.8.0",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",

@@ -3,34 +3,38 @@ import { render } from 'react-dom';
 import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
 import { createHistory } from "history";
 import 'current-input';
+import { Provider } from 'react-redux';
+
+import { actions, store } from './core/store';
 
 import App from './components/App';
 import Home from './components/Home';
 import PageNotFound from './components/PageNotFound';
-import ExampleComponent from './components/ExampleComponent';
-import ExampleTwoDeepComponent from './components/ExampleTwoDeepComponent';
+import ArtifactComponent from './components/ArtifactComponent';
+import ArtifactsComponent from './components/ArtifactsComponent';
 
 const browserHistory = useRouterHistory(createHistory)({
     basename: "/reverse-archaeology-2"
 });
 
 const routes = (
-  <Route path="/" mapMenuTitle="Home" component={App}>
+  <Route actions={actions} path="/" component={App}>
     <IndexRoute component={Home} />
 
-    <Route path="example" mapMenuTitle="Example" component={ExampleComponent}>
-      <Route path="two-deep" mapMenuTitle="Two Deep" component={ExampleTwoDeepComponent} />
-    </Route>
+    <Route path="artifacts" component={ArtifactsComponent} />
+    <Route path="artifacts/:slug" component={ArtifactComponent} />
 
-    <Route path="*" mapMenuTitle="Page Not Found" component={PageNotFound} />
+    <Route path="*" component={PageNotFound} />
   </Route>
 );
 
 
 render(
-  <Router
-    history={browserHistory}
-    routes={routes}
-  />,
+  <Provider store={store}>
+    <Router
+      history={browserHistory}
+      routes={routes}
+    />
+  </Provider>,
   document.getElementById('root')
 );

@@ -1,47 +1,46 @@
 import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
+
+import * as actions from '../core/actions';
 
 const propTypes = {
   children: PropTypes.element.isRequired,
   routes: PropTypes.array.isRequired,
 };
 
-function App({ children, routes }) {
-  function generateMapMenu() {
-    let path = '';
+var App = React.createClass({
+  propTypes: propTypes,
 
-    function nextPath(route) {
-      path += (
-        (path.slice(-1) === '/' ? '' : '/') +
-        (route.path === '/' ? '' : route.path)
-      );
-      return path;
-    }
+  componentWillMount: function () {
+    this.props.actions.fetchArtifactsData();
+  },
 
+  render: function () {
     return (
-      routes.filter(route => route.mapMenuTitle)
-        .map((route, index, array) => (
-          <span key={index}>
-            <Link to={nextPath(route)}>{route.mapMenuTitle}</Link>
-            {(index + 1) < array.length && ' / '}
-          </span>
-        ))
+      <div>
+        <h1>Reverse Archaeology</h1>
+        {
+          React.cloneElement(this.props.children, {
+            artifacts: this.props.artifacts
+          })
+        }
+      </div>
     );
   }
+});
 
-  const repoLink = 'https://github.com/rafrex/spa-github-pages';
-
-  return (
-    <div>
-      <h1>Reverse Archaeology</h1>
-      <nav>
-        {generateMapMenu()}
-      </nav>
-      {children}
-    </div>
-  );
+function mapStateToProps(state) {
+  return {
+    artifacts: state.artifacts
+  };
 }
 
-App.propTypes = propTypes;
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+}
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -61,25 +61,29 @@
 	
 	__webpack_require__(/*! current-input */ 239);
 	
-	var _App = __webpack_require__(/*! ./components/App */ 248);
+	var _reactRedux = __webpack_require__(/*! react-redux */ 248);
+	
+	var _store = __webpack_require__(/*! ./core/store */ 270);
+	
+	var _App = __webpack_require__(/*! ./components/App */ 280);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _Home = __webpack_require__(/*! ./components/Home */ 249);
+	var _Home = __webpack_require__(/*! ./components/Home */ 281);
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
-	var _PageNotFound = __webpack_require__(/*! ./components/PageNotFound */ 250);
+	var _PageNotFound = __webpack_require__(/*! ./components/PageNotFound */ 282);
 	
 	var _PageNotFound2 = _interopRequireDefault(_PageNotFound);
 	
-	var _ExampleComponent = __webpack_require__(/*! ./components/ExampleComponent */ 251);
+	var _ArtifactComponent = __webpack_require__(/*! ./components/ArtifactComponent */ 283);
 	
-	var _ExampleComponent2 = _interopRequireDefault(_ExampleComponent);
+	var _ArtifactComponent2 = _interopRequireDefault(_ArtifactComponent);
 	
-	var _ExampleTwoDeepComponent = __webpack_require__(/*! ./components/ExampleTwoDeepComponent */ 252);
+	var _ArtifactsComponent = __webpack_require__(/*! ./components/ArtifactsComponent */ 290);
 	
-	var _ExampleTwoDeepComponent2 = _interopRequireDefault(_ExampleTwoDeepComponent);
+	var _ArtifactsComponent2 = _interopRequireDefault(_ArtifactsComponent);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -89,20 +93,21 @@
 	
 	var routes = _react2.default.createElement(
 	  _reactRouter.Route,
-	  { path: '/', mapMenuTitle: 'Home', component: _App2.default },
+	  { actions: _store.actions, path: '/', component: _App2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
-	  _react2.default.createElement(
-	    _reactRouter.Route,
-	    { path: 'example', mapMenuTitle: 'Example', component: _ExampleComponent2.default },
-	    _react2.default.createElement(_reactRouter.Route, { path: 'two-deep', mapMenuTitle: 'Two Deep', component: _ExampleTwoDeepComponent2.default })
-	  ),
-	  _react2.default.createElement(_reactRouter.Route, { path: '*', mapMenuTitle: 'Page Not Found', component: _PageNotFound2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: 'artifacts', component: _ArtifactsComponent2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'artifacts/:slug', component: _ArtifactComponent2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _PageNotFound2.default })
 	);
 	
-	(0, _reactDom.render)(_react2.default.createElement(_reactRouter.Router, {
-	  history: browserHistory,
-	  routes: routes
-	}), document.getElementById('root'));
+	(0, _reactDom.render)(_react2.default.createElement(
+	  _reactRedux.Provider,
+	  { store: _store.store },
+	  _react2.default.createElement(_reactRouter.Router, {
+	    history: browserHistory,
+	    routes: routes
+	  })
+	), document.getElementById('root'));
 
 /***/ },
 /* 1 */
@@ -28777,6 +28782,3206 @@
 
 /***/ },
 /* 248 */
+/*!************************************!*\
+  !*** ./~/react-redux/lib/index.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.connect = exports.Provider = undefined;
+	
+	var _Provider = __webpack_require__(/*! ./components/Provider */ 249);
+	
+	var _Provider2 = _interopRequireDefault(_Provider);
+	
+	var _connect = __webpack_require__(/*! ./components/connect */ 252);
+	
+	var _connect2 = _interopRequireDefault(_connect);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	exports.Provider = _Provider2["default"];
+	exports.connect = _connect2["default"];
+
+/***/ },
+/* 249 */
+/*!**************************************************!*\
+  !*** ./~/react-redux/lib/components/Provider.js ***!
+  \**************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	exports.__esModule = true;
+	exports["default"] = undefined;
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _storeShape = __webpack_require__(/*! ../utils/storeShape */ 250);
+	
+	var _storeShape2 = _interopRequireDefault(_storeShape);
+	
+	var _warning = __webpack_require__(/*! ../utils/warning */ 251);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var didWarnAboutReceivingStore = false;
+	function warnAboutReceivingStore() {
+	  if (didWarnAboutReceivingStore) {
+	    return;
+	  }
+	  didWarnAboutReceivingStore = true;
+	
+	  (0, _warning2["default"])('<Provider> does not support changing `store` on the fly. ' + 'It is most likely that you see this error because you updated to ' + 'Redux 2.x and React Redux 2.x which no longer hot reload reducers ' + 'automatically. See https://github.com/reactjs/react-redux/releases/' + 'tag/v2.0.0 for the migration instructions.');
+	}
+	
+	var Provider = function (_Component) {
+	  _inherits(Provider, _Component);
+	
+	  Provider.prototype.getChildContext = function getChildContext() {
+	    return { store: this.store };
+	  };
+	
+	  function Provider(props, context) {
+	    _classCallCheck(this, Provider);
+	
+	    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+	
+	    _this.store = props.store;
+	    return _this;
+	  }
+	
+	  Provider.prototype.render = function render() {
+	    var children = this.props.children;
+	
+	    return _react.Children.only(children);
+	  };
+	
+	  return Provider;
+	}(_react.Component);
+	
+	exports["default"] = Provider;
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  Provider.prototype.componentWillReceiveProps = function (nextProps) {
+	    var store = this.store;
+	    var nextStore = nextProps.store;
+	
+	    if (store !== nextStore) {
+	      warnAboutReceivingStore();
+	    }
+	  };
+	}
+	
+	Provider.propTypes = {
+	  store: _storeShape2["default"].isRequired,
+	  children: _react.PropTypes.element.isRequired
+	};
+	Provider.childContextTypes = {
+	  store: _storeShape2["default"].isRequired
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 250 */
+/*!***********************************************!*\
+  !*** ./~/react-redux/lib/utils/storeShape.js ***!
+  \***********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	exports["default"] = _react.PropTypes.shape({
+	  subscribe: _react.PropTypes.func.isRequired,
+	  dispatch: _react.PropTypes.func.isRequired,
+	  getState: _react.PropTypes.func.isRequired
+	});
+
+/***/ },
+/* 251 */
+/*!********************************************!*\
+  !*** ./~/react-redux/lib/utils/warning.js ***!
+  \********************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports["default"] = warning;
+	/**
+	 * Prints a warning in the console if it exists.
+	 *
+	 * @param {String} message The warning message.
+	 * @returns {void}
+	 */
+	function warning(message) {
+	  /* eslint-disable no-console */
+	  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+	    console.error(message);
+	  }
+	  /* eslint-enable no-console */
+	  try {
+	    // This error was thrown as a convenience so that you can use this stack
+	    // to find the callsite that caused this warning to fire.
+	    throw new Error(message);
+	    /* eslint-disable no-empty */
+	  } catch (e) {}
+	  /* eslint-enable no-empty */
+	}
+
+/***/ },
+/* 252 */
+/*!*************************************************!*\
+  !*** ./~/react-redux/lib/components/connect.js ***!
+  \*************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports.__esModule = true;
+	exports["default"] = connect;
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _storeShape = __webpack_require__(/*! ../utils/storeShape */ 250);
+	
+	var _storeShape2 = _interopRequireDefault(_storeShape);
+	
+	var _shallowEqual = __webpack_require__(/*! ../utils/shallowEqual */ 253);
+	
+	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
+	
+	var _wrapActionCreators = __webpack_require__(/*! ../utils/wrapActionCreators */ 254);
+	
+	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
+	
+	var _warning = __webpack_require__(/*! ../utils/warning */ 251);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 257);
+	
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+	
+	var _hoistNonReactStatics = __webpack_require__(/*! hoist-non-react-statics */ 215);
+	
+	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
+	
+	var _invariant = __webpack_require__(/*! invariant */ 180);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var defaultMapStateToProps = function defaultMapStateToProps(state) {
+	  return {};
+	}; // eslint-disable-line no-unused-vars
+	var defaultMapDispatchToProps = function defaultMapDispatchToProps(dispatch) {
+	  return { dispatch: dispatch };
+	};
+	var defaultMergeProps = function defaultMergeProps(stateProps, dispatchProps, parentProps) {
+	  return _extends({}, parentProps, stateProps, dispatchProps);
+	};
+	
+	function getDisplayName(WrappedComponent) {
+	  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+	}
+	
+	var errorObject = { value: null };
+	function tryCatch(fn, ctx) {
+	  try {
+	    return fn.apply(ctx);
+	  } catch (e) {
+	    errorObject.value = e;
+	    return errorObject;
+	  }
+	}
+	
+	// Helps track hot reloading.
+	var nextVersion = 0;
+	
+	function connect(mapStateToProps, mapDispatchToProps, mergeProps) {
+	  var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+	
+	  var shouldSubscribe = Boolean(mapStateToProps);
+	  var mapState = mapStateToProps || defaultMapStateToProps;
+	
+	  var mapDispatch = undefined;
+	  if (typeof mapDispatchToProps === 'function') {
+	    mapDispatch = mapDispatchToProps;
+	  } else if (!mapDispatchToProps) {
+	    mapDispatch = defaultMapDispatchToProps;
+	  } else {
+	    mapDispatch = (0, _wrapActionCreators2["default"])(mapDispatchToProps);
+	  }
+	
+	  var finalMergeProps = mergeProps || defaultMergeProps;
+	  var _options$pure = options.pure;
+	  var pure = _options$pure === undefined ? true : _options$pure;
+	  var _options$withRef = options.withRef;
+	  var withRef = _options$withRef === undefined ? false : _options$withRef;
+	
+	  var checkMergedEquals = pure && finalMergeProps !== defaultMergeProps;
+	
+	  // Helps track hot reloading.
+	  var version = nextVersion++;
+	
+	  return function wrapWithConnect(WrappedComponent) {
+	    var connectDisplayName = 'Connect(' + getDisplayName(WrappedComponent) + ')';
+	
+	    function checkStateShape(props, methodName) {
+	      if (!(0, _isPlainObject2["default"])(props)) {
+	        (0, _warning2["default"])(methodName + '() in ' + connectDisplayName + ' must return a plain object. ' + ('Instead received ' + props + '.'));
+	      }
+	    }
+	
+	    function computeMergedProps(stateProps, dispatchProps, parentProps) {
+	      var mergedProps = finalMergeProps(stateProps, dispatchProps, parentProps);
+	      if (process.env.NODE_ENV !== 'production') {
+	        checkStateShape(mergedProps, 'mergeProps');
+	      }
+	      return mergedProps;
+	    }
+	
+	    var Connect = function (_Component) {
+	      _inherits(Connect, _Component);
+	
+	      Connect.prototype.shouldComponentUpdate = function shouldComponentUpdate() {
+	        return !pure || this.haveOwnPropsChanged || this.hasStoreStateChanged;
+	      };
+	
+	      function Connect(props, context) {
+	        _classCallCheck(this, Connect);
+	
+	        var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+	
+	        _this.version = version;
+	        _this.store = props.store || context.store;
+	
+	        (0, _invariant2["default"])(_this.store, 'Could not find "store" in either the context or ' + ('props of "' + connectDisplayName + '". ') + 'Either wrap the root component in a <Provider>, ' + ('or explicitly pass "store" as a prop to "' + connectDisplayName + '".'));
+	
+	        var storeState = _this.store.getState();
+	        _this.state = { storeState: storeState };
+	        _this.clearCache();
+	        return _this;
+	      }
+	
+	      Connect.prototype.computeStateProps = function computeStateProps(store, props) {
+	        if (!this.finalMapStateToProps) {
+	          return this.configureFinalMapState(store, props);
+	        }
+	
+	        var state = store.getState();
+	        var stateProps = this.doStatePropsDependOnOwnProps ? this.finalMapStateToProps(state, props) : this.finalMapStateToProps(state);
+	
+	        if (process.env.NODE_ENV !== 'production') {
+	          checkStateShape(stateProps, 'mapStateToProps');
+	        }
+	        return stateProps;
+	      };
+	
+	      Connect.prototype.configureFinalMapState = function configureFinalMapState(store, props) {
+	        var mappedState = mapState(store.getState(), props);
+	        var isFactory = typeof mappedState === 'function';
+	
+	        this.finalMapStateToProps = isFactory ? mappedState : mapState;
+	        this.doStatePropsDependOnOwnProps = this.finalMapStateToProps.length !== 1;
+	
+	        if (isFactory) {
+	          return this.computeStateProps(store, props);
+	        }
+	
+	        if (process.env.NODE_ENV !== 'production') {
+	          checkStateShape(mappedState, 'mapStateToProps');
+	        }
+	        return mappedState;
+	      };
+	
+	      Connect.prototype.computeDispatchProps = function computeDispatchProps(store, props) {
+	        if (!this.finalMapDispatchToProps) {
+	          return this.configureFinalMapDispatch(store, props);
+	        }
+	
+	        var dispatch = store.dispatch;
+	
+	        var dispatchProps = this.doDispatchPropsDependOnOwnProps ? this.finalMapDispatchToProps(dispatch, props) : this.finalMapDispatchToProps(dispatch);
+	
+	        if (process.env.NODE_ENV !== 'production') {
+	          checkStateShape(dispatchProps, 'mapDispatchToProps');
+	        }
+	        return dispatchProps;
+	      };
+	
+	      Connect.prototype.configureFinalMapDispatch = function configureFinalMapDispatch(store, props) {
+	        var mappedDispatch = mapDispatch(store.dispatch, props);
+	        var isFactory = typeof mappedDispatch === 'function';
+	
+	        this.finalMapDispatchToProps = isFactory ? mappedDispatch : mapDispatch;
+	        this.doDispatchPropsDependOnOwnProps = this.finalMapDispatchToProps.length !== 1;
+	
+	        if (isFactory) {
+	          return this.computeDispatchProps(store, props);
+	        }
+	
+	        if (process.env.NODE_ENV !== 'production') {
+	          checkStateShape(mappedDispatch, 'mapDispatchToProps');
+	        }
+	        return mappedDispatch;
+	      };
+	
+	      Connect.prototype.updateStatePropsIfNeeded = function updateStatePropsIfNeeded() {
+	        var nextStateProps = this.computeStateProps(this.store, this.props);
+	        if (this.stateProps && (0, _shallowEqual2["default"])(nextStateProps, this.stateProps)) {
+	          return false;
+	        }
+	
+	        this.stateProps = nextStateProps;
+	        return true;
+	      };
+	
+	      Connect.prototype.updateDispatchPropsIfNeeded = function updateDispatchPropsIfNeeded() {
+	        var nextDispatchProps = this.computeDispatchProps(this.store, this.props);
+	        if (this.dispatchProps && (0, _shallowEqual2["default"])(nextDispatchProps, this.dispatchProps)) {
+	          return false;
+	        }
+	
+	        this.dispatchProps = nextDispatchProps;
+	        return true;
+	      };
+	
+	      Connect.prototype.updateMergedPropsIfNeeded = function updateMergedPropsIfNeeded() {
+	        var nextMergedProps = computeMergedProps(this.stateProps, this.dispatchProps, this.props);
+	        if (this.mergedProps && checkMergedEquals && (0, _shallowEqual2["default"])(nextMergedProps, this.mergedProps)) {
+	          return false;
+	        }
+	
+	        this.mergedProps = nextMergedProps;
+	        return true;
+	      };
+	
+	      Connect.prototype.isSubscribed = function isSubscribed() {
+	        return typeof this.unsubscribe === 'function';
+	      };
+	
+	      Connect.prototype.trySubscribe = function trySubscribe() {
+	        if (shouldSubscribe && !this.unsubscribe) {
+	          this.unsubscribe = this.store.subscribe(this.handleChange.bind(this));
+	          this.handleChange();
+	        }
+	      };
+	
+	      Connect.prototype.tryUnsubscribe = function tryUnsubscribe() {
+	        if (this.unsubscribe) {
+	          this.unsubscribe();
+	          this.unsubscribe = null;
+	        }
+	      };
+	
+	      Connect.prototype.componentDidMount = function componentDidMount() {
+	        this.trySubscribe();
+	      };
+	
+	      Connect.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+	        if (!pure || !(0, _shallowEqual2["default"])(nextProps, this.props)) {
+	          this.haveOwnPropsChanged = true;
+	        }
+	      };
+	
+	      Connect.prototype.componentWillUnmount = function componentWillUnmount() {
+	        this.tryUnsubscribe();
+	        this.clearCache();
+	      };
+	
+	      Connect.prototype.clearCache = function clearCache() {
+	        this.dispatchProps = null;
+	        this.stateProps = null;
+	        this.mergedProps = null;
+	        this.haveOwnPropsChanged = true;
+	        this.hasStoreStateChanged = true;
+	        this.haveStatePropsBeenPrecalculated = false;
+	        this.statePropsPrecalculationError = null;
+	        this.renderedElement = null;
+	        this.finalMapDispatchToProps = null;
+	        this.finalMapStateToProps = null;
+	      };
+	
+	      Connect.prototype.handleChange = function handleChange() {
+	        if (!this.unsubscribe) {
+	          return;
+	        }
+	
+	        var storeState = this.store.getState();
+	        var prevStoreState = this.state.storeState;
+	        if (pure && prevStoreState === storeState) {
+	          return;
+	        }
+	
+	        if (pure && !this.doStatePropsDependOnOwnProps) {
+	          var haveStatePropsChanged = tryCatch(this.updateStatePropsIfNeeded, this);
+	          if (!haveStatePropsChanged) {
+	            return;
+	          }
+	          if (haveStatePropsChanged === errorObject) {
+	            this.statePropsPrecalculationError = errorObject.value;
+	          }
+	          this.haveStatePropsBeenPrecalculated = true;
+	        }
+	
+	        this.hasStoreStateChanged = true;
+	        this.setState({ storeState: storeState });
+	      };
+	
+	      Connect.prototype.getWrappedInstance = function getWrappedInstance() {
+	        (0, _invariant2["default"])(withRef, 'To access the wrapped instance, you need to specify ' + '{ withRef: true } as the fourth argument of the connect() call.');
+	
+	        return this.refs.wrappedInstance;
+	      };
+	
+	      Connect.prototype.render = function render() {
+	        var haveOwnPropsChanged = this.haveOwnPropsChanged;
+	        var hasStoreStateChanged = this.hasStoreStateChanged;
+	        var haveStatePropsBeenPrecalculated = this.haveStatePropsBeenPrecalculated;
+	        var statePropsPrecalculationError = this.statePropsPrecalculationError;
+	        var renderedElement = this.renderedElement;
+	
+	        this.haveOwnPropsChanged = false;
+	        this.hasStoreStateChanged = false;
+	        this.haveStatePropsBeenPrecalculated = false;
+	        this.statePropsPrecalculationError = null;
+	
+	        if (statePropsPrecalculationError) {
+	          throw statePropsPrecalculationError;
+	        }
+	
+	        var shouldUpdateStateProps = true;
+	        var shouldUpdateDispatchProps = true;
+	        if (pure && renderedElement) {
+	          shouldUpdateStateProps = hasStoreStateChanged || haveOwnPropsChanged && this.doStatePropsDependOnOwnProps;
+	          shouldUpdateDispatchProps = haveOwnPropsChanged && this.doDispatchPropsDependOnOwnProps;
+	        }
+	
+	        var haveStatePropsChanged = false;
+	        var haveDispatchPropsChanged = false;
+	        if (haveStatePropsBeenPrecalculated) {
+	          haveStatePropsChanged = true;
+	        } else if (shouldUpdateStateProps) {
+	          haveStatePropsChanged = this.updateStatePropsIfNeeded();
+	        }
+	        if (shouldUpdateDispatchProps) {
+	          haveDispatchPropsChanged = this.updateDispatchPropsIfNeeded();
+	        }
+	
+	        var haveMergedPropsChanged = true;
+	        if (haveStatePropsChanged || haveDispatchPropsChanged || haveOwnPropsChanged) {
+	          haveMergedPropsChanged = this.updateMergedPropsIfNeeded();
+	        } else {
+	          haveMergedPropsChanged = false;
+	        }
+	
+	        if (!haveMergedPropsChanged && renderedElement) {
+	          return renderedElement;
+	        }
+	
+	        if (withRef) {
+	          this.renderedElement = (0, _react.createElement)(WrappedComponent, _extends({}, this.mergedProps, {
+	            ref: 'wrappedInstance'
+	          }));
+	        } else {
+	          this.renderedElement = (0, _react.createElement)(WrappedComponent, this.mergedProps);
+	        }
+	
+	        return this.renderedElement;
+	      };
+	
+	      return Connect;
+	    }(_react.Component);
+	
+	    Connect.displayName = connectDisplayName;
+	    Connect.WrappedComponent = WrappedComponent;
+	    Connect.contextTypes = {
+	      store: _storeShape2["default"]
+	    };
+	    Connect.propTypes = {
+	      store: _storeShape2["default"]
+	    };
+	
+	    if (process.env.NODE_ENV !== 'production') {
+	      Connect.prototype.componentWillUpdate = function componentWillUpdate() {
+	        if (this.version === version) {
+	          return;
+	        }
+	
+	        // We are hot reloading!
+	        this.version = version;
+	        this.trySubscribe();
+	        this.clearCache();
+	      };
+	    }
+	
+	    return (0, _hoistNonReactStatics2["default"])(Connect, WrappedComponent);
+	  };
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 253 */
+/*!*************************************************!*\
+  !*** ./~/react-redux/lib/utils/shallowEqual.js ***!
+  \*************************************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.__esModule = true;
+	exports["default"] = shallowEqual;
+	function shallowEqual(objA, objB) {
+	  if (objA === objB) {
+	    return true;
+	  }
+	
+	  var keysA = Object.keys(objA);
+	  var keysB = Object.keys(objB);
+	
+	  if (keysA.length !== keysB.length) {
+	    return false;
+	  }
+	
+	  // Test for A's keys different from B.
+	  var hasOwn = Object.prototype.hasOwnProperty;
+	  for (var i = 0; i < keysA.length; i++) {
+	    if (!hasOwn.call(objB, keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
+	      return false;
+	    }
+	  }
+	
+	  return true;
+	}
+
+/***/ },
+/* 254 */
+/*!*******************************************************!*\
+  !*** ./~/react-redux/lib/utils/wrapActionCreators.js ***!
+  \*******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports["default"] = wrapActionCreators;
+	
+	var _redux = __webpack_require__(/*! redux */ 255);
+	
+	function wrapActionCreators(actionCreators) {
+	  return function (dispatch) {
+	    return (0, _redux.bindActionCreators)(actionCreators, dispatch);
+	  };
+	}
+
+/***/ },
+/* 255 */
+/*!******************************!*\
+  !*** ./~/redux/lib/index.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	exports.__esModule = true;
+	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
+	
+	var _createStore = __webpack_require__(/*! ./createStore */ 256);
+	
+	var _createStore2 = _interopRequireDefault(_createStore);
+	
+	var _combineReducers = __webpack_require__(/*! ./combineReducers */ 265);
+	
+	var _combineReducers2 = _interopRequireDefault(_combineReducers);
+	
+	var _bindActionCreators = __webpack_require__(/*! ./bindActionCreators */ 267);
+	
+	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
+	
+	var _applyMiddleware = __webpack_require__(/*! ./applyMiddleware */ 268);
+	
+	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
+	
+	var _compose = __webpack_require__(/*! ./compose */ 269);
+	
+	var _compose2 = _interopRequireDefault(_compose);
+	
+	var _warning = __webpack_require__(/*! ./utils/warning */ 266);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	/*
+	* This is a dummy function to check if the function name has been altered by minification.
+	* If the function has been minified and NODE_ENV !== 'production', warn the user.
+	*/
+	function isCrushed() {}
+	
+	if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+	  (0, _warning2['default'])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
+	}
+	
+	exports.createStore = _createStore2['default'];
+	exports.combineReducers = _combineReducers2['default'];
+	exports.bindActionCreators = _bindActionCreators2['default'];
+	exports.applyMiddleware = _applyMiddleware2['default'];
+	exports.compose = _compose2['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 256 */
+/*!************************************!*\
+  !*** ./~/redux/lib/createStore.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.ActionTypes = undefined;
+	exports['default'] = createStore;
+	
+	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 257);
+	
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+	
+	var _symbolObservable = __webpack_require__(/*! symbol-observable */ 262);
+	
+	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	/**
+	 * These are private action types reserved by Redux.
+	 * For any unknown actions, you must return the current state.
+	 * If the current state is undefined, you must return the initial state.
+	 * Do not reference these action types directly in your code.
+	 */
+	var ActionTypes = exports.ActionTypes = {
+	  INIT: '@@redux/INIT'
+	};
+	
+	/**
+	 * Creates a Redux store that holds the state tree.
+	 * The only way to change the data in the store is to call `dispatch()` on it.
+	 *
+	 * There should only be a single store in your app. To specify how different
+	 * parts of the state tree respond to actions, you may combine several reducers
+	 * into a single reducer function by using `combineReducers`.
+	 *
+	 * @param {Function} reducer A function that returns the next state tree, given
+	 * the current state tree and the action to handle.
+	 *
+	 * @param {any} [preloadedState] The initial state. You may optionally specify it
+	 * to hydrate the state from the server in universal apps, or to restore a
+	 * previously serialized user session.
+	 * If you use `combineReducers` to produce the root reducer function, this must be
+	 * an object with the same shape as `combineReducers` keys.
+	 *
+	 * @param {Function} enhancer The store enhancer. You may optionally specify it
+	 * to enhance the store with third-party capabilities such as middleware,
+	 * time travel, persistence, etc. The only store enhancer that ships with Redux
+	 * is `applyMiddleware()`.
+	 *
+	 * @returns {Store} A Redux store that lets you read the state, dispatch actions
+	 * and subscribe to changes.
+	 */
+	function createStore(reducer, preloadedState, enhancer) {
+	  var _ref2;
+	
+	  if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
+	    enhancer = preloadedState;
+	    preloadedState = undefined;
+	  }
+	
+	  if (typeof enhancer !== 'undefined') {
+	    if (typeof enhancer !== 'function') {
+	      throw new Error('Expected the enhancer to be a function.');
+	    }
+	
+	    return enhancer(createStore)(reducer, preloadedState);
+	  }
+	
+	  if (typeof reducer !== 'function') {
+	    throw new Error('Expected the reducer to be a function.');
+	  }
+	
+	  var currentReducer = reducer;
+	  var currentState = preloadedState;
+	  var currentListeners = [];
+	  var nextListeners = currentListeners;
+	  var isDispatching = false;
+	
+	  function ensureCanMutateNextListeners() {
+	    if (nextListeners === currentListeners) {
+	      nextListeners = currentListeners.slice();
+	    }
+	  }
+	
+	  /**
+	   * Reads the state tree managed by the store.
+	   *
+	   * @returns {any} The current state tree of your application.
+	   */
+	  function getState() {
+	    return currentState;
+	  }
+	
+	  /**
+	   * Adds a change listener. It will be called any time an action is dispatched,
+	   * and some part of the state tree may potentially have changed. You may then
+	   * call `getState()` to read the current state tree inside the callback.
+	   *
+	   * You may call `dispatch()` from a change listener, with the following
+	   * caveats:
+	   *
+	   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+	   * If you subscribe or unsubscribe while the listeners are being invoked, this
+	   * will not have any effect on the `dispatch()` that is currently in progress.
+	   * However, the next `dispatch()` call, whether nested or not, will use a more
+	   * recent snapshot of the subscription list.
+	   *
+	   * 2. The listener should not expect to see all state changes, as the state
+	   * might have been updated multiple times during a nested `dispatch()` before
+	   * the listener is called. It is, however, guaranteed that all subscribers
+	   * registered before the `dispatch()` started will be called with the latest
+	   * state by the time it exits.
+	   *
+	   * @param {Function} listener A callback to be invoked on every dispatch.
+	   * @returns {Function} A function to remove this change listener.
+	   */
+	  function subscribe(listener) {
+	    if (typeof listener !== 'function') {
+	      throw new Error('Expected listener to be a function.');
+	    }
+	
+	    var isSubscribed = true;
+	
+	    ensureCanMutateNextListeners();
+	    nextListeners.push(listener);
+	
+	    return function unsubscribe() {
+	      if (!isSubscribed) {
+	        return;
+	      }
+	
+	      isSubscribed = false;
+	
+	      ensureCanMutateNextListeners();
+	      var index = nextListeners.indexOf(listener);
+	      nextListeners.splice(index, 1);
+	    };
+	  }
+	
+	  /**
+	   * Dispatches an action. It is the only way to trigger a state change.
+	   *
+	   * The `reducer` function, used to create the store, will be called with the
+	   * current state tree and the given `action`. Its return value will
+	   * be considered the **next** state of the tree, and the change listeners
+	   * will be notified.
+	   *
+	   * The base implementation only supports plain object actions. If you want to
+	   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+	   * wrap your store creating function into the corresponding middleware. For
+	   * example, see the documentation for the `redux-thunk` package. Even the
+	   * middleware will eventually dispatch plain object actions using this method.
+	   *
+	   * @param {Object} action A plain object representing “what changed”. It is
+	   * a good idea to keep actions serializable so you can record and replay user
+	   * sessions, or use the time travelling `redux-devtools`. An action must have
+	   * a `type` property which may not be `undefined`. It is a good idea to use
+	   * string constants for action types.
+	   *
+	   * @returns {Object} For convenience, the same action object you dispatched.
+	   *
+	   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+	   * return something else (for example, a Promise you can await).
+	   */
+	  function dispatch(action) {
+	    if (!(0, _isPlainObject2['default'])(action)) {
+	      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+	    }
+	
+	    if (typeof action.type === 'undefined') {
+	      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+	    }
+	
+	    if (isDispatching) {
+	      throw new Error('Reducers may not dispatch actions.');
+	    }
+	
+	    try {
+	      isDispatching = true;
+	      currentState = currentReducer(currentState, action);
+	    } finally {
+	      isDispatching = false;
+	    }
+	
+	    var listeners = currentListeners = nextListeners;
+	    for (var i = 0; i < listeners.length; i++) {
+	      listeners[i]();
+	    }
+	
+	    return action;
+	  }
+	
+	  /**
+	   * Replaces the reducer currently used by the store to calculate the state.
+	   *
+	   * You might need this if your app implements code splitting and you want to
+	   * load some of the reducers dynamically. You might also need this if you
+	   * implement a hot reloading mechanism for Redux.
+	   *
+	   * @param {Function} nextReducer The reducer for the store to use instead.
+	   * @returns {void}
+	   */
+	  function replaceReducer(nextReducer) {
+	    if (typeof nextReducer !== 'function') {
+	      throw new Error('Expected the nextReducer to be a function.');
+	    }
+	
+	    currentReducer = nextReducer;
+	    dispatch({ type: ActionTypes.INIT });
+	  }
+	
+	  /**
+	   * Interoperability point for observable/reactive libraries.
+	   * @returns {observable} A minimal observable of state changes.
+	   * For more information, see the observable proposal:
+	   * https://github.com/zenparsing/es-observable
+	   */
+	  function observable() {
+	    var _ref;
+	
+	    var outerSubscribe = subscribe;
+	    return _ref = {
+	      /**
+	       * The minimal observable subscription method.
+	       * @param {Object} observer Any object that can be used as an observer.
+	       * The observer object should have a `next` method.
+	       * @returns {subscription} An object with an `unsubscribe` method that can
+	       * be used to unsubscribe the observable from the store, and prevent further
+	       * emission of values from the observable.
+	       */
+	      subscribe: function subscribe(observer) {
+	        if (typeof observer !== 'object') {
+	          throw new TypeError('Expected the observer to be an object.');
+	        }
+	
+	        function observeState() {
+	          if (observer.next) {
+	            observer.next(getState());
+	          }
+	        }
+	
+	        observeState();
+	        var unsubscribe = outerSubscribe(observeState);
+	        return { unsubscribe: unsubscribe };
+	      }
+	    }, _ref[_symbolObservable2['default']] = function () {
+	      return this;
+	    }, _ref;
+	  }
+	
+	  // When a store is created, an "INIT" action is dispatched so that every
+	  // reducer returns their initial state. This effectively populates
+	  // the initial state tree.
+	  dispatch({ type: ActionTypes.INIT });
+	
+	  return _ref2 = {
+	    dispatch: dispatch,
+	    subscribe: subscribe,
+	    getState: getState,
+	    replaceReducer: replaceReducer
+	  }, _ref2[_symbolObservable2['default']] = observable, _ref2;
+	}
+
+/***/ },
+/* 257 */
+/*!***********************************!*\
+  !*** ./~/lodash/isPlainObject.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var getPrototype = __webpack_require__(/*! ./_getPrototype */ 258),
+	    isHostObject = __webpack_require__(/*! ./_isHostObject */ 260),
+	    isObjectLike = __webpack_require__(/*! ./isObjectLike */ 261);
+	
+	/** `Object#toString` result references. */
+	var objectTag = '[object Object]';
+	
+	/** Used for built-in method references. */
+	var funcProto = Function.prototype,
+	    objectProto = Object.prototype;
+	
+	/** Used to resolve the decompiled source of functions. */
+	var funcToString = funcProto.toString;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/** Used to infer the `Object` constructor. */
+	var objectCtorString = funcToString.call(Object);
+	
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+	
+	/**
+	 * Checks if `value` is a plain object, that is, an object created by the
+	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.8.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 * }
+	 *
+	 * _.isPlainObject(new Foo);
+	 * // => false
+	 *
+	 * _.isPlainObject([1, 2, 3]);
+	 * // => false
+	 *
+	 * _.isPlainObject({ 'x': 0, 'y': 0 });
+	 * // => true
+	 *
+	 * _.isPlainObject(Object.create(null));
+	 * // => true
+	 */
+	function isPlainObject(value) {
+	  if (!isObjectLike(value) ||
+	      objectToString.call(value) != objectTag || isHostObject(value)) {
+	    return false;
+	  }
+	  var proto = getPrototype(value);
+	  if (proto === null) {
+	    return true;
+	  }
+	  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+	  return (typeof Ctor == 'function' &&
+	    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+	}
+	
+	module.exports = isPlainObject;
+
+
+/***/ },
+/* 258 */
+/*!***********************************!*\
+  !*** ./~/lodash/_getPrototype.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var overArg = __webpack_require__(/*! ./_overArg */ 259);
+	
+	/** Built-in value references. */
+	var getPrototype = overArg(Object.getPrototypeOf, Object);
+	
+	module.exports = getPrototype;
+
+
+/***/ },
+/* 259 */
+/*!******************************!*\
+  !*** ./~/lodash/_overArg.js ***!
+  \******************************/
+/***/ function(module, exports) {
+
+	/**
+	 * Creates a unary function that invokes `func` with its argument transformed.
+	 *
+	 * @private
+	 * @param {Function} func The function to wrap.
+	 * @param {Function} transform The argument transform.
+	 * @returns {Function} Returns the new function.
+	 */
+	function overArg(func, transform) {
+	  return function(arg) {
+	    return func(transform(arg));
+	  };
+	}
+	
+	module.exports = overArg;
+
+
+/***/ },
+/* 260 */
+/*!***********************************!*\
+  !*** ./~/lodash/_isHostObject.js ***!
+  \***********************************/
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is a host object in IE < 9.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+	 */
+	function isHostObject(value) {
+	  // Many host objects are `Object` objects that can coerce to strings
+	  // despite having improperly defined `toString` methods.
+	  var result = false;
+	  if (value != null && typeof value.toString != 'function') {
+	    try {
+	      result = !!(value + '');
+	    } catch (e) {}
+	  }
+	  return result;
+	}
+	
+	module.exports = isHostObject;
+
+
+/***/ },
+/* 261 */
+/*!**********************************!*\
+  !*** ./~/lodash/isObjectLike.js ***!
+  \**********************************/
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+	
+	module.exports = isObjectLike;
+
+
+/***/ },
+/* 262 */
+/*!**************************************!*\
+  !*** ./~/symbol-observable/index.js ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(/*! ./lib/index */ 263);
+
+
+/***/ },
+/* 263 */
+/*!******************************************!*\
+  !*** ./~/symbol-observable/lib/index.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _ponyfill = __webpack_require__(/*! ./ponyfill */ 264);
+	
+	var _ponyfill2 = _interopRequireDefault(_ponyfill);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var root = undefined; /* global window */
+	
+	if (typeof global !== 'undefined') {
+		root = global;
+	} else if (typeof window !== 'undefined') {
+		root = window;
+	}
+	
+	var result = (0, _ponyfill2['default'])(root);
+	exports['default'] = result;
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 264 */
+/*!*********************************************!*\
+  !*** ./~/symbol-observable/lib/ponyfill.js ***!
+  \*********************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports['default'] = symbolObservablePonyfill;
+	function symbolObservablePonyfill(root) {
+		var result;
+		var _Symbol = root.Symbol;
+	
+		if (typeof _Symbol === 'function') {
+			if (_Symbol.observable) {
+				result = _Symbol.observable;
+			} else {
+				result = _Symbol('observable');
+				_Symbol.observable = result;
+			}
+		} else {
+			result = '@@observable';
+		}
+	
+		return result;
+	};
+
+/***/ },
+/* 265 */
+/*!****************************************!*\
+  !*** ./~/redux/lib/combineReducers.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	exports.__esModule = true;
+	exports['default'] = combineReducers;
+	
+	var _createStore = __webpack_require__(/*! ./createStore */ 256);
+	
+	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 257);
+	
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+	
+	var _warning = __webpack_require__(/*! ./utils/warning */ 266);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function getUndefinedStateErrorMessage(key, action) {
+	  var actionType = action && action.type;
+	  var actionName = actionType && '"' + actionType.toString() + '"' || 'an action';
+	
+	  return 'Given action ' + actionName + ', reducer "' + key + '" returned undefined. ' + 'To ignore an action, you must explicitly return the previous state.';
+	}
+	
+	function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, unexpectedKeyCache) {
+	  var reducerKeys = Object.keys(reducers);
+	  var argumentName = action && action.type === _createStore.ActionTypes.INIT ? 'preloadedState argument passed to createStore' : 'previous state received by the reducer';
+	
+	  if (reducerKeys.length === 0) {
+	    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
+	  }
+	
+	  if (!(0, _isPlainObject2['default'])(inputState)) {
+	    return 'The ' + argumentName + ' has unexpected type of "' + {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
+	  }
+	
+	  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
+	    return !reducers.hasOwnProperty(key) && !unexpectedKeyCache[key];
+	  });
+	
+	  unexpectedKeys.forEach(function (key) {
+	    unexpectedKeyCache[key] = true;
+	  });
+	
+	  if (unexpectedKeys.length > 0) {
+	    return 'Unexpected ' + (unexpectedKeys.length > 1 ? 'keys' : 'key') + ' ' + ('"' + unexpectedKeys.join('", "') + '" found in ' + argumentName + '. ') + 'Expected to find one of the known reducer keys instead: ' + ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.');
+	  }
+	}
+	
+	function assertReducerSanity(reducers) {
+	  Object.keys(reducers).forEach(function (key) {
+	    var reducer = reducers[key];
+	    var initialState = reducer(undefined, { type: _createStore.ActionTypes.INIT });
+	
+	    if (typeof initialState === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined.');
+	    }
+	
+	    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
+	    if (typeof reducer(undefined, { type: type }) === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+	    }
+	  });
+	}
+	
+	/**
+	 * Turns an object whose values are different reducer functions, into a single
+	 * reducer function. It will call every child reducer, and gather their results
+	 * into a single state object, whose keys correspond to the keys of the passed
+	 * reducer functions.
+	 *
+	 * @param {Object} reducers An object whose values correspond to different
+	 * reducer functions that need to be combined into one. One handy way to obtain
+	 * it is to use ES6 `import * as reducers` syntax. The reducers may never return
+	 * undefined for any action. Instead, they should return their initial state
+	 * if the state passed to them was undefined, and the current state for any
+	 * unrecognized action.
+	 *
+	 * @returns {Function} A reducer function that invokes every reducer inside the
+	 * passed object, and builds a state object with the same shape.
+	 */
+	function combineReducers(reducers) {
+	  var reducerKeys = Object.keys(reducers);
+	  var finalReducers = {};
+	  for (var i = 0; i < reducerKeys.length; i++) {
+	    var key = reducerKeys[i];
+	
+	    if (process.env.NODE_ENV !== 'production') {
+	      if (typeof reducers[key] === 'undefined') {
+	        (0, _warning2['default'])('No reducer provided for key "' + key + '"');
+	      }
+	    }
+	
+	    if (typeof reducers[key] === 'function') {
+	      finalReducers[key] = reducers[key];
+	    }
+	  }
+	  var finalReducerKeys = Object.keys(finalReducers);
+	
+	  if (process.env.NODE_ENV !== 'production') {
+	    var unexpectedKeyCache = {};
+	  }
+	
+	  var sanityError;
+	  try {
+	    assertReducerSanity(finalReducers);
+	  } catch (e) {
+	    sanityError = e;
+	  }
+	
+	  return function combination() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+	
+	    if (sanityError) {
+	      throw sanityError;
+	    }
+	
+	    if (process.env.NODE_ENV !== 'production') {
+	      var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache);
+	      if (warningMessage) {
+	        (0, _warning2['default'])(warningMessage);
+	      }
+	    }
+	
+	    var hasChanged = false;
+	    var nextState = {};
+	    for (var i = 0; i < finalReducerKeys.length; i++) {
+	      var key = finalReducerKeys[i];
+	      var reducer = finalReducers[key];
+	      var previousStateForKey = state[key];
+	      var nextStateForKey = reducer(previousStateForKey, action);
+	      if (typeof nextStateForKey === 'undefined') {
+	        var errorMessage = getUndefinedStateErrorMessage(key, action);
+	        throw new Error(errorMessage);
+	      }
+	      nextState[key] = nextStateForKey;
+	      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+	    }
+	    return hasChanged ? nextState : state;
+	  };
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3)))
+
+/***/ },
+/* 266 */
+/*!**************************************!*\
+  !*** ./~/redux/lib/utils/warning.js ***!
+  \**************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports['default'] = warning;
+	/**
+	 * Prints a warning in the console if it exists.
+	 *
+	 * @param {String} message The warning message.
+	 * @returns {void}
+	 */
+	function warning(message) {
+	  /* eslint-disable no-console */
+	  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+	    console.error(message);
+	  }
+	  /* eslint-enable no-console */
+	  try {
+	    // This error was thrown as a convenience so that if you enable
+	    // "break on all exceptions" in your console,
+	    // it would pause the execution at this line.
+	    throw new Error(message);
+	    /* eslint-disable no-empty */
+	  } catch (e) {}
+	  /* eslint-enable no-empty */
+	}
+
+/***/ },
+/* 267 */
+/*!*******************************************!*\
+  !*** ./~/redux/lib/bindActionCreators.js ***!
+  \*******************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports['default'] = bindActionCreators;
+	function bindActionCreator(actionCreator, dispatch) {
+	  return function () {
+	    return dispatch(actionCreator.apply(undefined, arguments));
+	  };
+	}
+	
+	/**
+	 * Turns an object whose values are action creators, into an object with the
+	 * same keys, but with every function wrapped into a `dispatch` call so they
+	 * may be invoked directly. This is just a convenience method, as you can call
+	 * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
+	 *
+	 * For convenience, you can also pass a single function as the first argument,
+	 * and get a function in return.
+	 *
+	 * @param {Function|Object} actionCreators An object whose values are action
+	 * creator functions. One handy way to obtain it is to use ES6 `import * as`
+	 * syntax. You may also pass a single function.
+	 *
+	 * @param {Function} dispatch The `dispatch` function available on your Redux
+	 * store.
+	 *
+	 * @returns {Function|Object} The object mimicking the original object, but with
+	 * every action creator wrapped into the `dispatch` call. If you passed a
+	 * function as `actionCreators`, the return value will also be a single
+	 * function.
+	 */
+	function bindActionCreators(actionCreators, dispatch) {
+	  if (typeof actionCreators === 'function') {
+	    return bindActionCreator(actionCreators, dispatch);
+	  }
+	
+	  if (typeof actionCreators !== 'object' || actionCreators === null) {
+	    throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
+	  }
+	
+	  var keys = Object.keys(actionCreators);
+	  var boundActionCreators = {};
+	  for (var i = 0; i < keys.length; i++) {
+	    var key = keys[i];
+	    var actionCreator = actionCreators[key];
+	    if (typeof actionCreator === 'function') {
+	      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
+	    }
+	  }
+	  return boundActionCreators;
+	}
+
+/***/ },
+/* 268 */
+/*!****************************************!*\
+  !*** ./~/redux/lib/applyMiddleware.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports['default'] = applyMiddleware;
+	
+	var _compose = __webpack_require__(/*! ./compose */ 269);
+	
+	var _compose2 = _interopRequireDefault(_compose);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	/**
+	 * Creates a store enhancer that applies middleware to the dispatch method
+	 * of the Redux store. This is handy for a variety of tasks, such as expressing
+	 * asynchronous actions in a concise manner, or logging every action payload.
+	 *
+	 * See `redux-thunk` package as an example of the Redux middleware.
+	 *
+	 * Because middleware is potentially asynchronous, this should be the first
+	 * store enhancer in the composition chain.
+	 *
+	 * Note that each middleware will be given the `dispatch` and `getState` functions
+	 * as named arguments.
+	 *
+	 * @param {...Function} middlewares The middleware chain to be applied.
+	 * @returns {Function} A store enhancer applying the middleware.
+	 */
+	function applyMiddleware() {
+	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
+	    middlewares[_key] = arguments[_key];
+	  }
+	
+	  return function (createStore) {
+	    return function (reducer, preloadedState, enhancer) {
+	      var store = createStore(reducer, preloadedState, enhancer);
+	      var _dispatch = store.dispatch;
+	      var chain = [];
+	
+	      var middlewareAPI = {
+	        getState: store.getState,
+	        dispatch: function dispatch(action) {
+	          return _dispatch(action);
+	        }
+	      };
+	      chain = middlewares.map(function (middleware) {
+	        return middleware(middlewareAPI);
+	      });
+	      _dispatch = _compose2['default'].apply(undefined, chain)(store.dispatch);
+	
+	      return _extends({}, store, {
+	        dispatch: _dispatch
+	      });
+	    };
+	  };
+	}
+
+/***/ },
+/* 269 */
+/*!********************************!*\
+  !*** ./~/redux/lib/compose.js ***!
+  \********************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.__esModule = true;
+	exports["default"] = compose;
+	/**
+	 * Composes single-argument functions from right to left. The rightmost
+	 * function can take multiple arguments as it provides the signature for
+	 * the resulting composite function.
+	 *
+	 * @param {...Function} funcs The functions to compose.
+	 * @returns {Function} A function obtained by composing the argument functions
+	 * from right to left. For example, compose(f, g, h) is identical to doing
+	 * (...args) => f(g(h(...args))).
+	 */
+	
+	function compose() {
+	  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+	    funcs[_key] = arguments[_key];
+	  }
+	
+	  if (funcs.length === 0) {
+	    return function (arg) {
+	      return arg;
+	    };
+	  }
+	
+	  if (funcs.length === 1) {
+	    return funcs[0];
+	  }
+	
+	  var last = funcs[funcs.length - 1];
+	  var rest = funcs.slice(0, -1);
+	  return function () {
+	    return rest.reduceRight(function (composed, f) {
+	      return f(composed);
+	    }, last.apply(undefined, arguments));
+	  };
+	}
+
+/***/ },
+/* 270 */
+/*!***********************!*\
+  !*** ./core/store.js ***!
+  \***********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.store = undefined;
+	
+	var _redux = __webpack_require__(/*! redux */ 255);
+	
+	var _reduxThunk = __webpack_require__(/*! redux-thunk */ 271);
+	
+	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+	
+	var _reducers = __webpack_require__(/*! ./reducers */ 272);
+	
+	var _reducers2 = _interopRequireDefault(_reducers);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var middleware = [_reduxThunk2.default];
+	
+	var store = exports.store = (0, _redux.createStore)((0, _redux.combineReducers)(_reducers2.default), {}, _redux.applyMiddleware.apply(undefined, middleware));
+
+/***/ },
+/* 271 */
+/*!************************************!*\
+  !*** ./~/redux-thunk/lib/index.js ***!
+  \************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	function createThunkMiddleware(extraArgument) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch;
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        if (typeof action === 'function') {
+	          return action(dispatch, getState, extraArgument);
+	        }
+	
+	        return next(action);
+	      };
+	    };
+	  };
+	}
+	
+	var thunk = createThunkMiddleware();
+	thunk.withExtraArgument = createThunkMiddleware;
+	
+	exports['default'] = thunk;
+
+/***/ },
+/* 272 */
+/*!**************************!*\
+  !*** ./core/reducers.js ***!
+  \**************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _redux = __webpack_require__(/*! redux */ 255);
+	
+	var _actions = __webpack_require__(/*! ./actions */ 273);
+	
+	var actions = _interopRequireWildcard(_actions);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	exports.default = {
+	  artifacts: (0, _redux.combineReducers)({
+	    data: function data() {
+	      var state = arguments.length <= 0 || arguments[0] === undefined ? { isFetching: false, items: [] } : arguments[0];
+	      var action = arguments[1];
+	
+	      switch (action.type) {
+	        case actions.ARTIFACTS_DATA_REQUEST:
+	          return Object.assign({}, state, {
+	            isFetching: true,
+	            error: null
+	          });
+	        case actions.ARTIFACTS_DATA_RESPONSE:
+	          return Object.assign({}, state, {
+	            isFetching: false,
+	            items: action.items,
+	            error: null
+	          });
+	        case actions.ARTIFACTS_DATA_ERROR_RESPONSE:
+	          return Object.assign({}, state, {
+	            isFetching: false,
+	            error: action.error
+	          });
+	        default:
+	          return state;
+	      }
+	    }
+	  })
+	};
+
+/***/ },
+/* 273 */
+/*!*************************!*\
+  !*** ./core/actions.js ***!
+  \*************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ARTIFACTS_DATA_ERROR_RESPONSE = exports.ARTIFACTS_DATA_RESPONSE = exports.ARTIFACTS_DATA_REQUEST = undefined;
+	exports.requestArtifactsData = requestArtifactsData;
+	exports.receiveArtifactsData = receiveArtifactsData;
+	exports.receiveArtifactsDataError = receiveArtifactsDataError;
+	exports.fetchArtifactsData = fetchArtifactsData;
+	
+	var _es6Promise = __webpack_require__(/*! es6-promise */ 274);
+	
+	var _isomorphicFetch = __webpack_require__(/*! isomorphic-fetch */ 278);
+	
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	(0, _es6Promise.polyfill)();
+	
+	var ARTIFACTS_DATA_REQUEST = exports.ARTIFACTS_DATA_REQUEST = 'ARTIFACTS_DATA_REQUEST';
+	var ARTIFACTS_DATA_RESPONSE = exports.ARTIFACTS_DATA_RESPONSE = 'ARTIFACTS_DATA_RESPONSE';
+	var ARTIFACTS_DATA_ERROR_RESPONSE = exports.ARTIFACTS_DATA_ERROR_RESPONSE = 'ARTIFACTS_DATA_ERROR_RESPONSE';
+	
+	var dataUrls = {
+	  artifacts: 'http://localhost:4000/reverse-archaeology-content/data/artifacts.json'
+	};
+	
+	function requestArtifactsData() {
+	  return {
+	    type: ARTIFACTS_DATA_REQUEST
+	  };
+	}
+	
+	function receiveArtifactsData(json) {
+	  return {
+	    type: ARTIFACTS_DATA_RESPONSE,
+	    items: json
+	  };
+	}
+	
+	function receiveArtifactsDataError(error) {
+	  return {
+	    type: ARTIFACTS_DATA_ERROR_RESPONSE,
+	    error: error
+	  };
+	}
+	
+	function fetchArtifactsData() {
+	  return function (dispatch) {
+	    dispatch(requestArtifactsData());
+	    return (0, _isomorphicFetch2.default)(dataUrls.artifacts).then(function (response) {
+	      return response.json();
+	    }).then(function (json) {
+	      return dispatch(receiveArtifactsData(json));
+	    }).catch(function (error) {
+	      return dispatch(receiveArtifactsDataError(error));
+	    });
+	  };
+	}
+
+/***/ },
+/* 274 */
+/*!*******************************************!*\
+  !*** ./~/es6-promise/dist/es6-promise.js ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	 * @overview es6-promise - a tiny implementation of Promises/A+.
+	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
+	 * @license   Licensed under MIT license
+	 *            See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
+	 * @version   3.2.1
+	 */
+	
+	(function() {
+	    "use strict";
+	    function lib$es6$promise$utils$$objectOrFunction(x) {
+	      return typeof x === 'function' || (typeof x === 'object' && x !== null);
+	    }
+	
+	    function lib$es6$promise$utils$$isFunction(x) {
+	      return typeof x === 'function';
+	    }
+	
+	    function lib$es6$promise$utils$$isMaybeThenable(x) {
+	      return typeof x === 'object' && x !== null;
+	    }
+	
+	    var lib$es6$promise$utils$$_isArray;
+	    if (!Array.isArray) {
+	      lib$es6$promise$utils$$_isArray = function (x) {
+	        return Object.prototype.toString.call(x) === '[object Array]';
+	      };
+	    } else {
+	      lib$es6$promise$utils$$_isArray = Array.isArray;
+	    }
+	
+	    var lib$es6$promise$utils$$isArray = lib$es6$promise$utils$$_isArray;
+	    var lib$es6$promise$asap$$len = 0;
+	    var lib$es6$promise$asap$$vertxNext;
+	    var lib$es6$promise$asap$$customSchedulerFn;
+	
+	    var lib$es6$promise$asap$$asap = function asap(callback, arg) {
+	      lib$es6$promise$asap$$queue[lib$es6$promise$asap$$len] = callback;
+	      lib$es6$promise$asap$$queue[lib$es6$promise$asap$$len + 1] = arg;
+	      lib$es6$promise$asap$$len += 2;
+	      if (lib$es6$promise$asap$$len === 2) {
+	        // If len is 2, that means that we need to schedule an async flush.
+	        // If additional callbacks are queued before the queue is flushed, they
+	        // will be processed by this flush that we are scheduling.
+	        if (lib$es6$promise$asap$$customSchedulerFn) {
+	          lib$es6$promise$asap$$customSchedulerFn(lib$es6$promise$asap$$flush);
+	        } else {
+	          lib$es6$promise$asap$$scheduleFlush();
+	        }
+	      }
+	    }
+	
+	    function lib$es6$promise$asap$$setScheduler(scheduleFn) {
+	      lib$es6$promise$asap$$customSchedulerFn = scheduleFn;
+	    }
+	
+	    function lib$es6$promise$asap$$setAsap(asapFn) {
+	      lib$es6$promise$asap$$asap = asapFn;
+	    }
+	
+	    var lib$es6$promise$asap$$browserWindow = (typeof window !== 'undefined') ? window : undefined;
+	    var lib$es6$promise$asap$$browserGlobal = lib$es6$promise$asap$$browserWindow || {};
+	    var lib$es6$promise$asap$$BrowserMutationObserver = lib$es6$promise$asap$$browserGlobal.MutationObserver || lib$es6$promise$asap$$browserGlobal.WebKitMutationObserver;
+	    var lib$es6$promise$asap$$isNode = typeof self === 'undefined' && typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
+	
+	    // test for web worker but not in IE10
+	    var lib$es6$promise$asap$$isWorker = typeof Uint8ClampedArray !== 'undefined' &&
+	      typeof importScripts !== 'undefined' &&
+	      typeof MessageChannel !== 'undefined';
+	
+	    // node
+	    function lib$es6$promise$asap$$useNextTick() {
+	      // node version 0.10.x displays a deprecation warning when nextTick is used recursively
+	      // see https://github.com/cujojs/when/issues/410 for details
+	      return function() {
+	        process.nextTick(lib$es6$promise$asap$$flush);
+	      };
+	    }
+	
+	    // vertx
+	    function lib$es6$promise$asap$$useVertxTimer() {
+	      return function() {
+	        lib$es6$promise$asap$$vertxNext(lib$es6$promise$asap$$flush);
+	      };
+	    }
+	
+	    function lib$es6$promise$asap$$useMutationObserver() {
+	      var iterations = 0;
+	      var observer = new lib$es6$promise$asap$$BrowserMutationObserver(lib$es6$promise$asap$$flush);
+	      var node = document.createTextNode('');
+	      observer.observe(node, { characterData: true });
+	
+	      return function() {
+	        node.data = (iterations = ++iterations % 2);
+	      };
+	    }
+	
+	    // web worker
+	    function lib$es6$promise$asap$$useMessageChannel() {
+	      var channel = new MessageChannel();
+	      channel.port1.onmessage = lib$es6$promise$asap$$flush;
+	      return function () {
+	        channel.port2.postMessage(0);
+	      };
+	    }
+	
+	    function lib$es6$promise$asap$$useSetTimeout() {
+	      return function() {
+	        setTimeout(lib$es6$promise$asap$$flush, 1);
+	      };
+	    }
+	
+	    var lib$es6$promise$asap$$queue = new Array(1000);
+	    function lib$es6$promise$asap$$flush() {
+	      for (var i = 0; i < lib$es6$promise$asap$$len; i+=2) {
+	        var callback = lib$es6$promise$asap$$queue[i];
+	        var arg = lib$es6$promise$asap$$queue[i+1];
+	
+	        callback(arg);
+	
+	        lib$es6$promise$asap$$queue[i] = undefined;
+	        lib$es6$promise$asap$$queue[i+1] = undefined;
+	      }
+	
+	      lib$es6$promise$asap$$len = 0;
+	    }
+	
+	    function lib$es6$promise$asap$$attemptVertx() {
+	      try {
+	        var r = require;
+	        var vertx = __webpack_require__(/*! vertx */ 276);
+	        lib$es6$promise$asap$$vertxNext = vertx.runOnLoop || vertx.runOnContext;
+	        return lib$es6$promise$asap$$useVertxTimer();
+	      } catch(e) {
+	        return lib$es6$promise$asap$$useSetTimeout();
+	      }
+	    }
+	
+	    var lib$es6$promise$asap$$scheduleFlush;
+	    // Decide what async method to use to triggering processing of queued callbacks:
+	    if (lib$es6$promise$asap$$isNode) {
+	      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useNextTick();
+	    } else if (lib$es6$promise$asap$$BrowserMutationObserver) {
+	      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useMutationObserver();
+	    } else if (lib$es6$promise$asap$$isWorker) {
+	      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useMessageChannel();
+	    } else if (lib$es6$promise$asap$$browserWindow === undefined && "function" === 'function') {
+	      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$attemptVertx();
+	    } else {
+	      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useSetTimeout();
+	    }
+	    function lib$es6$promise$then$$then(onFulfillment, onRejection) {
+	      var parent = this;
+	
+	      var child = new this.constructor(lib$es6$promise$$internal$$noop);
+	
+	      if (child[lib$es6$promise$$internal$$PROMISE_ID] === undefined) {
+	        lib$es6$promise$$internal$$makePromise(child);
+	      }
+	
+	      var state = parent._state;
+	
+	      if (state) {
+	        var callback = arguments[state - 1];
+	        lib$es6$promise$asap$$asap(function(){
+	          lib$es6$promise$$internal$$invokeCallback(state, child, callback, parent._result);
+	        });
+	      } else {
+	        lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection);
+	      }
+	
+	      return child;
+	    }
+	    var lib$es6$promise$then$$default = lib$es6$promise$then$$then;
+	    function lib$es6$promise$promise$resolve$$resolve(object) {
+	      /*jshint validthis:true */
+	      var Constructor = this;
+	
+	      if (object && typeof object === 'object' && object.constructor === Constructor) {
+	        return object;
+	      }
+	
+	      var promise = new Constructor(lib$es6$promise$$internal$$noop);
+	      lib$es6$promise$$internal$$resolve(promise, object);
+	      return promise;
+	    }
+	    var lib$es6$promise$promise$resolve$$default = lib$es6$promise$promise$resolve$$resolve;
+	    var lib$es6$promise$$internal$$PROMISE_ID = Math.random().toString(36).substring(16);
+	
+	    function lib$es6$promise$$internal$$noop() {}
+	
+	    var lib$es6$promise$$internal$$PENDING   = void 0;
+	    var lib$es6$promise$$internal$$FULFILLED = 1;
+	    var lib$es6$promise$$internal$$REJECTED  = 2;
+	
+	    var lib$es6$promise$$internal$$GET_THEN_ERROR = new lib$es6$promise$$internal$$ErrorObject();
+	
+	    function lib$es6$promise$$internal$$selfFulfillment() {
+	      return new TypeError("You cannot resolve a promise with itself");
+	    }
+	
+	    function lib$es6$promise$$internal$$cannotReturnOwn() {
+	      return new TypeError('A promises callback cannot return that same promise.');
+	    }
+	
+	    function lib$es6$promise$$internal$$getThen(promise) {
+	      try {
+	        return promise.then;
+	      } catch(error) {
+	        lib$es6$promise$$internal$$GET_THEN_ERROR.error = error;
+	        return lib$es6$promise$$internal$$GET_THEN_ERROR;
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$tryThen(then, value, fulfillmentHandler, rejectionHandler) {
+	      try {
+	        then.call(value, fulfillmentHandler, rejectionHandler);
+	      } catch(e) {
+	        return e;
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$handleForeignThenable(promise, thenable, then) {
+	       lib$es6$promise$asap$$asap(function(promise) {
+	        var sealed = false;
+	        var error = lib$es6$promise$$internal$$tryThen(then, thenable, function(value) {
+	          if (sealed) { return; }
+	          sealed = true;
+	          if (thenable !== value) {
+	            lib$es6$promise$$internal$$resolve(promise, value);
+	          } else {
+	            lib$es6$promise$$internal$$fulfill(promise, value);
+	          }
+	        }, function(reason) {
+	          if (sealed) { return; }
+	          sealed = true;
+	
+	          lib$es6$promise$$internal$$reject(promise, reason);
+	        }, 'Settle: ' + (promise._label || ' unknown promise'));
+	
+	        if (!sealed && error) {
+	          sealed = true;
+	          lib$es6$promise$$internal$$reject(promise, error);
+	        }
+	      }, promise);
+	    }
+	
+	    function lib$es6$promise$$internal$$handleOwnThenable(promise, thenable) {
+	      if (thenable._state === lib$es6$promise$$internal$$FULFILLED) {
+	        lib$es6$promise$$internal$$fulfill(promise, thenable._result);
+	      } else if (thenable._state === lib$es6$promise$$internal$$REJECTED) {
+	        lib$es6$promise$$internal$$reject(promise, thenable._result);
+	      } else {
+	        lib$es6$promise$$internal$$subscribe(thenable, undefined, function(value) {
+	          lib$es6$promise$$internal$$resolve(promise, value);
+	        }, function(reason) {
+	          lib$es6$promise$$internal$$reject(promise, reason);
+	        });
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$handleMaybeThenable(promise, maybeThenable, then) {
+	      if (maybeThenable.constructor === promise.constructor &&
+	          then === lib$es6$promise$then$$default &&
+	          constructor.resolve === lib$es6$promise$promise$resolve$$default) {
+	        lib$es6$promise$$internal$$handleOwnThenable(promise, maybeThenable);
+	      } else {
+	        if (then === lib$es6$promise$$internal$$GET_THEN_ERROR) {
+	          lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$GET_THEN_ERROR.error);
+	        } else if (then === undefined) {
+	          lib$es6$promise$$internal$$fulfill(promise, maybeThenable);
+	        } else if (lib$es6$promise$utils$$isFunction(then)) {
+	          lib$es6$promise$$internal$$handleForeignThenable(promise, maybeThenable, then);
+	        } else {
+	          lib$es6$promise$$internal$$fulfill(promise, maybeThenable);
+	        }
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$resolve(promise, value) {
+	      if (promise === value) {
+	        lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$selfFulfillment());
+	      } else if (lib$es6$promise$utils$$objectOrFunction(value)) {
+	        lib$es6$promise$$internal$$handleMaybeThenable(promise, value, lib$es6$promise$$internal$$getThen(value));
+	      } else {
+	        lib$es6$promise$$internal$$fulfill(promise, value);
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$publishRejection(promise) {
+	      if (promise._onerror) {
+	        promise._onerror(promise._result);
+	      }
+	
+	      lib$es6$promise$$internal$$publish(promise);
+	    }
+	
+	    function lib$es6$promise$$internal$$fulfill(promise, value) {
+	      if (promise._state !== lib$es6$promise$$internal$$PENDING) { return; }
+	
+	      promise._result = value;
+	      promise._state = lib$es6$promise$$internal$$FULFILLED;
+	
+	      if (promise._subscribers.length !== 0) {
+	        lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publish, promise);
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$reject(promise, reason) {
+	      if (promise._state !== lib$es6$promise$$internal$$PENDING) { return; }
+	      promise._state = lib$es6$promise$$internal$$REJECTED;
+	      promise._result = reason;
+	
+	      lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publishRejection, promise);
+	    }
+	
+	    function lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection) {
+	      var subscribers = parent._subscribers;
+	      var length = subscribers.length;
+	
+	      parent._onerror = null;
+	
+	      subscribers[length] = child;
+	      subscribers[length + lib$es6$promise$$internal$$FULFILLED] = onFulfillment;
+	      subscribers[length + lib$es6$promise$$internal$$REJECTED]  = onRejection;
+	
+	      if (length === 0 && parent._state) {
+	        lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publish, parent);
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$publish(promise) {
+	      var subscribers = promise._subscribers;
+	      var settled = promise._state;
+	
+	      if (subscribers.length === 0) { return; }
+	
+	      var child, callback, detail = promise._result;
+	
+	      for (var i = 0; i < subscribers.length; i += 3) {
+	        child = subscribers[i];
+	        callback = subscribers[i + settled];
+	
+	        if (child) {
+	          lib$es6$promise$$internal$$invokeCallback(settled, child, callback, detail);
+	        } else {
+	          callback(detail);
+	        }
+	      }
+	
+	      promise._subscribers.length = 0;
+	    }
+	
+	    function lib$es6$promise$$internal$$ErrorObject() {
+	      this.error = null;
+	    }
+	
+	    var lib$es6$promise$$internal$$TRY_CATCH_ERROR = new lib$es6$promise$$internal$$ErrorObject();
+	
+	    function lib$es6$promise$$internal$$tryCatch(callback, detail) {
+	      try {
+	        return callback(detail);
+	      } catch(e) {
+	        lib$es6$promise$$internal$$TRY_CATCH_ERROR.error = e;
+	        return lib$es6$promise$$internal$$TRY_CATCH_ERROR;
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$invokeCallback(settled, promise, callback, detail) {
+	      var hasCallback = lib$es6$promise$utils$$isFunction(callback),
+	          value, error, succeeded, failed;
+	
+	      if (hasCallback) {
+	        value = lib$es6$promise$$internal$$tryCatch(callback, detail);
+	
+	        if (value === lib$es6$promise$$internal$$TRY_CATCH_ERROR) {
+	          failed = true;
+	          error = value.error;
+	          value = null;
+	        } else {
+	          succeeded = true;
+	        }
+	
+	        if (promise === value) {
+	          lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$cannotReturnOwn());
+	          return;
+	        }
+	
+	      } else {
+	        value = detail;
+	        succeeded = true;
+	      }
+	
+	      if (promise._state !== lib$es6$promise$$internal$$PENDING) {
+	        // noop
+	      } else if (hasCallback && succeeded) {
+	        lib$es6$promise$$internal$$resolve(promise, value);
+	      } else if (failed) {
+	        lib$es6$promise$$internal$$reject(promise, error);
+	      } else if (settled === lib$es6$promise$$internal$$FULFILLED) {
+	        lib$es6$promise$$internal$$fulfill(promise, value);
+	      } else if (settled === lib$es6$promise$$internal$$REJECTED) {
+	        lib$es6$promise$$internal$$reject(promise, value);
+	      }
+	    }
+	
+	    function lib$es6$promise$$internal$$initializePromise(promise, resolver) {
+	      try {
+	        resolver(function resolvePromise(value){
+	          lib$es6$promise$$internal$$resolve(promise, value);
+	        }, function rejectPromise(reason) {
+	          lib$es6$promise$$internal$$reject(promise, reason);
+	        });
+	      } catch(e) {
+	        lib$es6$promise$$internal$$reject(promise, e);
+	      }
+	    }
+	
+	    var lib$es6$promise$$internal$$id = 0;
+	    function lib$es6$promise$$internal$$nextId() {
+	      return lib$es6$promise$$internal$$id++;
+	    }
+	
+	    function lib$es6$promise$$internal$$makePromise(promise) {
+	      promise[lib$es6$promise$$internal$$PROMISE_ID] = lib$es6$promise$$internal$$id++;
+	      promise._state = undefined;
+	      promise._result = undefined;
+	      promise._subscribers = [];
+	    }
+	
+	    function lib$es6$promise$promise$all$$all(entries) {
+	      return new lib$es6$promise$enumerator$$default(this, entries).promise;
+	    }
+	    var lib$es6$promise$promise$all$$default = lib$es6$promise$promise$all$$all;
+	    function lib$es6$promise$promise$race$$race(entries) {
+	      /*jshint validthis:true */
+	      var Constructor = this;
+	
+	      if (!lib$es6$promise$utils$$isArray(entries)) {
+	        return new Constructor(function(resolve, reject) {
+	          reject(new TypeError('You must pass an array to race.'));
+	        });
+	      } else {
+	        return new Constructor(function(resolve, reject) {
+	          var length = entries.length;
+	          for (var i = 0; i < length; i++) {
+	            Constructor.resolve(entries[i]).then(resolve, reject);
+	          }
+	        });
+	      }
+	    }
+	    var lib$es6$promise$promise$race$$default = lib$es6$promise$promise$race$$race;
+	    function lib$es6$promise$promise$reject$$reject(reason) {
+	      /*jshint validthis:true */
+	      var Constructor = this;
+	      var promise = new Constructor(lib$es6$promise$$internal$$noop);
+	      lib$es6$promise$$internal$$reject(promise, reason);
+	      return promise;
+	    }
+	    var lib$es6$promise$promise$reject$$default = lib$es6$promise$promise$reject$$reject;
+	
+	
+	    function lib$es6$promise$promise$$needsResolver() {
+	      throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
+	    }
+	
+	    function lib$es6$promise$promise$$needsNew() {
+	      throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
+	    }
+	
+	    var lib$es6$promise$promise$$default = lib$es6$promise$promise$$Promise;
+	    /**
+	      Promise objects represent the eventual result of an asynchronous operation. The
+	      primary way of interacting with a promise is through its `then` method, which
+	      registers callbacks to receive either a promise's eventual value or the reason
+	      why the promise cannot be fulfilled.
+	
+	      Terminology
+	      -----------
+	
+	      - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
+	      - `thenable` is an object or function that defines a `then` method.
+	      - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
+	      - `exception` is a value that is thrown using the throw statement.
+	      - `reason` is a value that indicates why a promise was rejected.
+	      - `settled` the final resting state of a promise, fulfilled or rejected.
+	
+	      A promise can be in one of three states: pending, fulfilled, or rejected.
+	
+	      Promises that are fulfilled have a fulfillment value and are in the fulfilled
+	      state.  Promises that are rejected have a rejection reason and are in the
+	      rejected state.  A fulfillment value is never a thenable.
+	
+	      Promises can also be said to *resolve* a value.  If this value is also a
+	      promise, then the original promise's settled state will match the value's
+	      settled state.  So a promise that *resolves* a promise that rejects will
+	      itself reject, and a promise that *resolves* a promise that fulfills will
+	      itself fulfill.
+	
+	
+	      Basic Usage:
+	      ------------
+	
+	      ```js
+	      var promise = new Promise(function(resolve, reject) {
+	        // on success
+	        resolve(value);
+	
+	        // on failure
+	        reject(reason);
+	      });
+	
+	      promise.then(function(value) {
+	        // on fulfillment
+	      }, function(reason) {
+	        // on rejection
+	      });
+	      ```
+	
+	      Advanced Usage:
+	      ---------------
+	
+	      Promises shine when abstracting away asynchronous interactions such as
+	      `XMLHttpRequest`s.
+	
+	      ```js
+	      function getJSON(url) {
+	        return new Promise(function(resolve, reject){
+	          var xhr = new XMLHttpRequest();
+	
+	          xhr.open('GET', url);
+	          xhr.onreadystatechange = handler;
+	          xhr.responseType = 'json';
+	          xhr.setRequestHeader('Accept', 'application/json');
+	          xhr.send();
+	
+	          function handler() {
+	            if (this.readyState === this.DONE) {
+	              if (this.status === 200) {
+	                resolve(this.response);
+	              } else {
+	                reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
+	              }
+	            }
+	          };
+	        });
+	      }
+	
+	      getJSON('/posts.json').then(function(json) {
+	        // on fulfillment
+	      }, function(reason) {
+	        // on rejection
+	      });
+	      ```
+	
+	      Unlike callbacks, promises are great composable primitives.
+	
+	      ```js
+	      Promise.all([
+	        getJSON('/posts'),
+	        getJSON('/comments')
+	      ]).then(function(values){
+	        values[0] // => postsJSON
+	        values[1] // => commentsJSON
+	
+	        return values;
+	      });
+	      ```
+	
+	      @class Promise
+	      @param {function} resolver
+	      Useful for tooling.
+	      @constructor
+	    */
+	    function lib$es6$promise$promise$$Promise(resolver) {
+	      this[lib$es6$promise$$internal$$PROMISE_ID] = lib$es6$promise$$internal$$nextId();
+	      this._result = this._state = undefined;
+	      this._subscribers = [];
+	
+	      if (lib$es6$promise$$internal$$noop !== resolver) {
+	        typeof resolver !== 'function' && lib$es6$promise$promise$$needsResolver();
+	        this instanceof lib$es6$promise$promise$$Promise ? lib$es6$promise$$internal$$initializePromise(this, resolver) : lib$es6$promise$promise$$needsNew();
+	      }
+	    }
+	
+	    lib$es6$promise$promise$$Promise.all = lib$es6$promise$promise$all$$default;
+	    lib$es6$promise$promise$$Promise.race = lib$es6$promise$promise$race$$default;
+	    lib$es6$promise$promise$$Promise.resolve = lib$es6$promise$promise$resolve$$default;
+	    lib$es6$promise$promise$$Promise.reject = lib$es6$promise$promise$reject$$default;
+	    lib$es6$promise$promise$$Promise._setScheduler = lib$es6$promise$asap$$setScheduler;
+	    lib$es6$promise$promise$$Promise._setAsap = lib$es6$promise$asap$$setAsap;
+	    lib$es6$promise$promise$$Promise._asap = lib$es6$promise$asap$$asap;
+	
+	    lib$es6$promise$promise$$Promise.prototype = {
+	      constructor: lib$es6$promise$promise$$Promise,
+	
+	    /**
+	      The primary way of interacting with a promise is through its `then` method,
+	      which registers callbacks to receive either a promise's eventual value or the
+	      reason why the promise cannot be fulfilled.
+	
+	      ```js
+	      findUser().then(function(user){
+	        // user is available
+	      }, function(reason){
+	        // user is unavailable, and you are given the reason why
+	      });
+	      ```
+	
+	      Chaining
+	      --------
+	
+	      The return value of `then` is itself a promise.  This second, 'downstream'
+	      promise is resolved with the return value of the first promise's fulfillment
+	      or rejection handler, or rejected if the handler throws an exception.
+	
+	      ```js
+	      findUser().then(function (user) {
+	        return user.name;
+	      }, function (reason) {
+	        return 'default name';
+	      }).then(function (userName) {
+	        // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
+	        // will be `'default name'`
+	      });
+	
+	      findUser().then(function (user) {
+	        throw new Error('Found user, but still unhappy');
+	      }, function (reason) {
+	        throw new Error('`findUser` rejected and we're unhappy');
+	      }).then(function (value) {
+	        // never reached
+	      }, function (reason) {
+	        // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
+	        // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
+	      });
+	      ```
+	      If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
+	
+	      ```js
+	      findUser().then(function (user) {
+	        throw new PedagogicalException('Upstream error');
+	      }).then(function (value) {
+	        // never reached
+	      }).then(function (value) {
+	        // never reached
+	      }, function (reason) {
+	        // The `PedgagocialException` is propagated all the way down to here
+	      });
+	      ```
+	
+	      Assimilation
+	      ------------
+	
+	      Sometimes the value you want to propagate to a downstream promise can only be
+	      retrieved asynchronously. This can be achieved by returning a promise in the
+	      fulfillment or rejection handler. The downstream promise will then be pending
+	      until the returned promise is settled. This is called *assimilation*.
+	
+	      ```js
+	      findUser().then(function (user) {
+	        return findCommentsByAuthor(user);
+	      }).then(function (comments) {
+	        // The user's comments are now available
+	      });
+	      ```
+	
+	      If the assimliated promise rejects, then the downstream promise will also reject.
+	
+	      ```js
+	      findUser().then(function (user) {
+	        return findCommentsByAuthor(user);
+	      }).then(function (comments) {
+	        // If `findCommentsByAuthor` fulfills, we'll have the value here
+	      }, function (reason) {
+	        // If `findCommentsByAuthor` rejects, we'll have the reason here
+	      });
+	      ```
+	
+	      Simple Example
+	      --------------
+	
+	      Synchronous Example
+	
+	      ```javascript
+	      var result;
+	
+	      try {
+	        result = findResult();
+	        // success
+	      } catch(reason) {
+	        // failure
+	      }
+	      ```
+	
+	      Errback Example
+	
+	      ```js
+	      findResult(function(result, err){
+	        if (err) {
+	          // failure
+	        } else {
+	          // success
+	        }
+	      });
+	      ```
+	
+	      Promise Example;
+	
+	      ```javascript
+	      findResult().then(function(result){
+	        // success
+	      }, function(reason){
+	        // failure
+	      });
+	      ```
+	
+	      Advanced Example
+	      --------------
+	
+	      Synchronous Example
+	
+	      ```javascript
+	      var author, books;
+	
+	      try {
+	        author = findAuthor();
+	        books  = findBooksByAuthor(author);
+	        // success
+	      } catch(reason) {
+	        // failure
+	      }
+	      ```
+	
+	      Errback Example
+	
+	      ```js
+	
+	      function foundBooks(books) {
+	
+	      }
+	
+	      function failure(reason) {
+	
+	      }
+	
+	      findAuthor(function(author, err){
+	        if (err) {
+	          failure(err);
+	          // failure
+	        } else {
+	          try {
+	            findBoooksByAuthor(author, function(books, err) {
+	              if (err) {
+	                failure(err);
+	              } else {
+	                try {
+	                  foundBooks(books);
+	                } catch(reason) {
+	                  failure(reason);
+	                }
+	              }
+	            });
+	          } catch(error) {
+	            failure(err);
+	          }
+	          // success
+	        }
+	      });
+	      ```
+	
+	      Promise Example;
+	
+	      ```javascript
+	      findAuthor().
+	        then(findBooksByAuthor).
+	        then(function(books){
+	          // found books
+	      }).catch(function(reason){
+	        // something went wrong
+	      });
+	      ```
+	
+	      @method then
+	      @param {Function} onFulfilled
+	      @param {Function} onRejected
+	      Useful for tooling.
+	      @return {Promise}
+	    */
+	      then: lib$es6$promise$then$$default,
+	
+	    /**
+	      `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
+	      as the catch block of a try/catch statement.
+	
+	      ```js
+	      function findAuthor(){
+	        throw new Error('couldn't find that author');
+	      }
+	
+	      // synchronous
+	      try {
+	        findAuthor();
+	      } catch(reason) {
+	        // something went wrong
+	      }
+	
+	      // async with promises
+	      findAuthor().catch(function(reason){
+	        // something went wrong
+	      });
+	      ```
+	
+	      @method catch
+	      @param {Function} onRejection
+	      Useful for tooling.
+	      @return {Promise}
+	    */
+	      'catch': function(onRejection) {
+	        return this.then(null, onRejection);
+	      }
+	    };
+	    var lib$es6$promise$enumerator$$default = lib$es6$promise$enumerator$$Enumerator;
+	    function lib$es6$promise$enumerator$$Enumerator(Constructor, input) {
+	      this._instanceConstructor = Constructor;
+	      this.promise = new Constructor(lib$es6$promise$$internal$$noop);
+	
+	      if (!this.promise[lib$es6$promise$$internal$$PROMISE_ID]) {
+	        lib$es6$promise$$internal$$makePromise(this.promise);
+	      }
+	
+	      if (lib$es6$promise$utils$$isArray(input)) {
+	        this._input     = input;
+	        this.length     = input.length;
+	        this._remaining = input.length;
+	
+	        this._result = new Array(this.length);
+	
+	        if (this.length === 0) {
+	          lib$es6$promise$$internal$$fulfill(this.promise, this._result);
+	        } else {
+	          this.length = this.length || 0;
+	          this._enumerate();
+	          if (this._remaining === 0) {
+	            lib$es6$promise$$internal$$fulfill(this.promise, this._result);
+	          }
+	        }
+	      } else {
+	        lib$es6$promise$$internal$$reject(this.promise, lib$es6$promise$enumerator$$validationError());
+	      }
+	    }
+	
+	    function lib$es6$promise$enumerator$$validationError() {
+	      return new Error('Array Methods must be provided an Array');
+	    }
+	
+	    lib$es6$promise$enumerator$$Enumerator.prototype._enumerate = function() {
+	      var length  = this.length;
+	      var input   = this._input;
+	
+	      for (var i = 0; this._state === lib$es6$promise$$internal$$PENDING && i < length; i++) {
+	        this._eachEntry(input[i], i);
+	      }
+	    };
+	
+	    lib$es6$promise$enumerator$$Enumerator.prototype._eachEntry = function(entry, i) {
+	      var c = this._instanceConstructor;
+	      var resolve = c.resolve;
+	
+	      if (resolve === lib$es6$promise$promise$resolve$$default) {
+	        var then = lib$es6$promise$$internal$$getThen(entry);
+	
+	        if (then === lib$es6$promise$then$$default &&
+	            entry._state !== lib$es6$promise$$internal$$PENDING) {
+	          this._settledAt(entry._state, i, entry._result);
+	        } else if (typeof then !== 'function') {
+	          this._remaining--;
+	          this._result[i] = entry;
+	        } else if (c === lib$es6$promise$promise$$default) {
+	          var promise = new c(lib$es6$promise$$internal$$noop);
+	          lib$es6$promise$$internal$$handleMaybeThenable(promise, entry, then);
+	          this._willSettleAt(promise, i);
+	        } else {
+	          this._willSettleAt(new c(function(resolve) { resolve(entry); }), i);
+	        }
+	      } else {
+	        this._willSettleAt(resolve(entry), i);
+	      }
+	    };
+	
+	    lib$es6$promise$enumerator$$Enumerator.prototype._settledAt = function(state, i, value) {
+	      var promise = this.promise;
+	
+	      if (promise._state === lib$es6$promise$$internal$$PENDING) {
+	        this._remaining--;
+	
+	        if (state === lib$es6$promise$$internal$$REJECTED) {
+	          lib$es6$promise$$internal$$reject(promise, value);
+	        } else {
+	          this._result[i] = value;
+	        }
+	      }
+	
+	      if (this._remaining === 0) {
+	        lib$es6$promise$$internal$$fulfill(promise, this._result);
+	      }
+	    };
+	
+	    lib$es6$promise$enumerator$$Enumerator.prototype._willSettleAt = function(promise, i) {
+	      var enumerator = this;
+	
+	      lib$es6$promise$$internal$$subscribe(promise, undefined, function(value) {
+	        enumerator._settledAt(lib$es6$promise$$internal$$FULFILLED, i, value);
+	      }, function(reason) {
+	        enumerator._settledAt(lib$es6$promise$$internal$$REJECTED, i, reason);
+	      });
+	    };
+	    function lib$es6$promise$polyfill$$polyfill() {
+	      var local;
+	
+	      if (typeof global !== 'undefined') {
+	          local = global;
+	      } else if (typeof self !== 'undefined') {
+	          local = self;
+	      } else {
+	          try {
+	              local = Function('return this')();
+	          } catch (e) {
+	              throw new Error('polyfill failed because global object is unavailable in this environment');
+	          }
+	      }
+	
+	      var P = local.Promise;
+	
+	      if (P && Object.prototype.toString.call(P.resolve()) === '[object Promise]' && !P.cast) {
+	        return;
+	      }
+	
+	      local.Promise = lib$es6$promise$promise$$default;
+	    }
+	    var lib$es6$promise$polyfill$$default = lib$es6$promise$polyfill$$polyfill;
+	
+	    var lib$es6$promise$umd$$ES6Promise = {
+	      'Promise': lib$es6$promise$promise$$default,
+	      'polyfill': lib$es6$promise$polyfill$$default
+	    };
+	
+	    /* global define:true module:true window: true */
+	    if ("function" === 'function' && __webpack_require__(/*! !webpack amd define */ 277)['amd']) {
+	      !(__WEBPACK_AMD_DEFINE_RESULT__ = function() { return lib$es6$promise$umd$$ES6Promise; }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof module !== 'undefined' && module['exports']) {
+	      module['exports'] = lib$es6$promise$umd$$ES6Promise;
+	    } else if (typeof this !== 'undefined') {
+	      this['ES6Promise'] = lib$es6$promise$umd$$ES6Promise;
+	    }
+	
+	    lib$es6$promise$polyfill$$default();
+	}).call(this);
+	
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/process/browser.js */ 3), (function() { return this; }()), __webpack_require__(/*! ./../../webpack/buildin/module.js */ 275)(module)))
+
+/***/ },
+/* 275 */
+/*!***********************************!*\
+  !*** (webpack)/buildin/module.js ***!
+  \***********************************/
+/***/ function(module, exports) {
+
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 276 */
+/*!***********************!*\
+  !*** vertx (ignored) ***!
+  \***********************/
+/***/ function(module, exports) {
+
+	/* (ignored) */
+
+/***/ },
+/* 277 */
+/*!***************************************!*\
+  !*** (webpack)/buildin/amd-define.js ***!
+  \***************************************/
+/***/ function(module, exports) {
+
+	module.exports = function() { throw new Error("define cannot be used indirect"); };
+
+
+/***/ },
+/* 278 */
+/*!****************************************************!*\
+  !*** ./~/isomorphic-fetch/fetch-npm-browserify.js ***!
+  \****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// the whatwg-fetch polyfill installs the fetch() function
+	// on the global object (window or self)
+	//
+	// Return that as the export for use in Webpack, Browserify etc.
+	__webpack_require__(/*! whatwg-fetch */ 279);
+	module.exports = self.fetch.bind(self);
+
+
+/***/ },
+/* 279 */
+/*!*********************************!*\
+  !*** ./~/whatwg-fetch/fetch.js ***!
+  \*********************************/
+/***/ function(module, exports) {
+
+	(function(self) {
+	  'use strict';
+	
+	  if (self.fetch) {
+	    return
+	  }
+	
+	  var support = {
+	    searchParams: 'URLSearchParams' in self,
+	    iterable: 'Symbol' in self && 'iterator' in Symbol,
+	    blob: 'FileReader' in self && 'Blob' in self && (function() {
+	      try {
+	        new Blob()
+	        return true
+	      } catch(e) {
+	        return false
+	      }
+	    })(),
+	    formData: 'FormData' in self,
+	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+	
+	  function normalizeName(name) {
+	    if (typeof name !== 'string') {
+	      name = String(name)
+	    }
+	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+	      throw new TypeError('Invalid character in header field name')
+	    }
+	    return name.toLowerCase()
+	  }
+	
+	  function normalizeValue(value) {
+	    if (typeof value !== 'string') {
+	      value = String(value)
+	    }
+	    return value
+	  }
+	
+	  // Build a destructive iterator for the value list
+	  function iteratorFor(items) {
+	    var iterator = {
+	      next: function() {
+	        var value = items.shift()
+	        return {done: value === undefined, value: value}
+	      }
+	    }
+	
+	    if (support.iterable) {
+	      iterator[Symbol.iterator] = function() {
+	        return iterator
+	      }
+	    }
+	
+	    return iterator
+	  }
+	
+	  function Headers(headers) {
+	    this.map = {}
+	
+	    if (headers instanceof Headers) {
+	      headers.forEach(function(value, name) {
+	        this.append(name, value)
+	      }, this)
+	
+	    } else if (headers) {
+	      Object.getOwnPropertyNames(headers).forEach(function(name) {
+	        this.append(name, headers[name])
+	      }, this)
+	    }
+	  }
+	
+	  Headers.prototype.append = function(name, value) {
+	    name = normalizeName(name)
+	    value = normalizeValue(value)
+	    var list = this.map[name]
+	    if (!list) {
+	      list = []
+	      this.map[name] = list
+	    }
+	    list.push(value)
+	  }
+	
+	  Headers.prototype['delete'] = function(name) {
+	    delete this.map[normalizeName(name)]
+	  }
+	
+	  Headers.prototype.get = function(name) {
+	    var values = this.map[normalizeName(name)]
+	    return values ? values[0] : null
+	  }
+	
+	  Headers.prototype.getAll = function(name) {
+	    return this.map[normalizeName(name)] || []
+	  }
+	
+	  Headers.prototype.has = function(name) {
+	    return this.map.hasOwnProperty(normalizeName(name))
+	  }
+	
+	  Headers.prototype.set = function(name, value) {
+	    this.map[normalizeName(name)] = [normalizeValue(value)]
+	  }
+	
+	  Headers.prototype.forEach = function(callback, thisArg) {
+	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+	      this.map[name].forEach(function(value) {
+	        callback.call(thisArg, value, name, this)
+	      }, this)
+	    }, this)
+	  }
+	
+	  Headers.prototype.keys = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push(name) })
+	    return iteratorFor(items)
+	  }
+	
+	  Headers.prototype.values = function() {
+	    var items = []
+	    this.forEach(function(value) { items.push(value) })
+	    return iteratorFor(items)
+	  }
+	
+	  Headers.prototype.entries = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push([name, value]) })
+	    return iteratorFor(items)
+	  }
+	
+	  if (support.iterable) {
+	    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+	  }
+	
+	  function consumed(body) {
+	    if (body.bodyUsed) {
+	      return Promise.reject(new TypeError('Already read'))
+	    }
+	    body.bodyUsed = true
+	  }
+	
+	  function fileReaderReady(reader) {
+	    return new Promise(function(resolve, reject) {
+	      reader.onload = function() {
+	        resolve(reader.result)
+	      }
+	      reader.onerror = function() {
+	        reject(reader.error)
+	      }
+	    })
+	  }
+	
+	  function readBlobAsArrayBuffer(blob) {
+	    var reader = new FileReader()
+	    reader.readAsArrayBuffer(blob)
+	    return fileReaderReady(reader)
+	  }
+	
+	  function readBlobAsText(blob) {
+	    var reader = new FileReader()
+	    reader.readAsText(blob)
+	    return fileReaderReady(reader)
+	  }
+	
+	  function Body() {
+	    this.bodyUsed = false
+	
+	    this._initBody = function(body) {
+	      this._bodyInit = body
+	      if (typeof body === 'string') {
+	        this._bodyText = body
+	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+	        this._bodyBlob = body
+	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+	        this._bodyFormData = body
+	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	        this._bodyText = body.toString()
+	      } else if (!body) {
+	        this._bodyText = ''
+	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+	        // Only support ArrayBuffers for POST method.
+	        // Receiving ArrayBuffers happens via Blobs, instead.
+	      } else {
+	        throw new Error('unsupported BodyInit type')
+	      }
+	
+	      if (!this.headers.get('content-type')) {
+	        if (typeof body === 'string') {
+	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+	        } else if (this._bodyBlob && this._bodyBlob.type) {
+	          this.headers.set('content-type', this._bodyBlob.type)
+	        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+	        }
+	      }
+	    }
+	
+	    if (support.blob) {
+	      this.blob = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+	
+	        if (this._bodyBlob) {
+	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as blob')
+	        } else {
+	          return Promise.resolve(new Blob([this._bodyText]))
+	        }
+	      }
+	
+	      this.arrayBuffer = function() {
+	        return this.blob().then(readBlobAsArrayBuffer)
+	      }
+	
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+	
+	        if (this._bodyBlob) {
+	          return readBlobAsText(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as text')
+	        } else {
+	          return Promise.resolve(this._bodyText)
+	        }
+	      }
+	    } else {
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        return rejected ? rejected : Promise.resolve(this._bodyText)
+	      }
+	    }
+	
+	    if (support.formData) {
+	      this.formData = function() {
+	        return this.text().then(decode)
+	      }
+	    }
+	
+	    this.json = function() {
+	      return this.text().then(JSON.parse)
+	    }
+	
+	    return this
+	  }
+	
+	  // HTTP methods whose capitalization should be normalized
+	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+	
+	  function normalizeMethod(method) {
+	    var upcased = method.toUpperCase()
+	    return (methods.indexOf(upcased) > -1) ? upcased : method
+	  }
+	
+	  function Request(input, options) {
+	    options = options || {}
+	    var body = options.body
+	    if (Request.prototype.isPrototypeOf(input)) {
+	      if (input.bodyUsed) {
+	        throw new TypeError('Already read')
+	      }
+	      this.url = input.url
+	      this.credentials = input.credentials
+	      if (!options.headers) {
+	        this.headers = new Headers(input.headers)
+	      }
+	      this.method = input.method
+	      this.mode = input.mode
+	      if (!body) {
+	        body = input._bodyInit
+	        input.bodyUsed = true
+	      }
+	    } else {
+	      this.url = input
+	    }
+	
+	    this.credentials = options.credentials || this.credentials || 'omit'
+	    if (options.headers || !this.headers) {
+	      this.headers = new Headers(options.headers)
+	    }
+	    this.method = normalizeMethod(options.method || this.method || 'GET')
+	    this.mode = options.mode || this.mode || null
+	    this.referrer = null
+	
+	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+	      throw new TypeError('Body not allowed for GET or HEAD requests')
+	    }
+	    this._initBody(body)
+	  }
+	
+	  Request.prototype.clone = function() {
+	    return new Request(this)
+	  }
+	
+	  function decode(body) {
+	    var form = new FormData()
+	    body.trim().split('&').forEach(function(bytes) {
+	      if (bytes) {
+	        var split = bytes.split('=')
+	        var name = split.shift().replace(/\+/g, ' ')
+	        var value = split.join('=').replace(/\+/g, ' ')
+	        form.append(decodeURIComponent(name), decodeURIComponent(value))
+	      }
+	    })
+	    return form
+	  }
+	
+	  function headers(xhr) {
+	    var head = new Headers()
+	    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
+	    pairs.forEach(function(header) {
+	      var split = header.trim().split(':')
+	      var key = split.shift().trim()
+	      var value = split.join(':').trim()
+	      head.append(key, value)
+	    })
+	    return head
+	  }
+	
+	  Body.call(Request.prototype)
+	
+	  function Response(bodyInit, options) {
+	    if (!options) {
+	      options = {}
+	    }
+	
+	    this.type = 'default'
+	    this.status = options.status
+	    this.ok = this.status >= 200 && this.status < 300
+	    this.statusText = options.statusText
+	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+	    this.url = options.url || ''
+	    this._initBody(bodyInit)
+	  }
+	
+	  Body.call(Response.prototype)
+	
+	  Response.prototype.clone = function() {
+	    return new Response(this._bodyInit, {
+	      status: this.status,
+	      statusText: this.statusText,
+	      headers: new Headers(this.headers),
+	      url: this.url
+	    })
+	  }
+	
+	  Response.error = function() {
+	    var response = new Response(null, {status: 0, statusText: ''})
+	    response.type = 'error'
+	    return response
+	  }
+	
+	  var redirectStatuses = [301, 302, 303, 307, 308]
+	
+	  Response.redirect = function(url, status) {
+	    if (redirectStatuses.indexOf(status) === -1) {
+	      throw new RangeError('Invalid status code')
+	    }
+	
+	    return new Response(null, {status: status, headers: {location: url}})
+	  }
+	
+	  self.Headers = Headers
+	  self.Request = Request
+	  self.Response = Response
+	
+	  self.fetch = function(input, init) {
+	    return new Promise(function(resolve, reject) {
+	      var request
+	      if (Request.prototype.isPrototypeOf(input) && !init) {
+	        request = input
+	      } else {
+	        request = new Request(input, init)
+	      }
+	
+	      var xhr = new XMLHttpRequest()
+	
+	      function responseURL() {
+	        if ('responseURL' in xhr) {
+	          return xhr.responseURL
+	        }
+	
+	        // Avoid security warnings on getResponseHeader when not allowed by CORS
+	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+	          return xhr.getResponseHeader('X-Request-URL')
+	        }
+	
+	        return
+	      }
+	
+	      xhr.onload = function() {
+	        var options = {
+	          status: xhr.status,
+	          statusText: xhr.statusText,
+	          headers: headers(xhr),
+	          url: responseURL()
+	        }
+	        var body = 'response' in xhr ? xhr.response : xhr.responseText
+	        resolve(new Response(body, options))
+	      }
+	
+	      xhr.onerror = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+	
+	      xhr.ontimeout = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+	
+	      xhr.open(request.method, request.url, true)
+	
+	      if (request.credentials === 'include') {
+	        xhr.withCredentials = true
+	      }
+	
+	      if ('responseType' in xhr && support.blob) {
+	        xhr.responseType = 'blob'
+	      }
+	
+	      request.headers.forEach(function(value, name) {
+	        xhr.setRequestHeader(name, value)
+	      })
+	
+	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+	    })
+	  }
+	  self.fetch.polyfill = true
+	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ },
+/* 280 */
 /*!****************************!*\
   !*** ./components/App.jsx ***!
   \****************************/
@@ -28792,7 +31997,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _redux = __webpack_require__(/*! redux */ 255);
+	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 248);
+	
 	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	var _actions = __webpack_require__(/*! ../core/actions */ 273);
+	
+	var actions = _interopRequireWildcard(_actions);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -28801,59 +32016,47 @@
 	  routes: _react.PropTypes.array.isRequired
 	};
 	
-	function App(_ref) {
-	  var children = _ref.children;
-	  var routes = _ref.routes;
+	var App = _react2.default.createClass({
+	  displayName: 'App',
 	
-	  function generateMapMenu() {
-	    var path = '';
+	  propTypes: propTypes,
 	
-	    function nextPath(route) {
-	      path += (path.slice(-1) === '/' ? '' : '/') + (route.path === '/' ? '' : route.path);
-	      return path;
-	    }
+	  componentWillMount: function componentWillMount() {
+	    this.props.actions.fetchArtifactsData();
+	  },
 	
-	    return routes.filter(function (route) {
-	      return route.mapMenuTitle;
-	    }).map(function (route, index, array) {
-	      return _react2.default.createElement(
-	        'span',
-	        { key: index },
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: nextPath(route) },
-	          route.mapMenuTitle
-	        ),
-	        index + 1 < array.length && ' / '
-	      );
-	    });
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h1',
+	        null,
+	        'Reverse Archaeology'
+	      ),
+	      _react2.default.cloneElement(this.props.children, {
+	        artifacts: this.props.artifacts
+	      })
+	    );
 	  }
+	});
 	
-	  var repoLink = 'https://github.com/rafrex/spa-github-pages';
-	
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'h1',
-	      null,
-	      'Reverse Archaeology'
-	    ),
-	    _react2.default.createElement(
-	      'nav',
-	      null,
-	      generateMapMenu()
-	    ),
-	    children
-	  );
+	function mapStateToProps(state) {
+	  return {
+	    artifacts: state.artifacts
+	  };
 	}
 	
-	App.propTypes = propTypes;
+	function mapDispatchToProps(dispatch) {
+	  return {
+	    actions: (0, _redux.bindActionCreators)(actions, dispatch)
+	  };
+	}
 	
-	exports.default = App;
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
 
 /***/ },
-/* 249 */
+/* 281 */
 /*!*****************************!*\
   !*** ./components/Home.jsx ***!
   \*****************************/
@@ -28949,7 +32152,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 250 */
+/* 282 */
 /*!*************************************!*\
   !*** ./components/PageNotFound.jsx ***!
   \*************************************/
@@ -28992,10 +32195,10 @@
 	exports.default = PageNotFound;
 
 /***/ },
-/* 251 */
-/*!*****************************************!*\
-  !*** ./components/ExampleComponent.jsx ***!
-  \*****************************************/
+/* 283 */
+/*!******************************************!*\
+  !*** ./components/ArtifactComponent.jsx ***!
+  \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29003,6 +32206,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _ent = __webpack_require__(/*! ent */ 284);
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
@@ -29013,149 +32218,4332 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var propTypes = {
-	  children: _react.PropTypes.element
+	  artifacts: _react.PropTypes.object,
+	  children: _react.PropTypes.element,
+	  params: _react.PropTypes.object
 	};
 	
-	function ExampleComponent(_ref) {
+	function ArtifactComponent(_ref) {
+	  var artifacts = _ref.artifacts;
 	  var children = _ref.children;
+	  var params = _ref.params;
 	
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
+	  var artifactItems = artifacts.data.items;
+	  var artifactIndex = artifactItems.findIndex(function (a) {
+	    return a.slug === params.slug;
+	  });
+	  var artifact = artifactItems[artifactIndex];
+	  var nextArtifact = artifactItems[(artifactIndex + 1) % artifactItems.length];
+	  var previousArtifact = artifactItems[artifactIndex - 1 < 0 ? artifactItems.length - 1 : artifactIndex - 1];
+	
+	  var head = _react2.default.createElement(
+	    _reactRouter.Link,
+	    { to: '/artifacts/' },
+	    'artifacts'
+	  );
+	  var body = void 0;
+	
+	  if (artifact) {
+	    body = _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h2',
+	        null,
+	        artifact.title
+	      ),
+	      _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: (0, _ent.decode)(artifact.content) } }),
+	      _react2.default.createElement(
+	        _reactRouter.Link,
+	        { style: { float: 'left' }, to: '/artifacts/' + previousArtifact.slug },
+	        'previous'
+	      ),
+	      _react2.default.createElement(
+	        _reactRouter.Link,
+	        { style: { float: 'right' }, to: '/artifacts/' + nextArtifact.slug },
+	        'next'
+	      )
+	    );
+	  } else {
+	    body = _react2.default.createElement(
 	      'p',
 	      null,
-	      'This is an example page. Refresh the page or copy/paste the url to test out the redirect functionality (this same page should load after the redirect).'
-	    ),
-	    children || _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/example/two-deep?field1=foo&field2=bar#boom!' },
-	        'Example two deep with query and hash'
-	      )
-	    )
-	  );
-	}
-	
-	ExampleComponent.propTypes = propTypes;
-	
-	exports.default = ExampleComponent;
-
-/***/ },
-/* 252 */
-/*!************************************************!*\
-  !*** ./components/ExampleTwoDeepComponent.jsx ***!
-  \************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 172);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var propTypes = {
-	  location: _react.PropTypes.object.isRequired
-	};
-	
-	function ExampleTwoDeepComponent(_ref) {
-	  var location = _ref.location;
-	
-	  var queryPresent = Object.keys(location.query).length !== 0;
-	  var hashPresent = location.hash !== '';
-	
-	  function queryStringTitle() {
-	    if (queryPresent) return 'The query string field-value pairs are:';
-	    return 'No query string in the url';
-	  }
-	
-	  function hashFragmentTitle() {
-	    if (hashPresent) return 'The hash fragment is:';
-	    return 'No hash frgament in the url';
-	  }
-	
-	  function linkToShowQueryAndOrHash() {
-	    if (queryPresent && hashPresent) return null;
-	
-	    var queryString = queryPresent ? location.search : '?field1=foo&field2=bar';
-	    var hashFragment = hashPresent ? location.hash : '#boom!';
-	
-	    var linkText = '';
-	    if (queryPresent && !hashPresent) linkText = 'Show with hash fragment';
-	    if (!queryPresent && hashPresent) linkText = 'Show with query string';
-	    if (!queryPresent && !hashPresent) linkText = 'Show with query string and hash fragment';
-	
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/example/two-deep' + queryString + hashFragment },
-	        linkText
-	      )
+	      'loading...'
 	    );
 	  }
 	
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'div',
-	        null,
-	        queryStringTitle()
-	      ),
-	      _react2.default.createElement(
-	        'ul',
-	        null,
-	        Object.keys(location.query).map(function (field, index) {
-	          return _react2.default.createElement(
-	            'li',
-	            { key: index },
-	            field,
-	            ': ',
-	            location.query[field]
-	          );
-	        })
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'div',
-	        null,
-	        hashFragmentTitle()
-	      ),
-	      _react2.default.createElement(
-	        'ul',
-	        null,
-	        hashPresent ? _react2.default.createElement(
-	          'li',
-	          null,
-	          location.hash.slice(1)
-	        ) : undefined
-	      )
-	    ),
-	    linkToShowQueryAndOrHash()
+	    head,
+	    body
 	  );
 	}
 	
-	ExampleTwoDeepComponent.propTypes = propTypes;
+	ArtifactComponent.propTypes = propTypes;
 	
-	exports.default = ExampleTwoDeepComponent;
+	exports.default = ArtifactComponent;
+
+/***/ },
+/* 284 */
+/*!************************!*\
+  !*** ./~/ent/index.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.encode = __webpack_require__(/*! ./encode */ 285);
+	exports.decode = __webpack_require__(/*! ./decode */ 288);
+
+
+/***/ },
+/* 285 */
+/*!*************************!*\
+  !*** ./~/ent/encode.js ***!
+  \*************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var punycode = __webpack_require__(/*! punycode */ 286);
+	var revEntities = __webpack_require__(/*! ./reversed.json */ 287);
+	
+	module.exports = encode;
+	
+	function encode (str, opts) {
+	    if (typeof str !== 'string') {
+	        throw new TypeError('Expected a String');
+	    }
+	    if (!opts) opts = {};
+	
+	    var numeric = true;
+	    if (opts.named) numeric = false;
+	    if (opts.numeric !== undefined) numeric = opts.numeric;
+	
+	    var special = opts.special || {
+	        '"': true, "'": true,
+	        '<': true, '>': true,
+	        '&': true
+	    };
+	
+	    var codePoints = punycode.ucs2.decode(str);
+	    var chars = [];
+	    for (var i = 0; i < codePoints.length; i++) {
+	        var cc = codePoints[i];
+	        var c = punycode.ucs2.encode([ cc ]);
+	        var e = revEntities[cc];
+	        if (e && (cc >= 127 || special[c]) && !numeric) {
+	            chars.push('&' + (/;$/.test(e) ? e : e + ';'));
+	        }
+	        else if (cc < 32 || cc >= 127 || special[c]) {
+	            chars.push('&#' + cc + ';');
+	        }
+	        else {
+	            chars.push(c);
+	        }
+	    }
+	    return chars.join('');
+	}
+
+
+/***/ },
+/* 286 */
+/*!********************************!*\
+  !*** ./~/punycode/punycode.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.4.1 by @mathias */
+	;(function(root) {
+	
+		/** Detect free variables */
+		var freeExports = typeof exports == 'object' && exports &&
+			!exports.nodeType && exports;
+		var freeModule = typeof module == 'object' && module &&
+			!module.nodeType && module;
+		var freeGlobal = typeof global == 'object' && global;
+		if (
+			freeGlobal.global === freeGlobal ||
+			freeGlobal.window === freeGlobal ||
+			freeGlobal.self === freeGlobal
+		) {
+			root = freeGlobal;
+		}
+	
+		/**
+		 * The `punycode` object.
+		 * @name punycode
+		 * @type Object
+		 */
+		var punycode,
+	
+		/** Highest positive signed 32-bit float value */
+		maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
+	
+		/** Bootstring parameters */
+		base = 36,
+		tMin = 1,
+		tMax = 26,
+		skew = 38,
+		damp = 700,
+		initialBias = 72,
+		initialN = 128, // 0x80
+		delimiter = '-', // '\x2D'
+	
+		/** Regular expressions */
+		regexPunycode = /^xn--/,
+		regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
+		regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
+	
+		/** Error messages */
+		errors = {
+			'overflow': 'Overflow: input needs wider integers to process',
+			'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+			'invalid-input': 'Invalid input'
+		},
+	
+		/** Convenience shortcuts */
+		baseMinusTMin = base - tMin,
+		floor = Math.floor,
+		stringFromCharCode = String.fromCharCode,
+	
+		/** Temporary variable */
+		key;
+	
+		/*--------------------------------------------------------------------------*/
+	
+		/**
+		 * A generic error utility function.
+		 * @private
+		 * @param {String} type The error type.
+		 * @returns {Error} Throws a `RangeError` with the applicable error message.
+		 */
+		function error(type) {
+			throw new RangeError(errors[type]);
+		}
+	
+		/**
+		 * A generic `Array#map` utility function.
+		 * @private
+		 * @param {Array} array The array to iterate over.
+		 * @param {Function} callback The function that gets called for every array
+		 * item.
+		 * @returns {Array} A new array of values returned by the callback function.
+		 */
+		function map(array, fn) {
+			var length = array.length;
+			var result = [];
+			while (length--) {
+				result[length] = fn(array[length]);
+			}
+			return result;
+		}
+	
+		/**
+		 * A simple `Array#map`-like wrapper to work with domain name strings or email
+		 * addresses.
+		 * @private
+		 * @param {String} domain The domain name or email address.
+		 * @param {Function} callback The function that gets called for every
+		 * character.
+		 * @returns {Array} A new string of characters returned by the callback
+		 * function.
+		 */
+		function mapDomain(string, fn) {
+			var parts = string.split('@');
+			var result = '';
+			if (parts.length > 1) {
+				// In email addresses, only the domain name should be punycoded. Leave
+				// the local part (i.e. everything up to `@`) intact.
+				result = parts[0] + '@';
+				string = parts[1];
+			}
+			// Avoid `split(regex)` for IE8 compatibility. See #17.
+			string = string.replace(regexSeparators, '\x2E');
+			var labels = string.split('.');
+			var encoded = map(labels, fn).join('.');
+			return result + encoded;
+		}
+	
+		/**
+		 * Creates an array containing the numeric code points of each Unicode
+		 * character in the string. While JavaScript uses UCS-2 internally,
+		 * this function will convert a pair of surrogate halves (each of which
+		 * UCS-2 exposes as separate characters) into a single code point,
+		 * matching UTF-16.
+		 * @see `punycode.ucs2.encode`
+		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+		 * @memberOf punycode.ucs2
+		 * @name decode
+		 * @param {String} string The Unicode input string (UCS-2).
+		 * @returns {Array} The new array of code points.
+		 */
+		function ucs2decode(string) {
+			var output = [],
+			    counter = 0,
+			    length = string.length,
+			    value,
+			    extra;
+			while (counter < length) {
+				value = string.charCodeAt(counter++);
+				if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+					// high surrogate, and there is a next character
+					extra = string.charCodeAt(counter++);
+					if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+						output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+					} else {
+						// unmatched surrogate; only append this code unit, in case the next
+						// code unit is the high surrogate of a surrogate pair
+						output.push(value);
+						counter--;
+					}
+				} else {
+					output.push(value);
+				}
+			}
+			return output;
+		}
+	
+		/**
+		 * Creates a string based on an array of numeric code points.
+		 * @see `punycode.ucs2.decode`
+		 * @memberOf punycode.ucs2
+		 * @name encode
+		 * @param {Array} codePoints The array of numeric code points.
+		 * @returns {String} The new Unicode string (UCS-2).
+		 */
+		function ucs2encode(array) {
+			return map(array, function(value) {
+				var output = '';
+				if (value > 0xFFFF) {
+					value -= 0x10000;
+					output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+					value = 0xDC00 | value & 0x3FF;
+				}
+				output += stringFromCharCode(value);
+				return output;
+			}).join('');
+		}
+	
+		/**
+		 * Converts a basic code point into a digit/integer.
+		 * @see `digitToBasic()`
+		 * @private
+		 * @param {Number} codePoint The basic numeric code point value.
+		 * @returns {Number} The numeric value of a basic code point (for use in
+		 * representing integers) in the range `0` to `base - 1`, or `base` if
+		 * the code point does not represent a value.
+		 */
+		function basicToDigit(codePoint) {
+			if (codePoint - 48 < 10) {
+				return codePoint - 22;
+			}
+			if (codePoint - 65 < 26) {
+				return codePoint - 65;
+			}
+			if (codePoint - 97 < 26) {
+				return codePoint - 97;
+			}
+			return base;
+		}
+	
+		/**
+		 * Converts a digit/integer into a basic code point.
+		 * @see `basicToDigit()`
+		 * @private
+		 * @param {Number} digit The numeric value of a basic code point.
+		 * @returns {Number} The basic code point whose value (when used for
+		 * representing integers) is `digit`, which needs to be in the range
+		 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+		 * used; else, the lowercase form is used. The behavior is undefined
+		 * if `flag` is non-zero and `digit` has no uppercase form.
+		 */
+		function digitToBasic(digit, flag) {
+			//  0..25 map to ASCII a..z or A..Z
+			// 26..35 map to ASCII 0..9
+			return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+		}
+	
+		/**
+		 * Bias adaptation function as per section 3.4 of RFC 3492.
+		 * https://tools.ietf.org/html/rfc3492#section-3.4
+		 * @private
+		 */
+		function adapt(delta, numPoints, firstTime) {
+			var k = 0;
+			delta = firstTime ? floor(delta / damp) : delta >> 1;
+			delta += floor(delta / numPoints);
+			for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+				delta = floor(delta / baseMinusTMin);
+			}
+			return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+		}
+	
+		/**
+		 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
+		 * symbols.
+		 * @memberOf punycode
+		 * @param {String} input The Punycode string of ASCII-only symbols.
+		 * @returns {String} The resulting string of Unicode symbols.
+		 */
+		function decode(input) {
+			// Don't use UCS-2
+			var output = [],
+			    inputLength = input.length,
+			    out,
+			    i = 0,
+			    n = initialN,
+			    bias = initialBias,
+			    basic,
+			    j,
+			    index,
+			    oldi,
+			    w,
+			    k,
+			    digit,
+			    t,
+			    /** Cached calculation results */
+			    baseMinusT;
+	
+			// Handle the basic code points: let `basic` be the number of input code
+			// points before the last delimiter, or `0` if there is none, then copy
+			// the first basic code points to the output.
+	
+			basic = input.lastIndexOf(delimiter);
+			if (basic < 0) {
+				basic = 0;
+			}
+	
+			for (j = 0; j < basic; ++j) {
+				// if it's not a basic code point
+				if (input.charCodeAt(j) >= 0x80) {
+					error('not-basic');
+				}
+				output.push(input.charCodeAt(j));
+			}
+	
+			// Main decoding loop: start just after the last delimiter if any basic code
+			// points were copied; start at the beginning otherwise.
+	
+			for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
+	
+				// `index` is the index of the next character to be consumed.
+				// Decode a generalized variable-length integer into `delta`,
+				// which gets added to `i`. The overflow checking is easier
+				// if we increase `i` as we go, then subtract off its starting
+				// value at the end to obtain `delta`.
+				for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
+	
+					if (index >= inputLength) {
+						error('invalid-input');
+					}
+	
+					digit = basicToDigit(input.charCodeAt(index++));
+	
+					if (digit >= base || digit > floor((maxInt - i) / w)) {
+						error('overflow');
+					}
+	
+					i += digit * w;
+					t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+	
+					if (digit < t) {
+						break;
+					}
+	
+					baseMinusT = base - t;
+					if (w > floor(maxInt / baseMinusT)) {
+						error('overflow');
+					}
+	
+					w *= baseMinusT;
+	
+				}
+	
+				out = output.length + 1;
+				bias = adapt(i - oldi, out, oldi == 0);
+	
+				// `i` was supposed to wrap around from `out` to `0`,
+				// incrementing `n` each time, so we'll fix that now:
+				if (floor(i / out) > maxInt - n) {
+					error('overflow');
+				}
+	
+				n += floor(i / out);
+				i %= out;
+	
+				// Insert `n` at position `i` of the output
+				output.splice(i++, 0, n);
+	
+			}
+	
+			return ucs2encode(output);
+		}
+	
+		/**
+		 * Converts a string of Unicode symbols (e.g. a domain name label) to a
+		 * Punycode string of ASCII-only symbols.
+		 * @memberOf punycode
+		 * @param {String} input The string of Unicode symbols.
+		 * @returns {String} The resulting Punycode string of ASCII-only symbols.
+		 */
+		function encode(input) {
+			var n,
+			    delta,
+			    handledCPCount,
+			    basicLength,
+			    bias,
+			    j,
+			    m,
+			    q,
+			    k,
+			    t,
+			    currentValue,
+			    output = [],
+			    /** `inputLength` will hold the number of code points in `input`. */
+			    inputLength,
+			    /** Cached calculation results */
+			    handledCPCountPlusOne,
+			    baseMinusT,
+			    qMinusT;
+	
+			// Convert the input in UCS-2 to Unicode
+			input = ucs2decode(input);
+	
+			// Cache the length
+			inputLength = input.length;
+	
+			// Initialize the state
+			n = initialN;
+			delta = 0;
+			bias = initialBias;
+	
+			// Handle the basic code points
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue < 0x80) {
+					output.push(stringFromCharCode(currentValue));
+				}
+			}
+	
+			handledCPCount = basicLength = output.length;
+	
+			// `handledCPCount` is the number of code points that have been handled;
+			// `basicLength` is the number of basic code points.
+	
+			// Finish the basic string - if it is not empty - with a delimiter
+			if (basicLength) {
+				output.push(delimiter);
+			}
+	
+			// Main encoding loop:
+			while (handledCPCount < inputLength) {
+	
+				// All non-basic code points < n have been handled already. Find the next
+				// larger one:
+				for (m = maxInt, j = 0; j < inputLength; ++j) {
+					currentValue = input[j];
+					if (currentValue >= n && currentValue < m) {
+						m = currentValue;
+					}
+				}
+	
+				// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+				// but guard against overflow
+				handledCPCountPlusOne = handledCPCount + 1;
+				if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+					error('overflow');
+				}
+	
+				delta += (m - n) * handledCPCountPlusOne;
+				n = m;
+	
+				for (j = 0; j < inputLength; ++j) {
+					currentValue = input[j];
+	
+					if (currentValue < n && ++delta > maxInt) {
+						error('overflow');
+					}
+	
+					if (currentValue == n) {
+						// Represent delta as a generalized variable-length integer
+						for (q = delta, k = base; /* no condition */; k += base) {
+							t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+							if (q < t) {
+								break;
+							}
+							qMinusT = q - t;
+							baseMinusT = base - t;
+							output.push(
+								stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+							);
+							q = floor(qMinusT / baseMinusT);
+						}
+	
+						output.push(stringFromCharCode(digitToBasic(q, 0)));
+						bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+						delta = 0;
+						++handledCPCount;
+					}
+				}
+	
+				++delta;
+				++n;
+	
+			}
+			return output.join('');
+		}
+	
+		/**
+		 * Converts a Punycode string representing a domain name or an email address
+		 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
+		 * it doesn't matter if you call it on a string that has already been
+		 * converted to Unicode.
+		 * @memberOf punycode
+		 * @param {String} input The Punycoded domain name or email address to
+		 * convert to Unicode.
+		 * @returns {String} The Unicode representation of the given Punycode
+		 * string.
+		 */
+		function toUnicode(input) {
+			return mapDomain(input, function(string) {
+				return regexPunycode.test(string)
+					? decode(string.slice(4).toLowerCase())
+					: string;
+			});
+		}
+	
+		/**
+		 * Converts a Unicode string representing a domain name or an email address to
+		 * Punycode. Only the non-ASCII parts of the domain name will be converted,
+		 * i.e. it doesn't matter if you call it with a domain that's already in
+		 * ASCII.
+		 * @memberOf punycode
+		 * @param {String} input The domain name or email address to convert, as a
+		 * Unicode string.
+		 * @returns {String} The Punycode representation of the given domain name or
+		 * email address.
+		 */
+		function toASCII(input) {
+			return mapDomain(input, function(string) {
+				return regexNonASCII.test(string)
+					? 'xn--' + encode(string)
+					: string;
+			});
+		}
+	
+		/*--------------------------------------------------------------------------*/
+	
+		/** Define the public API */
+		punycode = {
+			/**
+			 * A string representing the current Punycode.js version number.
+			 * @memberOf punycode
+			 * @type String
+			 */
+			'version': '1.4.1',
+			/**
+			 * An object of methods to convert from JavaScript's internal character
+			 * representation (UCS-2) to Unicode code points, and back.
+			 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+			 * @memberOf punycode
+			 * @type Object
+			 */
+			'ucs2': {
+				'decode': ucs2decode,
+				'encode': ucs2encode
+			},
+			'decode': decode,
+			'encode': encode,
+			'toASCII': toASCII,
+			'toUnicode': toUnicode
+		};
+	
+		/** Expose `punycode` */
+		// Some AMD build optimizers, like r.js, check for specific condition patterns
+		// like the following:
+		if (
+			true
+		) {
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+				return punycode;
+			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (freeExports && freeModule) {
+			if (module.exports == freeExports) {
+				// in Node.js, io.js, or RingoJS v0.8.0+
+				freeModule.exports = punycode;
+			} else {
+				// in Narwhal or RingoJS v0.7.0-
+				for (key in punycode) {
+					punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+				}
+			}
+		} else {
+			// in Rhino or a web browser
+			root.punycode = punycode;
+		}
+	
+	}(this));
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 275)(module), (function() { return this; }())))
+
+/***/ },
+/* 287 */
+/*!*****************************!*\
+  !*** ./~/ent/reversed.json ***!
+  \*****************************/
+/***/ function(module, exports) {
+
+	module.exports = {
+		"9": "Tab;",
+		"10": "NewLine;",
+		"33": "excl;",
+		"34": "quot;",
+		"35": "num;",
+		"36": "dollar;",
+		"37": "percnt;",
+		"38": "amp;",
+		"39": "apos;",
+		"40": "lpar;",
+		"41": "rpar;",
+		"42": "midast;",
+		"43": "plus;",
+		"44": "comma;",
+		"46": "period;",
+		"47": "sol;",
+		"58": "colon;",
+		"59": "semi;",
+		"60": "lt;",
+		"61": "equals;",
+		"62": "gt;",
+		"63": "quest;",
+		"64": "commat;",
+		"91": "lsqb;",
+		"92": "bsol;",
+		"93": "rsqb;",
+		"94": "Hat;",
+		"95": "UnderBar;",
+		"96": "grave;",
+		"123": "lcub;",
+		"124": "VerticalLine;",
+		"125": "rcub;",
+		"160": "NonBreakingSpace;",
+		"161": "iexcl;",
+		"162": "cent;",
+		"163": "pound;",
+		"164": "curren;",
+		"165": "yen;",
+		"166": "brvbar;",
+		"167": "sect;",
+		"168": "uml;",
+		"169": "copy;",
+		"170": "ordf;",
+		"171": "laquo;",
+		"172": "not;",
+		"173": "shy;",
+		"174": "reg;",
+		"175": "strns;",
+		"176": "deg;",
+		"177": "pm;",
+		"178": "sup2;",
+		"179": "sup3;",
+		"180": "DiacriticalAcute;",
+		"181": "micro;",
+		"182": "para;",
+		"183": "middot;",
+		"184": "Cedilla;",
+		"185": "sup1;",
+		"186": "ordm;",
+		"187": "raquo;",
+		"188": "frac14;",
+		"189": "half;",
+		"190": "frac34;",
+		"191": "iquest;",
+		"192": "Agrave;",
+		"193": "Aacute;",
+		"194": "Acirc;",
+		"195": "Atilde;",
+		"196": "Auml;",
+		"197": "Aring;",
+		"198": "AElig;",
+		"199": "Ccedil;",
+		"200": "Egrave;",
+		"201": "Eacute;",
+		"202": "Ecirc;",
+		"203": "Euml;",
+		"204": "Igrave;",
+		"205": "Iacute;",
+		"206": "Icirc;",
+		"207": "Iuml;",
+		"208": "ETH;",
+		"209": "Ntilde;",
+		"210": "Ograve;",
+		"211": "Oacute;",
+		"212": "Ocirc;",
+		"213": "Otilde;",
+		"214": "Ouml;",
+		"215": "times;",
+		"216": "Oslash;",
+		"217": "Ugrave;",
+		"218": "Uacute;",
+		"219": "Ucirc;",
+		"220": "Uuml;",
+		"221": "Yacute;",
+		"222": "THORN;",
+		"223": "szlig;",
+		"224": "agrave;",
+		"225": "aacute;",
+		"226": "acirc;",
+		"227": "atilde;",
+		"228": "auml;",
+		"229": "aring;",
+		"230": "aelig;",
+		"231": "ccedil;",
+		"232": "egrave;",
+		"233": "eacute;",
+		"234": "ecirc;",
+		"235": "euml;",
+		"236": "igrave;",
+		"237": "iacute;",
+		"238": "icirc;",
+		"239": "iuml;",
+		"240": "eth;",
+		"241": "ntilde;",
+		"242": "ograve;",
+		"243": "oacute;",
+		"244": "ocirc;",
+		"245": "otilde;",
+		"246": "ouml;",
+		"247": "divide;",
+		"248": "oslash;",
+		"249": "ugrave;",
+		"250": "uacute;",
+		"251": "ucirc;",
+		"252": "uuml;",
+		"253": "yacute;",
+		"254": "thorn;",
+		"255": "yuml;",
+		"256": "Amacr;",
+		"257": "amacr;",
+		"258": "Abreve;",
+		"259": "abreve;",
+		"260": "Aogon;",
+		"261": "aogon;",
+		"262": "Cacute;",
+		"263": "cacute;",
+		"264": "Ccirc;",
+		"265": "ccirc;",
+		"266": "Cdot;",
+		"267": "cdot;",
+		"268": "Ccaron;",
+		"269": "ccaron;",
+		"270": "Dcaron;",
+		"271": "dcaron;",
+		"272": "Dstrok;",
+		"273": "dstrok;",
+		"274": "Emacr;",
+		"275": "emacr;",
+		"278": "Edot;",
+		"279": "edot;",
+		"280": "Eogon;",
+		"281": "eogon;",
+		"282": "Ecaron;",
+		"283": "ecaron;",
+		"284": "Gcirc;",
+		"285": "gcirc;",
+		"286": "Gbreve;",
+		"287": "gbreve;",
+		"288": "Gdot;",
+		"289": "gdot;",
+		"290": "Gcedil;",
+		"292": "Hcirc;",
+		"293": "hcirc;",
+		"294": "Hstrok;",
+		"295": "hstrok;",
+		"296": "Itilde;",
+		"297": "itilde;",
+		"298": "Imacr;",
+		"299": "imacr;",
+		"302": "Iogon;",
+		"303": "iogon;",
+		"304": "Idot;",
+		"305": "inodot;",
+		"306": "IJlig;",
+		"307": "ijlig;",
+		"308": "Jcirc;",
+		"309": "jcirc;",
+		"310": "Kcedil;",
+		"311": "kcedil;",
+		"312": "kgreen;",
+		"313": "Lacute;",
+		"314": "lacute;",
+		"315": "Lcedil;",
+		"316": "lcedil;",
+		"317": "Lcaron;",
+		"318": "lcaron;",
+		"319": "Lmidot;",
+		"320": "lmidot;",
+		"321": "Lstrok;",
+		"322": "lstrok;",
+		"323": "Nacute;",
+		"324": "nacute;",
+		"325": "Ncedil;",
+		"326": "ncedil;",
+		"327": "Ncaron;",
+		"328": "ncaron;",
+		"329": "napos;",
+		"330": "ENG;",
+		"331": "eng;",
+		"332": "Omacr;",
+		"333": "omacr;",
+		"336": "Odblac;",
+		"337": "odblac;",
+		"338": "OElig;",
+		"339": "oelig;",
+		"340": "Racute;",
+		"341": "racute;",
+		"342": "Rcedil;",
+		"343": "rcedil;",
+		"344": "Rcaron;",
+		"345": "rcaron;",
+		"346": "Sacute;",
+		"347": "sacute;",
+		"348": "Scirc;",
+		"349": "scirc;",
+		"350": "Scedil;",
+		"351": "scedil;",
+		"352": "Scaron;",
+		"353": "scaron;",
+		"354": "Tcedil;",
+		"355": "tcedil;",
+		"356": "Tcaron;",
+		"357": "tcaron;",
+		"358": "Tstrok;",
+		"359": "tstrok;",
+		"360": "Utilde;",
+		"361": "utilde;",
+		"362": "Umacr;",
+		"363": "umacr;",
+		"364": "Ubreve;",
+		"365": "ubreve;",
+		"366": "Uring;",
+		"367": "uring;",
+		"368": "Udblac;",
+		"369": "udblac;",
+		"370": "Uogon;",
+		"371": "uogon;",
+		"372": "Wcirc;",
+		"373": "wcirc;",
+		"374": "Ycirc;",
+		"375": "ycirc;",
+		"376": "Yuml;",
+		"377": "Zacute;",
+		"378": "zacute;",
+		"379": "Zdot;",
+		"380": "zdot;",
+		"381": "Zcaron;",
+		"382": "zcaron;",
+		"402": "fnof;",
+		"437": "imped;",
+		"501": "gacute;",
+		"567": "jmath;",
+		"710": "circ;",
+		"711": "Hacek;",
+		"728": "breve;",
+		"729": "dot;",
+		"730": "ring;",
+		"731": "ogon;",
+		"732": "tilde;",
+		"733": "DiacriticalDoubleAcute;",
+		"785": "DownBreve;",
+		"913": "Alpha;",
+		"914": "Beta;",
+		"915": "Gamma;",
+		"916": "Delta;",
+		"917": "Epsilon;",
+		"918": "Zeta;",
+		"919": "Eta;",
+		"920": "Theta;",
+		"921": "Iota;",
+		"922": "Kappa;",
+		"923": "Lambda;",
+		"924": "Mu;",
+		"925": "Nu;",
+		"926": "Xi;",
+		"927": "Omicron;",
+		"928": "Pi;",
+		"929": "Rho;",
+		"931": "Sigma;",
+		"932": "Tau;",
+		"933": "Upsilon;",
+		"934": "Phi;",
+		"935": "Chi;",
+		"936": "Psi;",
+		"937": "Omega;",
+		"945": "alpha;",
+		"946": "beta;",
+		"947": "gamma;",
+		"948": "delta;",
+		"949": "epsilon;",
+		"950": "zeta;",
+		"951": "eta;",
+		"952": "theta;",
+		"953": "iota;",
+		"954": "kappa;",
+		"955": "lambda;",
+		"956": "mu;",
+		"957": "nu;",
+		"958": "xi;",
+		"959": "omicron;",
+		"960": "pi;",
+		"961": "rho;",
+		"962": "varsigma;",
+		"963": "sigma;",
+		"964": "tau;",
+		"965": "upsilon;",
+		"966": "phi;",
+		"967": "chi;",
+		"968": "psi;",
+		"969": "omega;",
+		"977": "vartheta;",
+		"978": "upsih;",
+		"981": "varphi;",
+		"982": "varpi;",
+		"988": "Gammad;",
+		"989": "gammad;",
+		"1008": "varkappa;",
+		"1009": "varrho;",
+		"1013": "varepsilon;",
+		"1014": "bepsi;",
+		"1025": "IOcy;",
+		"1026": "DJcy;",
+		"1027": "GJcy;",
+		"1028": "Jukcy;",
+		"1029": "DScy;",
+		"1030": "Iukcy;",
+		"1031": "YIcy;",
+		"1032": "Jsercy;",
+		"1033": "LJcy;",
+		"1034": "NJcy;",
+		"1035": "TSHcy;",
+		"1036": "KJcy;",
+		"1038": "Ubrcy;",
+		"1039": "DZcy;",
+		"1040": "Acy;",
+		"1041": "Bcy;",
+		"1042": "Vcy;",
+		"1043": "Gcy;",
+		"1044": "Dcy;",
+		"1045": "IEcy;",
+		"1046": "ZHcy;",
+		"1047": "Zcy;",
+		"1048": "Icy;",
+		"1049": "Jcy;",
+		"1050": "Kcy;",
+		"1051": "Lcy;",
+		"1052": "Mcy;",
+		"1053": "Ncy;",
+		"1054": "Ocy;",
+		"1055": "Pcy;",
+		"1056": "Rcy;",
+		"1057": "Scy;",
+		"1058": "Tcy;",
+		"1059": "Ucy;",
+		"1060": "Fcy;",
+		"1061": "KHcy;",
+		"1062": "TScy;",
+		"1063": "CHcy;",
+		"1064": "SHcy;",
+		"1065": "SHCHcy;",
+		"1066": "HARDcy;",
+		"1067": "Ycy;",
+		"1068": "SOFTcy;",
+		"1069": "Ecy;",
+		"1070": "YUcy;",
+		"1071": "YAcy;",
+		"1072": "acy;",
+		"1073": "bcy;",
+		"1074": "vcy;",
+		"1075": "gcy;",
+		"1076": "dcy;",
+		"1077": "iecy;",
+		"1078": "zhcy;",
+		"1079": "zcy;",
+		"1080": "icy;",
+		"1081": "jcy;",
+		"1082": "kcy;",
+		"1083": "lcy;",
+		"1084": "mcy;",
+		"1085": "ncy;",
+		"1086": "ocy;",
+		"1087": "pcy;",
+		"1088": "rcy;",
+		"1089": "scy;",
+		"1090": "tcy;",
+		"1091": "ucy;",
+		"1092": "fcy;",
+		"1093": "khcy;",
+		"1094": "tscy;",
+		"1095": "chcy;",
+		"1096": "shcy;",
+		"1097": "shchcy;",
+		"1098": "hardcy;",
+		"1099": "ycy;",
+		"1100": "softcy;",
+		"1101": "ecy;",
+		"1102": "yucy;",
+		"1103": "yacy;",
+		"1105": "iocy;",
+		"1106": "djcy;",
+		"1107": "gjcy;",
+		"1108": "jukcy;",
+		"1109": "dscy;",
+		"1110": "iukcy;",
+		"1111": "yicy;",
+		"1112": "jsercy;",
+		"1113": "ljcy;",
+		"1114": "njcy;",
+		"1115": "tshcy;",
+		"1116": "kjcy;",
+		"1118": "ubrcy;",
+		"1119": "dzcy;",
+		"8194": "ensp;",
+		"8195": "emsp;",
+		"8196": "emsp13;",
+		"8197": "emsp14;",
+		"8199": "numsp;",
+		"8200": "puncsp;",
+		"8201": "ThinSpace;",
+		"8202": "VeryThinSpace;",
+		"8203": "ZeroWidthSpace;",
+		"8204": "zwnj;",
+		"8205": "zwj;",
+		"8206": "lrm;",
+		"8207": "rlm;",
+		"8208": "hyphen;",
+		"8211": "ndash;",
+		"8212": "mdash;",
+		"8213": "horbar;",
+		"8214": "Vert;",
+		"8216": "OpenCurlyQuote;",
+		"8217": "rsquor;",
+		"8218": "sbquo;",
+		"8220": "OpenCurlyDoubleQuote;",
+		"8221": "rdquor;",
+		"8222": "ldquor;",
+		"8224": "dagger;",
+		"8225": "ddagger;",
+		"8226": "bullet;",
+		"8229": "nldr;",
+		"8230": "mldr;",
+		"8240": "permil;",
+		"8241": "pertenk;",
+		"8242": "prime;",
+		"8243": "Prime;",
+		"8244": "tprime;",
+		"8245": "bprime;",
+		"8249": "lsaquo;",
+		"8250": "rsaquo;",
+		"8254": "OverBar;",
+		"8257": "caret;",
+		"8259": "hybull;",
+		"8260": "frasl;",
+		"8271": "bsemi;",
+		"8279": "qprime;",
+		"8287": "MediumSpace;",
+		"8288": "NoBreak;",
+		"8289": "ApplyFunction;",
+		"8290": "it;",
+		"8291": "InvisibleComma;",
+		"8364": "euro;",
+		"8411": "TripleDot;",
+		"8412": "DotDot;",
+		"8450": "Copf;",
+		"8453": "incare;",
+		"8458": "gscr;",
+		"8459": "Hscr;",
+		"8460": "Poincareplane;",
+		"8461": "quaternions;",
+		"8462": "planckh;",
+		"8463": "plankv;",
+		"8464": "Iscr;",
+		"8465": "imagpart;",
+		"8466": "Lscr;",
+		"8467": "ell;",
+		"8469": "Nopf;",
+		"8470": "numero;",
+		"8471": "copysr;",
+		"8472": "wp;",
+		"8473": "primes;",
+		"8474": "rationals;",
+		"8475": "Rscr;",
+		"8476": "Rfr;",
+		"8477": "Ropf;",
+		"8478": "rx;",
+		"8482": "trade;",
+		"8484": "Zopf;",
+		"8487": "mho;",
+		"8488": "Zfr;",
+		"8489": "iiota;",
+		"8492": "Bscr;",
+		"8493": "Cfr;",
+		"8495": "escr;",
+		"8496": "expectation;",
+		"8497": "Fscr;",
+		"8499": "phmmat;",
+		"8500": "oscr;",
+		"8501": "aleph;",
+		"8502": "beth;",
+		"8503": "gimel;",
+		"8504": "daleth;",
+		"8517": "DD;",
+		"8518": "DifferentialD;",
+		"8519": "exponentiale;",
+		"8520": "ImaginaryI;",
+		"8531": "frac13;",
+		"8532": "frac23;",
+		"8533": "frac15;",
+		"8534": "frac25;",
+		"8535": "frac35;",
+		"8536": "frac45;",
+		"8537": "frac16;",
+		"8538": "frac56;",
+		"8539": "frac18;",
+		"8540": "frac38;",
+		"8541": "frac58;",
+		"8542": "frac78;",
+		"8592": "slarr;",
+		"8593": "uparrow;",
+		"8594": "srarr;",
+		"8595": "ShortDownArrow;",
+		"8596": "leftrightarrow;",
+		"8597": "varr;",
+		"8598": "UpperLeftArrow;",
+		"8599": "UpperRightArrow;",
+		"8600": "searrow;",
+		"8601": "swarrow;",
+		"8602": "nleftarrow;",
+		"8603": "nrightarrow;",
+		"8605": "rightsquigarrow;",
+		"8606": "twoheadleftarrow;",
+		"8607": "Uarr;",
+		"8608": "twoheadrightarrow;",
+		"8609": "Darr;",
+		"8610": "leftarrowtail;",
+		"8611": "rightarrowtail;",
+		"8612": "mapstoleft;",
+		"8613": "UpTeeArrow;",
+		"8614": "RightTeeArrow;",
+		"8615": "mapstodown;",
+		"8617": "larrhk;",
+		"8618": "rarrhk;",
+		"8619": "looparrowleft;",
+		"8620": "rarrlp;",
+		"8621": "leftrightsquigarrow;",
+		"8622": "nleftrightarrow;",
+		"8624": "lsh;",
+		"8625": "rsh;",
+		"8626": "ldsh;",
+		"8627": "rdsh;",
+		"8629": "crarr;",
+		"8630": "curvearrowleft;",
+		"8631": "curvearrowright;",
+		"8634": "olarr;",
+		"8635": "orarr;",
+		"8636": "lharu;",
+		"8637": "lhard;",
+		"8638": "upharpoonright;",
+		"8639": "upharpoonleft;",
+		"8640": "RightVector;",
+		"8641": "rightharpoondown;",
+		"8642": "RightDownVector;",
+		"8643": "LeftDownVector;",
+		"8644": "rlarr;",
+		"8645": "UpArrowDownArrow;",
+		"8646": "lrarr;",
+		"8647": "llarr;",
+		"8648": "uuarr;",
+		"8649": "rrarr;",
+		"8650": "downdownarrows;",
+		"8651": "ReverseEquilibrium;",
+		"8652": "rlhar;",
+		"8653": "nLeftarrow;",
+		"8654": "nLeftrightarrow;",
+		"8655": "nRightarrow;",
+		"8656": "Leftarrow;",
+		"8657": "Uparrow;",
+		"8658": "Rightarrow;",
+		"8659": "Downarrow;",
+		"8660": "Leftrightarrow;",
+		"8661": "vArr;",
+		"8662": "nwArr;",
+		"8663": "neArr;",
+		"8664": "seArr;",
+		"8665": "swArr;",
+		"8666": "Lleftarrow;",
+		"8667": "Rrightarrow;",
+		"8669": "zigrarr;",
+		"8676": "LeftArrowBar;",
+		"8677": "RightArrowBar;",
+		"8693": "duarr;",
+		"8701": "loarr;",
+		"8702": "roarr;",
+		"8703": "hoarr;",
+		"8704": "forall;",
+		"8705": "complement;",
+		"8706": "PartialD;",
+		"8707": "Exists;",
+		"8708": "NotExists;",
+		"8709": "varnothing;",
+		"8711": "nabla;",
+		"8712": "isinv;",
+		"8713": "notinva;",
+		"8715": "SuchThat;",
+		"8716": "NotReverseElement;",
+		"8719": "Product;",
+		"8720": "Coproduct;",
+		"8721": "sum;",
+		"8722": "minus;",
+		"8723": "mp;",
+		"8724": "plusdo;",
+		"8726": "ssetmn;",
+		"8727": "lowast;",
+		"8728": "SmallCircle;",
+		"8730": "Sqrt;",
+		"8733": "vprop;",
+		"8734": "infin;",
+		"8735": "angrt;",
+		"8736": "angle;",
+		"8737": "measuredangle;",
+		"8738": "angsph;",
+		"8739": "VerticalBar;",
+		"8740": "nsmid;",
+		"8741": "spar;",
+		"8742": "nspar;",
+		"8743": "wedge;",
+		"8744": "vee;",
+		"8745": "cap;",
+		"8746": "cup;",
+		"8747": "Integral;",
+		"8748": "Int;",
+		"8749": "tint;",
+		"8750": "oint;",
+		"8751": "DoubleContourIntegral;",
+		"8752": "Cconint;",
+		"8753": "cwint;",
+		"8754": "cwconint;",
+		"8755": "CounterClockwiseContourIntegral;",
+		"8756": "therefore;",
+		"8757": "because;",
+		"8758": "ratio;",
+		"8759": "Proportion;",
+		"8760": "minusd;",
+		"8762": "mDDot;",
+		"8763": "homtht;",
+		"8764": "Tilde;",
+		"8765": "bsim;",
+		"8766": "mstpos;",
+		"8767": "acd;",
+		"8768": "wreath;",
+		"8769": "nsim;",
+		"8770": "esim;",
+		"8771": "TildeEqual;",
+		"8772": "nsimeq;",
+		"8773": "TildeFullEqual;",
+		"8774": "simne;",
+		"8775": "NotTildeFullEqual;",
+		"8776": "TildeTilde;",
+		"8777": "NotTildeTilde;",
+		"8778": "approxeq;",
+		"8779": "apid;",
+		"8780": "bcong;",
+		"8781": "CupCap;",
+		"8782": "HumpDownHump;",
+		"8783": "HumpEqual;",
+		"8784": "esdot;",
+		"8785": "eDot;",
+		"8786": "fallingdotseq;",
+		"8787": "risingdotseq;",
+		"8788": "coloneq;",
+		"8789": "eqcolon;",
+		"8790": "eqcirc;",
+		"8791": "cire;",
+		"8793": "wedgeq;",
+		"8794": "veeeq;",
+		"8796": "trie;",
+		"8799": "questeq;",
+		"8800": "NotEqual;",
+		"8801": "equiv;",
+		"8802": "NotCongruent;",
+		"8804": "leq;",
+		"8805": "GreaterEqual;",
+		"8806": "LessFullEqual;",
+		"8807": "GreaterFullEqual;",
+		"8808": "lneqq;",
+		"8809": "gneqq;",
+		"8810": "NestedLessLess;",
+		"8811": "NestedGreaterGreater;",
+		"8812": "twixt;",
+		"8813": "NotCupCap;",
+		"8814": "NotLess;",
+		"8815": "NotGreater;",
+		"8816": "NotLessEqual;",
+		"8817": "NotGreaterEqual;",
+		"8818": "lsim;",
+		"8819": "gtrsim;",
+		"8820": "NotLessTilde;",
+		"8821": "NotGreaterTilde;",
+		"8822": "lg;",
+		"8823": "gtrless;",
+		"8824": "ntlg;",
+		"8825": "ntgl;",
+		"8826": "Precedes;",
+		"8827": "Succeeds;",
+		"8828": "PrecedesSlantEqual;",
+		"8829": "SucceedsSlantEqual;",
+		"8830": "prsim;",
+		"8831": "succsim;",
+		"8832": "nprec;",
+		"8833": "nsucc;",
+		"8834": "subset;",
+		"8835": "supset;",
+		"8836": "nsub;",
+		"8837": "nsup;",
+		"8838": "SubsetEqual;",
+		"8839": "supseteq;",
+		"8840": "nsubseteq;",
+		"8841": "nsupseteq;",
+		"8842": "subsetneq;",
+		"8843": "supsetneq;",
+		"8845": "cupdot;",
+		"8846": "uplus;",
+		"8847": "SquareSubset;",
+		"8848": "SquareSuperset;",
+		"8849": "SquareSubsetEqual;",
+		"8850": "SquareSupersetEqual;",
+		"8851": "SquareIntersection;",
+		"8852": "SquareUnion;",
+		"8853": "oplus;",
+		"8854": "ominus;",
+		"8855": "otimes;",
+		"8856": "osol;",
+		"8857": "odot;",
+		"8858": "ocir;",
+		"8859": "oast;",
+		"8861": "odash;",
+		"8862": "plusb;",
+		"8863": "minusb;",
+		"8864": "timesb;",
+		"8865": "sdotb;",
+		"8866": "vdash;",
+		"8867": "LeftTee;",
+		"8868": "top;",
+		"8869": "UpTee;",
+		"8871": "models;",
+		"8872": "vDash;",
+		"8873": "Vdash;",
+		"8874": "Vvdash;",
+		"8875": "VDash;",
+		"8876": "nvdash;",
+		"8877": "nvDash;",
+		"8878": "nVdash;",
+		"8879": "nVDash;",
+		"8880": "prurel;",
+		"8882": "vltri;",
+		"8883": "vrtri;",
+		"8884": "trianglelefteq;",
+		"8885": "trianglerighteq;",
+		"8886": "origof;",
+		"8887": "imof;",
+		"8888": "mumap;",
+		"8889": "hercon;",
+		"8890": "intercal;",
+		"8891": "veebar;",
+		"8893": "barvee;",
+		"8894": "angrtvb;",
+		"8895": "lrtri;",
+		"8896": "xwedge;",
+		"8897": "xvee;",
+		"8898": "xcap;",
+		"8899": "xcup;",
+		"8900": "diamond;",
+		"8901": "sdot;",
+		"8902": "Star;",
+		"8903": "divonx;",
+		"8904": "bowtie;",
+		"8905": "ltimes;",
+		"8906": "rtimes;",
+		"8907": "lthree;",
+		"8908": "rthree;",
+		"8909": "bsime;",
+		"8910": "cuvee;",
+		"8911": "cuwed;",
+		"8912": "Subset;",
+		"8913": "Supset;",
+		"8914": "Cap;",
+		"8915": "Cup;",
+		"8916": "pitchfork;",
+		"8917": "epar;",
+		"8918": "ltdot;",
+		"8919": "gtrdot;",
+		"8920": "Ll;",
+		"8921": "ggg;",
+		"8922": "LessEqualGreater;",
+		"8923": "gtreqless;",
+		"8926": "curlyeqprec;",
+		"8927": "curlyeqsucc;",
+		"8928": "nprcue;",
+		"8929": "nsccue;",
+		"8930": "nsqsube;",
+		"8931": "nsqsupe;",
+		"8934": "lnsim;",
+		"8935": "gnsim;",
+		"8936": "prnsim;",
+		"8937": "succnsim;",
+		"8938": "ntriangleleft;",
+		"8939": "ntriangleright;",
+		"8940": "ntrianglelefteq;",
+		"8941": "ntrianglerighteq;",
+		"8942": "vellip;",
+		"8943": "ctdot;",
+		"8944": "utdot;",
+		"8945": "dtdot;",
+		"8946": "disin;",
+		"8947": "isinsv;",
+		"8948": "isins;",
+		"8949": "isindot;",
+		"8950": "notinvc;",
+		"8951": "notinvb;",
+		"8953": "isinE;",
+		"8954": "nisd;",
+		"8955": "xnis;",
+		"8956": "nis;",
+		"8957": "notnivc;",
+		"8958": "notnivb;",
+		"8965": "barwedge;",
+		"8966": "doublebarwedge;",
+		"8968": "LeftCeiling;",
+		"8969": "RightCeiling;",
+		"8970": "lfloor;",
+		"8971": "RightFloor;",
+		"8972": "drcrop;",
+		"8973": "dlcrop;",
+		"8974": "urcrop;",
+		"8975": "ulcrop;",
+		"8976": "bnot;",
+		"8978": "profline;",
+		"8979": "profsurf;",
+		"8981": "telrec;",
+		"8982": "target;",
+		"8988": "ulcorner;",
+		"8989": "urcorner;",
+		"8990": "llcorner;",
+		"8991": "lrcorner;",
+		"8994": "sfrown;",
+		"8995": "ssmile;",
+		"9005": "cylcty;",
+		"9006": "profalar;",
+		"9014": "topbot;",
+		"9021": "ovbar;",
+		"9023": "solbar;",
+		"9084": "angzarr;",
+		"9136": "lmoustache;",
+		"9137": "rmoustache;",
+		"9140": "tbrk;",
+		"9141": "UnderBracket;",
+		"9142": "bbrktbrk;",
+		"9180": "OverParenthesis;",
+		"9181": "UnderParenthesis;",
+		"9182": "OverBrace;",
+		"9183": "UnderBrace;",
+		"9186": "trpezium;",
+		"9191": "elinters;",
+		"9251": "blank;",
+		"9416": "oS;",
+		"9472": "HorizontalLine;",
+		"9474": "boxv;",
+		"9484": "boxdr;",
+		"9488": "boxdl;",
+		"9492": "boxur;",
+		"9496": "boxul;",
+		"9500": "boxvr;",
+		"9508": "boxvl;",
+		"9516": "boxhd;",
+		"9524": "boxhu;",
+		"9532": "boxvh;",
+		"9552": "boxH;",
+		"9553": "boxV;",
+		"9554": "boxdR;",
+		"9555": "boxDr;",
+		"9556": "boxDR;",
+		"9557": "boxdL;",
+		"9558": "boxDl;",
+		"9559": "boxDL;",
+		"9560": "boxuR;",
+		"9561": "boxUr;",
+		"9562": "boxUR;",
+		"9563": "boxuL;",
+		"9564": "boxUl;",
+		"9565": "boxUL;",
+		"9566": "boxvR;",
+		"9567": "boxVr;",
+		"9568": "boxVR;",
+		"9569": "boxvL;",
+		"9570": "boxVl;",
+		"9571": "boxVL;",
+		"9572": "boxHd;",
+		"9573": "boxhD;",
+		"9574": "boxHD;",
+		"9575": "boxHu;",
+		"9576": "boxhU;",
+		"9577": "boxHU;",
+		"9578": "boxvH;",
+		"9579": "boxVh;",
+		"9580": "boxVH;",
+		"9600": "uhblk;",
+		"9604": "lhblk;",
+		"9608": "block;",
+		"9617": "blk14;",
+		"9618": "blk12;",
+		"9619": "blk34;",
+		"9633": "square;",
+		"9642": "squf;",
+		"9643": "EmptyVerySmallSquare;",
+		"9645": "rect;",
+		"9646": "marker;",
+		"9649": "fltns;",
+		"9651": "xutri;",
+		"9652": "utrif;",
+		"9653": "utri;",
+		"9656": "rtrif;",
+		"9657": "triangleright;",
+		"9661": "xdtri;",
+		"9662": "dtrif;",
+		"9663": "triangledown;",
+		"9666": "ltrif;",
+		"9667": "triangleleft;",
+		"9674": "lozenge;",
+		"9675": "cir;",
+		"9708": "tridot;",
+		"9711": "xcirc;",
+		"9720": "ultri;",
+		"9721": "urtri;",
+		"9722": "lltri;",
+		"9723": "EmptySmallSquare;",
+		"9724": "FilledSmallSquare;",
+		"9733": "starf;",
+		"9734": "star;",
+		"9742": "phone;",
+		"9792": "female;",
+		"9794": "male;",
+		"9824": "spadesuit;",
+		"9827": "clubsuit;",
+		"9829": "heartsuit;",
+		"9830": "diams;",
+		"9834": "sung;",
+		"9837": "flat;",
+		"9838": "natural;",
+		"9839": "sharp;",
+		"10003": "checkmark;",
+		"10007": "cross;",
+		"10016": "maltese;",
+		"10038": "sext;",
+		"10072": "VerticalSeparator;",
+		"10098": "lbbrk;",
+		"10099": "rbbrk;",
+		"10184": "bsolhsub;",
+		"10185": "suphsol;",
+		"10214": "lobrk;",
+		"10215": "robrk;",
+		"10216": "LeftAngleBracket;",
+		"10217": "RightAngleBracket;",
+		"10218": "Lang;",
+		"10219": "Rang;",
+		"10220": "loang;",
+		"10221": "roang;",
+		"10229": "xlarr;",
+		"10230": "xrarr;",
+		"10231": "xharr;",
+		"10232": "xlArr;",
+		"10233": "xrArr;",
+		"10234": "xhArr;",
+		"10236": "xmap;",
+		"10239": "dzigrarr;",
+		"10498": "nvlArr;",
+		"10499": "nvrArr;",
+		"10500": "nvHarr;",
+		"10501": "Map;",
+		"10508": "lbarr;",
+		"10509": "rbarr;",
+		"10510": "lBarr;",
+		"10511": "rBarr;",
+		"10512": "RBarr;",
+		"10513": "DDotrahd;",
+		"10514": "UpArrowBar;",
+		"10515": "DownArrowBar;",
+		"10518": "Rarrtl;",
+		"10521": "latail;",
+		"10522": "ratail;",
+		"10523": "lAtail;",
+		"10524": "rAtail;",
+		"10525": "larrfs;",
+		"10526": "rarrfs;",
+		"10527": "larrbfs;",
+		"10528": "rarrbfs;",
+		"10531": "nwarhk;",
+		"10532": "nearhk;",
+		"10533": "searhk;",
+		"10534": "swarhk;",
+		"10535": "nwnear;",
+		"10536": "toea;",
+		"10537": "tosa;",
+		"10538": "swnwar;",
+		"10547": "rarrc;",
+		"10549": "cudarrr;",
+		"10550": "ldca;",
+		"10551": "rdca;",
+		"10552": "cudarrl;",
+		"10553": "larrpl;",
+		"10556": "curarrm;",
+		"10557": "cularrp;",
+		"10565": "rarrpl;",
+		"10568": "harrcir;",
+		"10569": "Uarrocir;",
+		"10570": "lurdshar;",
+		"10571": "ldrushar;",
+		"10574": "LeftRightVector;",
+		"10575": "RightUpDownVector;",
+		"10576": "DownLeftRightVector;",
+		"10577": "LeftUpDownVector;",
+		"10578": "LeftVectorBar;",
+		"10579": "RightVectorBar;",
+		"10580": "RightUpVectorBar;",
+		"10581": "RightDownVectorBar;",
+		"10582": "DownLeftVectorBar;",
+		"10583": "DownRightVectorBar;",
+		"10584": "LeftUpVectorBar;",
+		"10585": "LeftDownVectorBar;",
+		"10586": "LeftTeeVector;",
+		"10587": "RightTeeVector;",
+		"10588": "RightUpTeeVector;",
+		"10589": "RightDownTeeVector;",
+		"10590": "DownLeftTeeVector;",
+		"10591": "DownRightTeeVector;",
+		"10592": "LeftUpTeeVector;",
+		"10593": "LeftDownTeeVector;",
+		"10594": "lHar;",
+		"10595": "uHar;",
+		"10596": "rHar;",
+		"10597": "dHar;",
+		"10598": "luruhar;",
+		"10599": "ldrdhar;",
+		"10600": "ruluhar;",
+		"10601": "rdldhar;",
+		"10602": "lharul;",
+		"10603": "llhard;",
+		"10604": "rharul;",
+		"10605": "lrhard;",
+		"10606": "UpEquilibrium;",
+		"10607": "ReverseUpEquilibrium;",
+		"10608": "RoundImplies;",
+		"10609": "erarr;",
+		"10610": "simrarr;",
+		"10611": "larrsim;",
+		"10612": "rarrsim;",
+		"10613": "rarrap;",
+		"10614": "ltlarr;",
+		"10616": "gtrarr;",
+		"10617": "subrarr;",
+		"10619": "suplarr;",
+		"10620": "lfisht;",
+		"10621": "rfisht;",
+		"10622": "ufisht;",
+		"10623": "dfisht;",
+		"10629": "lopar;",
+		"10630": "ropar;",
+		"10635": "lbrke;",
+		"10636": "rbrke;",
+		"10637": "lbrkslu;",
+		"10638": "rbrksld;",
+		"10639": "lbrksld;",
+		"10640": "rbrkslu;",
+		"10641": "langd;",
+		"10642": "rangd;",
+		"10643": "lparlt;",
+		"10644": "rpargt;",
+		"10645": "gtlPar;",
+		"10646": "ltrPar;",
+		"10650": "vzigzag;",
+		"10652": "vangrt;",
+		"10653": "angrtvbd;",
+		"10660": "ange;",
+		"10661": "range;",
+		"10662": "dwangle;",
+		"10663": "uwangle;",
+		"10664": "angmsdaa;",
+		"10665": "angmsdab;",
+		"10666": "angmsdac;",
+		"10667": "angmsdad;",
+		"10668": "angmsdae;",
+		"10669": "angmsdaf;",
+		"10670": "angmsdag;",
+		"10671": "angmsdah;",
+		"10672": "bemptyv;",
+		"10673": "demptyv;",
+		"10674": "cemptyv;",
+		"10675": "raemptyv;",
+		"10676": "laemptyv;",
+		"10677": "ohbar;",
+		"10678": "omid;",
+		"10679": "opar;",
+		"10681": "operp;",
+		"10683": "olcross;",
+		"10684": "odsold;",
+		"10686": "olcir;",
+		"10687": "ofcir;",
+		"10688": "olt;",
+		"10689": "ogt;",
+		"10690": "cirscir;",
+		"10691": "cirE;",
+		"10692": "solb;",
+		"10693": "bsolb;",
+		"10697": "boxbox;",
+		"10701": "trisb;",
+		"10702": "rtriltri;",
+		"10703": "LeftTriangleBar;",
+		"10704": "RightTriangleBar;",
+		"10716": "iinfin;",
+		"10717": "infintie;",
+		"10718": "nvinfin;",
+		"10723": "eparsl;",
+		"10724": "smeparsl;",
+		"10725": "eqvparsl;",
+		"10731": "lozf;",
+		"10740": "RuleDelayed;",
+		"10742": "dsol;",
+		"10752": "xodot;",
+		"10753": "xoplus;",
+		"10754": "xotime;",
+		"10756": "xuplus;",
+		"10758": "xsqcup;",
+		"10764": "qint;",
+		"10765": "fpartint;",
+		"10768": "cirfnint;",
+		"10769": "awint;",
+		"10770": "rppolint;",
+		"10771": "scpolint;",
+		"10772": "npolint;",
+		"10773": "pointint;",
+		"10774": "quatint;",
+		"10775": "intlarhk;",
+		"10786": "pluscir;",
+		"10787": "plusacir;",
+		"10788": "simplus;",
+		"10789": "plusdu;",
+		"10790": "plussim;",
+		"10791": "plustwo;",
+		"10793": "mcomma;",
+		"10794": "minusdu;",
+		"10797": "loplus;",
+		"10798": "roplus;",
+		"10799": "Cross;",
+		"10800": "timesd;",
+		"10801": "timesbar;",
+		"10803": "smashp;",
+		"10804": "lotimes;",
+		"10805": "rotimes;",
+		"10806": "otimesas;",
+		"10807": "Otimes;",
+		"10808": "odiv;",
+		"10809": "triplus;",
+		"10810": "triminus;",
+		"10811": "tritime;",
+		"10812": "iprod;",
+		"10815": "amalg;",
+		"10816": "capdot;",
+		"10818": "ncup;",
+		"10819": "ncap;",
+		"10820": "capand;",
+		"10821": "cupor;",
+		"10822": "cupcap;",
+		"10823": "capcup;",
+		"10824": "cupbrcap;",
+		"10825": "capbrcup;",
+		"10826": "cupcup;",
+		"10827": "capcap;",
+		"10828": "ccups;",
+		"10829": "ccaps;",
+		"10832": "ccupssm;",
+		"10835": "And;",
+		"10836": "Or;",
+		"10837": "andand;",
+		"10838": "oror;",
+		"10839": "orslope;",
+		"10840": "andslope;",
+		"10842": "andv;",
+		"10843": "orv;",
+		"10844": "andd;",
+		"10845": "ord;",
+		"10847": "wedbar;",
+		"10854": "sdote;",
+		"10858": "simdot;",
+		"10861": "congdot;",
+		"10862": "easter;",
+		"10863": "apacir;",
+		"10864": "apE;",
+		"10865": "eplus;",
+		"10866": "pluse;",
+		"10867": "Esim;",
+		"10868": "Colone;",
+		"10869": "Equal;",
+		"10871": "eDDot;",
+		"10872": "equivDD;",
+		"10873": "ltcir;",
+		"10874": "gtcir;",
+		"10875": "ltquest;",
+		"10876": "gtquest;",
+		"10877": "LessSlantEqual;",
+		"10878": "GreaterSlantEqual;",
+		"10879": "lesdot;",
+		"10880": "gesdot;",
+		"10881": "lesdoto;",
+		"10882": "gesdoto;",
+		"10883": "lesdotor;",
+		"10884": "gesdotol;",
+		"10885": "lessapprox;",
+		"10886": "gtrapprox;",
+		"10887": "lneq;",
+		"10888": "gneq;",
+		"10889": "lnapprox;",
+		"10890": "gnapprox;",
+		"10891": "lesseqqgtr;",
+		"10892": "gtreqqless;",
+		"10893": "lsime;",
+		"10894": "gsime;",
+		"10895": "lsimg;",
+		"10896": "gsiml;",
+		"10897": "lgE;",
+		"10898": "glE;",
+		"10899": "lesges;",
+		"10900": "gesles;",
+		"10901": "eqslantless;",
+		"10902": "eqslantgtr;",
+		"10903": "elsdot;",
+		"10904": "egsdot;",
+		"10905": "el;",
+		"10906": "eg;",
+		"10909": "siml;",
+		"10910": "simg;",
+		"10911": "simlE;",
+		"10912": "simgE;",
+		"10913": "LessLess;",
+		"10914": "GreaterGreater;",
+		"10916": "glj;",
+		"10917": "gla;",
+		"10918": "ltcc;",
+		"10919": "gtcc;",
+		"10920": "lescc;",
+		"10921": "gescc;",
+		"10922": "smt;",
+		"10923": "lat;",
+		"10924": "smte;",
+		"10925": "late;",
+		"10926": "bumpE;",
+		"10927": "preceq;",
+		"10928": "succeq;",
+		"10931": "prE;",
+		"10932": "scE;",
+		"10933": "prnE;",
+		"10934": "succneqq;",
+		"10935": "precapprox;",
+		"10936": "succapprox;",
+		"10937": "prnap;",
+		"10938": "succnapprox;",
+		"10939": "Pr;",
+		"10940": "Sc;",
+		"10941": "subdot;",
+		"10942": "supdot;",
+		"10943": "subplus;",
+		"10944": "supplus;",
+		"10945": "submult;",
+		"10946": "supmult;",
+		"10947": "subedot;",
+		"10948": "supedot;",
+		"10949": "subseteqq;",
+		"10950": "supseteqq;",
+		"10951": "subsim;",
+		"10952": "supsim;",
+		"10955": "subsetneqq;",
+		"10956": "supsetneqq;",
+		"10959": "csub;",
+		"10960": "csup;",
+		"10961": "csube;",
+		"10962": "csupe;",
+		"10963": "subsup;",
+		"10964": "supsub;",
+		"10965": "subsub;",
+		"10966": "supsup;",
+		"10967": "suphsub;",
+		"10968": "supdsub;",
+		"10969": "forkv;",
+		"10970": "topfork;",
+		"10971": "mlcp;",
+		"10980": "DoubleLeftTee;",
+		"10982": "Vdashl;",
+		"10983": "Barv;",
+		"10984": "vBar;",
+		"10985": "vBarv;",
+		"10987": "Vbar;",
+		"10988": "Not;",
+		"10989": "bNot;",
+		"10990": "rnmid;",
+		"10991": "cirmid;",
+		"10992": "midcir;",
+		"10993": "topcir;",
+		"10994": "nhpar;",
+		"10995": "parsim;",
+		"11005": "parsl;",
+		"64256": "fflig;",
+		"64257": "filig;",
+		"64258": "fllig;",
+		"64259": "ffilig;",
+		"64260": "ffllig;"
+	};
+
+/***/ },
+/* 288 */
+/*!*************************!*\
+  !*** ./~/ent/decode.js ***!
+  \*************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var punycode = __webpack_require__(/*! punycode */ 286);
+	var entities = __webpack_require__(/*! ./entities.json */ 289);
+	
+	module.exports = decode;
+	
+	function decode (str) {
+	    if (typeof str !== 'string') {
+	        throw new TypeError('Expected a String');
+	    }
+	
+	    return str.replace(/&(#?[^;\W]+;?)/g, function (_, match) {
+	        var m;
+	        if (m = /^#(\d+);?$/.exec(match)) {
+	            return punycode.ucs2.encode([ parseInt(m[1], 10) ]);
+	        } else if (m = /^#[Xx]([A-Fa-f0-9]+);?/.exec(match)) {
+	            return punycode.ucs2.encode([ parseInt(m[1], 16) ]);
+	        } else {
+	            // named entity
+	            var hasSemi = /;$/.test(match);
+	            var withoutSemi = hasSemi ? match.replace(/;$/, '') : match;
+	            var target = entities[withoutSemi] || (hasSemi && entities[match]);
+	
+	            if (typeof target === 'number') {
+	                return punycode.ucs2.encode([ target ]);
+	            } else if (typeof target === 'string') {
+	                return target;
+	            } else {
+	                return '&' + match;
+	            }
+	        }
+	    });
+	}
+
+
+/***/ },
+/* 289 */
+/*!*****************************!*\
+  !*** ./~/ent/entities.json ***!
+  \*****************************/
+/***/ function(module, exports) {
+
+	module.exports = {
+		"Aacute;": "Á",
+		"Aacute": "Á",
+		"aacute;": "á",
+		"aacute": "á",
+		"Abreve;": "Ă",
+		"abreve;": "ă",
+		"ac;": "∾",
+		"acd;": "∿",
+		"acE;": "∾̳",
+		"Acirc;": "Â",
+		"Acirc": "Â",
+		"acirc;": "â",
+		"acirc": "â",
+		"acute;": "´",
+		"acute": "´",
+		"Acy;": "А",
+		"acy;": "а",
+		"AElig;": "Æ",
+		"AElig": "Æ",
+		"aelig;": "æ",
+		"aelig": "æ",
+		"af;": "⁡",
+		"Afr;": "𝔄",
+		"afr;": "𝔞",
+		"Agrave;": "À",
+		"Agrave": "À",
+		"agrave;": "à",
+		"agrave": "à",
+		"alefsym;": "ℵ",
+		"aleph;": "ℵ",
+		"Alpha;": "Α",
+		"alpha;": "α",
+		"Amacr;": "Ā",
+		"amacr;": "ā",
+		"amalg;": "⨿",
+		"AMP;": "&",
+		"AMP": "&",
+		"amp;": "&",
+		"amp": "&",
+		"And;": "⩓",
+		"and;": "∧",
+		"andand;": "⩕",
+		"andd;": "⩜",
+		"andslope;": "⩘",
+		"andv;": "⩚",
+		"ang;": "∠",
+		"ange;": "⦤",
+		"angle;": "∠",
+		"angmsd;": "∡",
+		"angmsdaa;": "⦨",
+		"angmsdab;": "⦩",
+		"angmsdac;": "⦪",
+		"angmsdad;": "⦫",
+		"angmsdae;": "⦬",
+		"angmsdaf;": "⦭",
+		"angmsdag;": "⦮",
+		"angmsdah;": "⦯",
+		"angrt;": "∟",
+		"angrtvb;": "⊾",
+		"angrtvbd;": "⦝",
+		"angsph;": "∢",
+		"angst;": "Å",
+		"angzarr;": "⍼",
+		"Aogon;": "Ą",
+		"aogon;": "ą",
+		"Aopf;": "𝔸",
+		"aopf;": "𝕒",
+		"ap;": "≈",
+		"apacir;": "⩯",
+		"apE;": "⩰",
+		"ape;": "≊",
+		"apid;": "≋",
+		"apos;": "'",
+		"ApplyFunction;": "⁡",
+		"approx;": "≈",
+		"approxeq;": "≊",
+		"Aring;": "Å",
+		"Aring": "Å",
+		"aring;": "å",
+		"aring": "å",
+		"Ascr;": "𝒜",
+		"ascr;": "𝒶",
+		"Assign;": "≔",
+		"ast;": "*",
+		"asymp;": "≈",
+		"asympeq;": "≍",
+		"Atilde;": "Ã",
+		"Atilde": "Ã",
+		"atilde;": "ã",
+		"atilde": "ã",
+		"Auml;": "Ä",
+		"Auml": "Ä",
+		"auml;": "ä",
+		"auml": "ä",
+		"awconint;": "∳",
+		"awint;": "⨑",
+		"backcong;": "≌",
+		"backepsilon;": "϶",
+		"backprime;": "‵",
+		"backsim;": "∽",
+		"backsimeq;": "⋍",
+		"Backslash;": "∖",
+		"Barv;": "⫧",
+		"barvee;": "⊽",
+		"Barwed;": "⌆",
+		"barwed;": "⌅",
+		"barwedge;": "⌅",
+		"bbrk;": "⎵",
+		"bbrktbrk;": "⎶",
+		"bcong;": "≌",
+		"Bcy;": "Б",
+		"bcy;": "б",
+		"bdquo;": "„",
+		"becaus;": "∵",
+		"Because;": "∵",
+		"because;": "∵",
+		"bemptyv;": "⦰",
+		"bepsi;": "϶",
+		"bernou;": "ℬ",
+		"Bernoullis;": "ℬ",
+		"Beta;": "Β",
+		"beta;": "β",
+		"beth;": "ℶ",
+		"between;": "≬",
+		"Bfr;": "𝔅",
+		"bfr;": "𝔟",
+		"bigcap;": "⋂",
+		"bigcirc;": "◯",
+		"bigcup;": "⋃",
+		"bigodot;": "⨀",
+		"bigoplus;": "⨁",
+		"bigotimes;": "⨂",
+		"bigsqcup;": "⨆",
+		"bigstar;": "★",
+		"bigtriangledown;": "▽",
+		"bigtriangleup;": "△",
+		"biguplus;": "⨄",
+		"bigvee;": "⋁",
+		"bigwedge;": "⋀",
+		"bkarow;": "⤍",
+		"blacklozenge;": "⧫",
+		"blacksquare;": "▪",
+		"blacktriangle;": "▴",
+		"blacktriangledown;": "▾",
+		"blacktriangleleft;": "◂",
+		"blacktriangleright;": "▸",
+		"blank;": "␣",
+		"blk12;": "▒",
+		"blk14;": "░",
+		"blk34;": "▓",
+		"block;": "█",
+		"bne;": "=⃥",
+		"bnequiv;": "≡⃥",
+		"bNot;": "⫭",
+		"bnot;": "⌐",
+		"Bopf;": "𝔹",
+		"bopf;": "𝕓",
+		"bot;": "⊥",
+		"bottom;": "⊥",
+		"bowtie;": "⋈",
+		"boxbox;": "⧉",
+		"boxDL;": "╗",
+		"boxDl;": "╖",
+		"boxdL;": "╕",
+		"boxdl;": "┐",
+		"boxDR;": "╔",
+		"boxDr;": "╓",
+		"boxdR;": "╒",
+		"boxdr;": "┌",
+		"boxH;": "═",
+		"boxh;": "─",
+		"boxHD;": "╦",
+		"boxHd;": "╤",
+		"boxhD;": "╥",
+		"boxhd;": "┬",
+		"boxHU;": "╩",
+		"boxHu;": "╧",
+		"boxhU;": "╨",
+		"boxhu;": "┴",
+		"boxminus;": "⊟",
+		"boxplus;": "⊞",
+		"boxtimes;": "⊠",
+		"boxUL;": "╝",
+		"boxUl;": "╜",
+		"boxuL;": "╛",
+		"boxul;": "┘",
+		"boxUR;": "╚",
+		"boxUr;": "╙",
+		"boxuR;": "╘",
+		"boxur;": "└",
+		"boxV;": "║",
+		"boxv;": "│",
+		"boxVH;": "╬",
+		"boxVh;": "╫",
+		"boxvH;": "╪",
+		"boxvh;": "┼",
+		"boxVL;": "╣",
+		"boxVl;": "╢",
+		"boxvL;": "╡",
+		"boxvl;": "┤",
+		"boxVR;": "╠",
+		"boxVr;": "╟",
+		"boxvR;": "╞",
+		"boxvr;": "├",
+		"bprime;": "‵",
+		"Breve;": "˘",
+		"breve;": "˘",
+		"brvbar;": "¦",
+		"brvbar": "¦",
+		"Bscr;": "ℬ",
+		"bscr;": "𝒷",
+		"bsemi;": "⁏",
+		"bsim;": "∽",
+		"bsime;": "⋍",
+		"bsol;": "\\",
+		"bsolb;": "⧅",
+		"bsolhsub;": "⟈",
+		"bull;": "•",
+		"bullet;": "•",
+		"bump;": "≎",
+		"bumpE;": "⪮",
+		"bumpe;": "≏",
+		"Bumpeq;": "≎",
+		"bumpeq;": "≏",
+		"Cacute;": "Ć",
+		"cacute;": "ć",
+		"Cap;": "⋒",
+		"cap;": "∩",
+		"capand;": "⩄",
+		"capbrcup;": "⩉",
+		"capcap;": "⩋",
+		"capcup;": "⩇",
+		"capdot;": "⩀",
+		"CapitalDifferentialD;": "ⅅ",
+		"caps;": "∩︀",
+		"caret;": "⁁",
+		"caron;": "ˇ",
+		"Cayleys;": "ℭ",
+		"ccaps;": "⩍",
+		"Ccaron;": "Č",
+		"ccaron;": "č",
+		"Ccedil;": "Ç",
+		"Ccedil": "Ç",
+		"ccedil;": "ç",
+		"ccedil": "ç",
+		"Ccirc;": "Ĉ",
+		"ccirc;": "ĉ",
+		"Cconint;": "∰",
+		"ccups;": "⩌",
+		"ccupssm;": "⩐",
+		"Cdot;": "Ċ",
+		"cdot;": "ċ",
+		"cedil;": "¸",
+		"cedil": "¸",
+		"Cedilla;": "¸",
+		"cemptyv;": "⦲",
+		"cent;": "¢",
+		"cent": "¢",
+		"CenterDot;": "·",
+		"centerdot;": "·",
+		"Cfr;": "ℭ",
+		"cfr;": "𝔠",
+		"CHcy;": "Ч",
+		"chcy;": "ч",
+		"check;": "✓",
+		"checkmark;": "✓",
+		"Chi;": "Χ",
+		"chi;": "χ",
+		"cir;": "○",
+		"circ;": "ˆ",
+		"circeq;": "≗",
+		"circlearrowleft;": "↺",
+		"circlearrowright;": "↻",
+		"circledast;": "⊛",
+		"circledcirc;": "⊚",
+		"circleddash;": "⊝",
+		"CircleDot;": "⊙",
+		"circledR;": "®",
+		"circledS;": "Ⓢ",
+		"CircleMinus;": "⊖",
+		"CirclePlus;": "⊕",
+		"CircleTimes;": "⊗",
+		"cirE;": "⧃",
+		"cire;": "≗",
+		"cirfnint;": "⨐",
+		"cirmid;": "⫯",
+		"cirscir;": "⧂",
+		"ClockwiseContourIntegral;": "∲",
+		"CloseCurlyDoubleQuote;": "”",
+		"CloseCurlyQuote;": "’",
+		"clubs;": "♣",
+		"clubsuit;": "♣",
+		"Colon;": "∷",
+		"colon;": ":",
+		"Colone;": "⩴",
+		"colone;": "≔",
+		"coloneq;": "≔",
+		"comma;": ",",
+		"commat;": "@",
+		"comp;": "∁",
+		"compfn;": "∘",
+		"complement;": "∁",
+		"complexes;": "ℂ",
+		"cong;": "≅",
+		"congdot;": "⩭",
+		"Congruent;": "≡",
+		"Conint;": "∯",
+		"conint;": "∮",
+		"ContourIntegral;": "∮",
+		"Copf;": "ℂ",
+		"copf;": "𝕔",
+		"coprod;": "∐",
+		"Coproduct;": "∐",
+		"COPY;": "©",
+		"COPY": "©",
+		"copy;": "©",
+		"copy": "©",
+		"copysr;": "℗",
+		"CounterClockwiseContourIntegral;": "∳",
+		"crarr;": "↵",
+		"Cross;": "⨯",
+		"cross;": "✗",
+		"Cscr;": "𝒞",
+		"cscr;": "𝒸",
+		"csub;": "⫏",
+		"csube;": "⫑",
+		"csup;": "⫐",
+		"csupe;": "⫒",
+		"ctdot;": "⋯",
+		"cudarrl;": "⤸",
+		"cudarrr;": "⤵",
+		"cuepr;": "⋞",
+		"cuesc;": "⋟",
+		"cularr;": "↶",
+		"cularrp;": "⤽",
+		"Cup;": "⋓",
+		"cup;": "∪",
+		"cupbrcap;": "⩈",
+		"CupCap;": "≍",
+		"cupcap;": "⩆",
+		"cupcup;": "⩊",
+		"cupdot;": "⊍",
+		"cupor;": "⩅",
+		"cups;": "∪︀",
+		"curarr;": "↷",
+		"curarrm;": "⤼",
+		"curlyeqprec;": "⋞",
+		"curlyeqsucc;": "⋟",
+		"curlyvee;": "⋎",
+		"curlywedge;": "⋏",
+		"curren;": "¤",
+		"curren": "¤",
+		"curvearrowleft;": "↶",
+		"curvearrowright;": "↷",
+		"cuvee;": "⋎",
+		"cuwed;": "⋏",
+		"cwconint;": "∲",
+		"cwint;": "∱",
+		"cylcty;": "⌭",
+		"Dagger;": "‡",
+		"dagger;": "†",
+		"daleth;": "ℸ",
+		"Darr;": "↡",
+		"dArr;": "⇓",
+		"darr;": "↓",
+		"dash;": "‐",
+		"Dashv;": "⫤",
+		"dashv;": "⊣",
+		"dbkarow;": "⤏",
+		"dblac;": "˝",
+		"Dcaron;": "Ď",
+		"dcaron;": "ď",
+		"Dcy;": "Д",
+		"dcy;": "д",
+		"DD;": "ⅅ",
+		"dd;": "ⅆ",
+		"ddagger;": "‡",
+		"ddarr;": "⇊",
+		"DDotrahd;": "⤑",
+		"ddotseq;": "⩷",
+		"deg;": "°",
+		"deg": "°",
+		"Del;": "∇",
+		"Delta;": "Δ",
+		"delta;": "δ",
+		"demptyv;": "⦱",
+		"dfisht;": "⥿",
+		"Dfr;": "𝔇",
+		"dfr;": "𝔡",
+		"dHar;": "⥥",
+		"dharl;": "⇃",
+		"dharr;": "⇂",
+		"DiacriticalAcute;": "´",
+		"DiacriticalDot;": "˙",
+		"DiacriticalDoubleAcute;": "˝",
+		"DiacriticalGrave;": "`",
+		"DiacriticalTilde;": "˜",
+		"diam;": "⋄",
+		"Diamond;": "⋄",
+		"diamond;": "⋄",
+		"diamondsuit;": "♦",
+		"diams;": "♦",
+		"die;": "¨",
+		"DifferentialD;": "ⅆ",
+		"digamma;": "ϝ",
+		"disin;": "⋲",
+		"div;": "÷",
+		"divide;": "÷",
+		"divide": "÷",
+		"divideontimes;": "⋇",
+		"divonx;": "⋇",
+		"DJcy;": "Ђ",
+		"djcy;": "ђ",
+		"dlcorn;": "⌞",
+		"dlcrop;": "⌍",
+		"dollar;": "$",
+		"Dopf;": "𝔻",
+		"dopf;": "𝕕",
+		"Dot;": "¨",
+		"dot;": "˙",
+		"DotDot;": "⃜",
+		"doteq;": "≐",
+		"doteqdot;": "≑",
+		"DotEqual;": "≐",
+		"dotminus;": "∸",
+		"dotplus;": "∔",
+		"dotsquare;": "⊡",
+		"doublebarwedge;": "⌆",
+		"DoubleContourIntegral;": "∯",
+		"DoubleDot;": "¨",
+		"DoubleDownArrow;": "⇓",
+		"DoubleLeftArrow;": "⇐",
+		"DoubleLeftRightArrow;": "⇔",
+		"DoubleLeftTee;": "⫤",
+		"DoubleLongLeftArrow;": "⟸",
+		"DoubleLongLeftRightArrow;": "⟺",
+		"DoubleLongRightArrow;": "⟹",
+		"DoubleRightArrow;": "⇒",
+		"DoubleRightTee;": "⊨",
+		"DoubleUpArrow;": "⇑",
+		"DoubleUpDownArrow;": "⇕",
+		"DoubleVerticalBar;": "∥",
+		"DownArrow;": "↓",
+		"Downarrow;": "⇓",
+		"downarrow;": "↓",
+		"DownArrowBar;": "⤓",
+		"DownArrowUpArrow;": "⇵",
+		"DownBreve;": "̑",
+		"downdownarrows;": "⇊",
+		"downharpoonleft;": "⇃",
+		"downharpoonright;": "⇂",
+		"DownLeftRightVector;": "⥐",
+		"DownLeftTeeVector;": "⥞",
+		"DownLeftVector;": "↽",
+		"DownLeftVectorBar;": "⥖",
+		"DownRightTeeVector;": "⥟",
+		"DownRightVector;": "⇁",
+		"DownRightVectorBar;": "⥗",
+		"DownTee;": "⊤",
+		"DownTeeArrow;": "↧",
+		"drbkarow;": "⤐",
+		"drcorn;": "⌟",
+		"drcrop;": "⌌",
+		"Dscr;": "𝒟",
+		"dscr;": "𝒹",
+		"DScy;": "Ѕ",
+		"dscy;": "ѕ",
+		"dsol;": "⧶",
+		"Dstrok;": "Đ",
+		"dstrok;": "đ",
+		"dtdot;": "⋱",
+		"dtri;": "▿",
+		"dtrif;": "▾",
+		"duarr;": "⇵",
+		"duhar;": "⥯",
+		"dwangle;": "⦦",
+		"DZcy;": "Џ",
+		"dzcy;": "џ",
+		"dzigrarr;": "⟿",
+		"Eacute;": "É",
+		"Eacute": "É",
+		"eacute;": "é",
+		"eacute": "é",
+		"easter;": "⩮",
+		"Ecaron;": "Ě",
+		"ecaron;": "ě",
+		"ecir;": "≖",
+		"Ecirc;": "Ê",
+		"Ecirc": "Ê",
+		"ecirc;": "ê",
+		"ecirc": "ê",
+		"ecolon;": "≕",
+		"Ecy;": "Э",
+		"ecy;": "э",
+		"eDDot;": "⩷",
+		"Edot;": "Ė",
+		"eDot;": "≑",
+		"edot;": "ė",
+		"ee;": "ⅇ",
+		"efDot;": "≒",
+		"Efr;": "𝔈",
+		"efr;": "𝔢",
+		"eg;": "⪚",
+		"Egrave;": "È",
+		"Egrave": "È",
+		"egrave;": "è",
+		"egrave": "è",
+		"egs;": "⪖",
+		"egsdot;": "⪘",
+		"el;": "⪙",
+		"Element;": "∈",
+		"elinters;": "⏧",
+		"ell;": "ℓ",
+		"els;": "⪕",
+		"elsdot;": "⪗",
+		"Emacr;": "Ē",
+		"emacr;": "ē",
+		"empty;": "∅",
+		"emptyset;": "∅",
+		"EmptySmallSquare;": "◻",
+		"emptyv;": "∅",
+		"EmptyVerySmallSquare;": "▫",
+		"emsp;": " ",
+		"emsp13;": " ",
+		"emsp14;": " ",
+		"ENG;": "Ŋ",
+		"eng;": "ŋ",
+		"ensp;": " ",
+		"Eogon;": "Ę",
+		"eogon;": "ę",
+		"Eopf;": "𝔼",
+		"eopf;": "𝕖",
+		"epar;": "⋕",
+		"eparsl;": "⧣",
+		"eplus;": "⩱",
+		"epsi;": "ε",
+		"Epsilon;": "Ε",
+		"epsilon;": "ε",
+		"epsiv;": "ϵ",
+		"eqcirc;": "≖",
+		"eqcolon;": "≕",
+		"eqsim;": "≂",
+		"eqslantgtr;": "⪖",
+		"eqslantless;": "⪕",
+		"Equal;": "⩵",
+		"equals;": "=",
+		"EqualTilde;": "≂",
+		"equest;": "≟",
+		"Equilibrium;": "⇌",
+		"equiv;": "≡",
+		"equivDD;": "⩸",
+		"eqvparsl;": "⧥",
+		"erarr;": "⥱",
+		"erDot;": "≓",
+		"Escr;": "ℰ",
+		"escr;": "ℯ",
+		"esdot;": "≐",
+		"Esim;": "⩳",
+		"esim;": "≂",
+		"Eta;": "Η",
+		"eta;": "η",
+		"ETH;": "Ð",
+		"ETH": "Ð",
+		"eth;": "ð",
+		"eth": "ð",
+		"Euml;": "Ë",
+		"Euml": "Ë",
+		"euml;": "ë",
+		"euml": "ë",
+		"euro;": "€",
+		"excl;": "!",
+		"exist;": "∃",
+		"Exists;": "∃",
+		"expectation;": "ℰ",
+		"ExponentialE;": "ⅇ",
+		"exponentiale;": "ⅇ",
+		"fallingdotseq;": "≒",
+		"Fcy;": "Ф",
+		"fcy;": "ф",
+		"female;": "♀",
+		"ffilig;": "ﬃ",
+		"fflig;": "ﬀ",
+		"ffllig;": "ﬄ",
+		"Ffr;": "𝔉",
+		"ffr;": "𝔣",
+		"filig;": "ﬁ",
+		"FilledSmallSquare;": "◼",
+		"FilledVerySmallSquare;": "▪",
+		"fjlig;": "fj",
+		"flat;": "♭",
+		"fllig;": "ﬂ",
+		"fltns;": "▱",
+		"fnof;": "ƒ",
+		"Fopf;": "𝔽",
+		"fopf;": "𝕗",
+		"ForAll;": "∀",
+		"forall;": "∀",
+		"fork;": "⋔",
+		"forkv;": "⫙",
+		"Fouriertrf;": "ℱ",
+		"fpartint;": "⨍",
+		"frac12;": "½",
+		"frac12": "½",
+		"frac13;": "⅓",
+		"frac14;": "¼",
+		"frac14": "¼",
+		"frac15;": "⅕",
+		"frac16;": "⅙",
+		"frac18;": "⅛",
+		"frac23;": "⅔",
+		"frac25;": "⅖",
+		"frac34;": "¾",
+		"frac34": "¾",
+		"frac35;": "⅗",
+		"frac38;": "⅜",
+		"frac45;": "⅘",
+		"frac56;": "⅚",
+		"frac58;": "⅝",
+		"frac78;": "⅞",
+		"frasl;": "⁄",
+		"frown;": "⌢",
+		"Fscr;": "ℱ",
+		"fscr;": "𝒻",
+		"gacute;": "ǵ",
+		"Gamma;": "Γ",
+		"gamma;": "γ",
+		"Gammad;": "Ϝ",
+		"gammad;": "ϝ",
+		"gap;": "⪆",
+		"Gbreve;": "Ğ",
+		"gbreve;": "ğ",
+		"Gcedil;": "Ģ",
+		"Gcirc;": "Ĝ",
+		"gcirc;": "ĝ",
+		"Gcy;": "Г",
+		"gcy;": "г",
+		"Gdot;": "Ġ",
+		"gdot;": "ġ",
+		"gE;": "≧",
+		"ge;": "≥",
+		"gEl;": "⪌",
+		"gel;": "⋛",
+		"geq;": "≥",
+		"geqq;": "≧",
+		"geqslant;": "⩾",
+		"ges;": "⩾",
+		"gescc;": "⪩",
+		"gesdot;": "⪀",
+		"gesdoto;": "⪂",
+		"gesdotol;": "⪄",
+		"gesl;": "⋛︀",
+		"gesles;": "⪔",
+		"Gfr;": "𝔊",
+		"gfr;": "𝔤",
+		"Gg;": "⋙",
+		"gg;": "≫",
+		"ggg;": "⋙",
+		"gimel;": "ℷ",
+		"GJcy;": "Ѓ",
+		"gjcy;": "ѓ",
+		"gl;": "≷",
+		"gla;": "⪥",
+		"glE;": "⪒",
+		"glj;": "⪤",
+		"gnap;": "⪊",
+		"gnapprox;": "⪊",
+		"gnE;": "≩",
+		"gne;": "⪈",
+		"gneq;": "⪈",
+		"gneqq;": "≩",
+		"gnsim;": "⋧",
+		"Gopf;": "𝔾",
+		"gopf;": "𝕘",
+		"grave;": "`",
+		"GreaterEqual;": "≥",
+		"GreaterEqualLess;": "⋛",
+		"GreaterFullEqual;": "≧",
+		"GreaterGreater;": "⪢",
+		"GreaterLess;": "≷",
+		"GreaterSlantEqual;": "⩾",
+		"GreaterTilde;": "≳",
+		"Gscr;": "𝒢",
+		"gscr;": "ℊ",
+		"gsim;": "≳",
+		"gsime;": "⪎",
+		"gsiml;": "⪐",
+		"GT;": ">",
+		"GT": ">",
+		"Gt;": "≫",
+		"gt;": ">",
+		"gt": ">",
+		"gtcc;": "⪧",
+		"gtcir;": "⩺",
+		"gtdot;": "⋗",
+		"gtlPar;": "⦕",
+		"gtquest;": "⩼",
+		"gtrapprox;": "⪆",
+		"gtrarr;": "⥸",
+		"gtrdot;": "⋗",
+		"gtreqless;": "⋛",
+		"gtreqqless;": "⪌",
+		"gtrless;": "≷",
+		"gtrsim;": "≳",
+		"gvertneqq;": "≩︀",
+		"gvnE;": "≩︀",
+		"Hacek;": "ˇ",
+		"hairsp;": " ",
+		"half;": "½",
+		"hamilt;": "ℋ",
+		"HARDcy;": "Ъ",
+		"hardcy;": "ъ",
+		"hArr;": "⇔",
+		"harr;": "↔",
+		"harrcir;": "⥈",
+		"harrw;": "↭",
+		"Hat;": "^",
+		"hbar;": "ℏ",
+		"Hcirc;": "Ĥ",
+		"hcirc;": "ĥ",
+		"hearts;": "♥",
+		"heartsuit;": "♥",
+		"hellip;": "…",
+		"hercon;": "⊹",
+		"Hfr;": "ℌ",
+		"hfr;": "𝔥",
+		"HilbertSpace;": "ℋ",
+		"hksearow;": "⤥",
+		"hkswarow;": "⤦",
+		"hoarr;": "⇿",
+		"homtht;": "∻",
+		"hookleftarrow;": "↩",
+		"hookrightarrow;": "↪",
+		"Hopf;": "ℍ",
+		"hopf;": "𝕙",
+		"horbar;": "―",
+		"HorizontalLine;": "─",
+		"Hscr;": "ℋ",
+		"hscr;": "𝒽",
+		"hslash;": "ℏ",
+		"Hstrok;": "Ħ",
+		"hstrok;": "ħ",
+		"HumpDownHump;": "≎",
+		"HumpEqual;": "≏",
+		"hybull;": "⁃",
+		"hyphen;": "‐",
+		"Iacute;": "Í",
+		"Iacute": "Í",
+		"iacute;": "í",
+		"iacute": "í",
+		"ic;": "⁣",
+		"Icirc;": "Î",
+		"Icirc": "Î",
+		"icirc;": "î",
+		"icirc": "î",
+		"Icy;": "И",
+		"icy;": "и",
+		"Idot;": "İ",
+		"IEcy;": "Е",
+		"iecy;": "е",
+		"iexcl;": "¡",
+		"iexcl": "¡",
+		"iff;": "⇔",
+		"Ifr;": "ℑ",
+		"ifr;": "𝔦",
+		"Igrave;": "Ì",
+		"Igrave": "Ì",
+		"igrave;": "ì",
+		"igrave": "ì",
+		"ii;": "ⅈ",
+		"iiiint;": "⨌",
+		"iiint;": "∭",
+		"iinfin;": "⧜",
+		"iiota;": "℩",
+		"IJlig;": "Ĳ",
+		"ijlig;": "ĳ",
+		"Im;": "ℑ",
+		"Imacr;": "Ī",
+		"imacr;": "ī",
+		"image;": "ℑ",
+		"ImaginaryI;": "ⅈ",
+		"imagline;": "ℐ",
+		"imagpart;": "ℑ",
+		"imath;": "ı",
+		"imof;": "⊷",
+		"imped;": "Ƶ",
+		"Implies;": "⇒",
+		"in;": "∈",
+		"incare;": "℅",
+		"infin;": "∞",
+		"infintie;": "⧝",
+		"inodot;": "ı",
+		"Int;": "∬",
+		"int;": "∫",
+		"intcal;": "⊺",
+		"integers;": "ℤ",
+		"Integral;": "∫",
+		"intercal;": "⊺",
+		"Intersection;": "⋂",
+		"intlarhk;": "⨗",
+		"intprod;": "⨼",
+		"InvisibleComma;": "⁣",
+		"InvisibleTimes;": "⁢",
+		"IOcy;": "Ё",
+		"iocy;": "ё",
+		"Iogon;": "Į",
+		"iogon;": "į",
+		"Iopf;": "𝕀",
+		"iopf;": "𝕚",
+		"Iota;": "Ι",
+		"iota;": "ι",
+		"iprod;": "⨼",
+		"iquest;": "¿",
+		"iquest": "¿",
+		"Iscr;": "ℐ",
+		"iscr;": "𝒾",
+		"isin;": "∈",
+		"isindot;": "⋵",
+		"isinE;": "⋹",
+		"isins;": "⋴",
+		"isinsv;": "⋳",
+		"isinv;": "∈",
+		"it;": "⁢",
+		"Itilde;": "Ĩ",
+		"itilde;": "ĩ",
+		"Iukcy;": "І",
+		"iukcy;": "і",
+		"Iuml;": "Ï",
+		"Iuml": "Ï",
+		"iuml;": "ï",
+		"iuml": "ï",
+		"Jcirc;": "Ĵ",
+		"jcirc;": "ĵ",
+		"Jcy;": "Й",
+		"jcy;": "й",
+		"Jfr;": "𝔍",
+		"jfr;": "𝔧",
+		"jmath;": "ȷ",
+		"Jopf;": "𝕁",
+		"jopf;": "𝕛",
+		"Jscr;": "𝒥",
+		"jscr;": "𝒿",
+		"Jsercy;": "Ј",
+		"jsercy;": "ј",
+		"Jukcy;": "Є",
+		"jukcy;": "є",
+		"Kappa;": "Κ",
+		"kappa;": "κ",
+		"kappav;": "ϰ",
+		"Kcedil;": "Ķ",
+		"kcedil;": "ķ",
+		"Kcy;": "К",
+		"kcy;": "к",
+		"Kfr;": "𝔎",
+		"kfr;": "𝔨",
+		"kgreen;": "ĸ",
+		"KHcy;": "Х",
+		"khcy;": "х",
+		"KJcy;": "Ќ",
+		"kjcy;": "ќ",
+		"Kopf;": "𝕂",
+		"kopf;": "𝕜",
+		"Kscr;": "𝒦",
+		"kscr;": "𝓀",
+		"lAarr;": "⇚",
+		"Lacute;": "Ĺ",
+		"lacute;": "ĺ",
+		"laemptyv;": "⦴",
+		"lagran;": "ℒ",
+		"Lambda;": "Λ",
+		"lambda;": "λ",
+		"Lang;": "⟪",
+		"lang;": "⟨",
+		"langd;": "⦑",
+		"langle;": "⟨",
+		"lap;": "⪅",
+		"Laplacetrf;": "ℒ",
+		"laquo;": "«",
+		"laquo": "«",
+		"Larr;": "↞",
+		"lArr;": "⇐",
+		"larr;": "←",
+		"larrb;": "⇤",
+		"larrbfs;": "⤟",
+		"larrfs;": "⤝",
+		"larrhk;": "↩",
+		"larrlp;": "↫",
+		"larrpl;": "⤹",
+		"larrsim;": "⥳",
+		"larrtl;": "↢",
+		"lat;": "⪫",
+		"lAtail;": "⤛",
+		"latail;": "⤙",
+		"late;": "⪭",
+		"lates;": "⪭︀",
+		"lBarr;": "⤎",
+		"lbarr;": "⤌",
+		"lbbrk;": "❲",
+		"lbrace;": "{",
+		"lbrack;": "[",
+		"lbrke;": "⦋",
+		"lbrksld;": "⦏",
+		"lbrkslu;": "⦍",
+		"Lcaron;": "Ľ",
+		"lcaron;": "ľ",
+		"Lcedil;": "Ļ",
+		"lcedil;": "ļ",
+		"lceil;": "⌈",
+		"lcub;": "{",
+		"Lcy;": "Л",
+		"lcy;": "л",
+		"ldca;": "⤶",
+		"ldquo;": "“",
+		"ldquor;": "„",
+		"ldrdhar;": "⥧",
+		"ldrushar;": "⥋",
+		"ldsh;": "↲",
+		"lE;": "≦",
+		"le;": "≤",
+		"LeftAngleBracket;": "⟨",
+		"LeftArrow;": "←",
+		"Leftarrow;": "⇐",
+		"leftarrow;": "←",
+		"LeftArrowBar;": "⇤",
+		"LeftArrowRightArrow;": "⇆",
+		"leftarrowtail;": "↢",
+		"LeftCeiling;": "⌈",
+		"LeftDoubleBracket;": "⟦",
+		"LeftDownTeeVector;": "⥡",
+		"LeftDownVector;": "⇃",
+		"LeftDownVectorBar;": "⥙",
+		"LeftFloor;": "⌊",
+		"leftharpoondown;": "↽",
+		"leftharpoonup;": "↼",
+		"leftleftarrows;": "⇇",
+		"LeftRightArrow;": "↔",
+		"Leftrightarrow;": "⇔",
+		"leftrightarrow;": "↔",
+		"leftrightarrows;": "⇆",
+		"leftrightharpoons;": "⇋",
+		"leftrightsquigarrow;": "↭",
+		"LeftRightVector;": "⥎",
+		"LeftTee;": "⊣",
+		"LeftTeeArrow;": "↤",
+		"LeftTeeVector;": "⥚",
+		"leftthreetimes;": "⋋",
+		"LeftTriangle;": "⊲",
+		"LeftTriangleBar;": "⧏",
+		"LeftTriangleEqual;": "⊴",
+		"LeftUpDownVector;": "⥑",
+		"LeftUpTeeVector;": "⥠",
+		"LeftUpVector;": "↿",
+		"LeftUpVectorBar;": "⥘",
+		"LeftVector;": "↼",
+		"LeftVectorBar;": "⥒",
+		"lEg;": "⪋",
+		"leg;": "⋚",
+		"leq;": "≤",
+		"leqq;": "≦",
+		"leqslant;": "⩽",
+		"les;": "⩽",
+		"lescc;": "⪨",
+		"lesdot;": "⩿",
+		"lesdoto;": "⪁",
+		"lesdotor;": "⪃",
+		"lesg;": "⋚︀",
+		"lesges;": "⪓",
+		"lessapprox;": "⪅",
+		"lessdot;": "⋖",
+		"lesseqgtr;": "⋚",
+		"lesseqqgtr;": "⪋",
+		"LessEqualGreater;": "⋚",
+		"LessFullEqual;": "≦",
+		"LessGreater;": "≶",
+		"lessgtr;": "≶",
+		"LessLess;": "⪡",
+		"lesssim;": "≲",
+		"LessSlantEqual;": "⩽",
+		"LessTilde;": "≲",
+		"lfisht;": "⥼",
+		"lfloor;": "⌊",
+		"Lfr;": "𝔏",
+		"lfr;": "𝔩",
+		"lg;": "≶",
+		"lgE;": "⪑",
+		"lHar;": "⥢",
+		"lhard;": "↽",
+		"lharu;": "↼",
+		"lharul;": "⥪",
+		"lhblk;": "▄",
+		"LJcy;": "Љ",
+		"ljcy;": "љ",
+		"Ll;": "⋘",
+		"ll;": "≪",
+		"llarr;": "⇇",
+		"llcorner;": "⌞",
+		"Lleftarrow;": "⇚",
+		"llhard;": "⥫",
+		"lltri;": "◺",
+		"Lmidot;": "Ŀ",
+		"lmidot;": "ŀ",
+		"lmoust;": "⎰",
+		"lmoustache;": "⎰",
+		"lnap;": "⪉",
+		"lnapprox;": "⪉",
+		"lnE;": "≨",
+		"lne;": "⪇",
+		"lneq;": "⪇",
+		"lneqq;": "≨",
+		"lnsim;": "⋦",
+		"loang;": "⟬",
+		"loarr;": "⇽",
+		"lobrk;": "⟦",
+		"LongLeftArrow;": "⟵",
+		"Longleftarrow;": "⟸",
+		"longleftarrow;": "⟵",
+		"LongLeftRightArrow;": "⟷",
+		"Longleftrightarrow;": "⟺",
+		"longleftrightarrow;": "⟷",
+		"longmapsto;": "⟼",
+		"LongRightArrow;": "⟶",
+		"Longrightarrow;": "⟹",
+		"longrightarrow;": "⟶",
+		"looparrowleft;": "↫",
+		"looparrowright;": "↬",
+		"lopar;": "⦅",
+		"Lopf;": "𝕃",
+		"lopf;": "𝕝",
+		"loplus;": "⨭",
+		"lotimes;": "⨴",
+		"lowast;": "∗",
+		"lowbar;": "_",
+		"LowerLeftArrow;": "↙",
+		"LowerRightArrow;": "↘",
+		"loz;": "◊",
+		"lozenge;": "◊",
+		"lozf;": "⧫",
+		"lpar;": "(",
+		"lparlt;": "⦓",
+		"lrarr;": "⇆",
+		"lrcorner;": "⌟",
+		"lrhar;": "⇋",
+		"lrhard;": "⥭",
+		"lrm;": "‎",
+		"lrtri;": "⊿",
+		"lsaquo;": "‹",
+		"Lscr;": "ℒ",
+		"lscr;": "𝓁",
+		"Lsh;": "↰",
+		"lsh;": "↰",
+		"lsim;": "≲",
+		"lsime;": "⪍",
+		"lsimg;": "⪏",
+		"lsqb;": "[",
+		"lsquo;": "‘",
+		"lsquor;": "‚",
+		"Lstrok;": "Ł",
+		"lstrok;": "ł",
+		"LT;": "<",
+		"LT": "<",
+		"Lt;": "≪",
+		"lt;": "<",
+		"lt": "<",
+		"ltcc;": "⪦",
+		"ltcir;": "⩹",
+		"ltdot;": "⋖",
+		"lthree;": "⋋",
+		"ltimes;": "⋉",
+		"ltlarr;": "⥶",
+		"ltquest;": "⩻",
+		"ltri;": "◃",
+		"ltrie;": "⊴",
+		"ltrif;": "◂",
+		"ltrPar;": "⦖",
+		"lurdshar;": "⥊",
+		"luruhar;": "⥦",
+		"lvertneqq;": "≨︀",
+		"lvnE;": "≨︀",
+		"macr;": "¯",
+		"macr": "¯",
+		"male;": "♂",
+		"malt;": "✠",
+		"maltese;": "✠",
+		"Map;": "⤅",
+		"map;": "↦",
+		"mapsto;": "↦",
+		"mapstodown;": "↧",
+		"mapstoleft;": "↤",
+		"mapstoup;": "↥",
+		"marker;": "▮",
+		"mcomma;": "⨩",
+		"Mcy;": "М",
+		"mcy;": "м",
+		"mdash;": "—",
+		"mDDot;": "∺",
+		"measuredangle;": "∡",
+		"MediumSpace;": " ",
+		"Mellintrf;": "ℳ",
+		"Mfr;": "𝔐",
+		"mfr;": "𝔪",
+		"mho;": "℧",
+		"micro;": "µ",
+		"micro": "µ",
+		"mid;": "∣",
+		"midast;": "*",
+		"midcir;": "⫰",
+		"middot;": "·",
+		"middot": "·",
+		"minus;": "−",
+		"minusb;": "⊟",
+		"minusd;": "∸",
+		"minusdu;": "⨪",
+		"MinusPlus;": "∓",
+		"mlcp;": "⫛",
+		"mldr;": "…",
+		"mnplus;": "∓",
+		"models;": "⊧",
+		"Mopf;": "𝕄",
+		"mopf;": "𝕞",
+		"mp;": "∓",
+		"Mscr;": "ℳ",
+		"mscr;": "𝓂",
+		"mstpos;": "∾",
+		"Mu;": "Μ",
+		"mu;": "μ",
+		"multimap;": "⊸",
+		"mumap;": "⊸",
+		"nabla;": "∇",
+		"Nacute;": "Ń",
+		"nacute;": "ń",
+		"nang;": "∠⃒",
+		"nap;": "≉",
+		"napE;": "⩰̸",
+		"napid;": "≋̸",
+		"napos;": "ŉ",
+		"napprox;": "≉",
+		"natur;": "♮",
+		"natural;": "♮",
+		"naturals;": "ℕ",
+		"nbsp;": " ",
+		"nbsp": " ",
+		"nbump;": "≎̸",
+		"nbumpe;": "≏̸",
+		"ncap;": "⩃",
+		"Ncaron;": "Ň",
+		"ncaron;": "ň",
+		"Ncedil;": "Ņ",
+		"ncedil;": "ņ",
+		"ncong;": "≇",
+		"ncongdot;": "⩭̸",
+		"ncup;": "⩂",
+		"Ncy;": "Н",
+		"ncy;": "н",
+		"ndash;": "–",
+		"ne;": "≠",
+		"nearhk;": "⤤",
+		"neArr;": "⇗",
+		"nearr;": "↗",
+		"nearrow;": "↗",
+		"nedot;": "≐̸",
+		"NegativeMediumSpace;": "​",
+		"NegativeThickSpace;": "​",
+		"NegativeThinSpace;": "​",
+		"NegativeVeryThinSpace;": "​",
+		"nequiv;": "≢",
+		"nesear;": "⤨",
+		"nesim;": "≂̸",
+		"NestedGreaterGreater;": "≫",
+		"NestedLessLess;": "≪",
+		"NewLine;": "\n",
+		"nexist;": "∄",
+		"nexists;": "∄",
+		"Nfr;": "𝔑",
+		"nfr;": "𝔫",
+		"ngE;": "≧̸",
+		"nge;": "≱",
+		"ngeq;": "≱",
+		"ngeqq;": "≧̸",
+		"ngeqslant;": "⩾̸",
+		"nges;": "⩾̸",
+		"nGg;": "⋙̸",
+		"ngsim;": "≵",
+		"nGt;": "≫⃒",
+		"ngt;": "≯",
+		"ngtr;": "≯",
+		"nGtv;": "≫̸",
+		"nhArr;": "⇎",
+		"nharr;": "↮",
+		"nhpar;": "⫲",
+		"ni;": "∋",
+		"nis;": "⋼",
+		"nisd;": "⋺",
+		"niv;": "∋",
+		"NJcy;": "Њ",
+		"njcy;": "њ",
+		"nlArr;": "⇍",
+		"nlarr;": "↚",
+		"nldr;": "‥",
+		"nlE;": "≦̸",
+		"nle;": "≰",
+		"nLeftarrow;": "⇍",
+		"nleftarrow;": "↚",
+		"nLeftrightarrow;": "⇎",
+		"nleftrightarrow;": "↮",
+		"nleq;": "≰",
+		"nleqq;": "≦̸",
+		"nleqslant;": "⩽̸",
+		"nles;": "⩽̸",
+		"nless;": "≮",
+		"nLl;": "⋘̸",
+		"nlsim;": "≴",
+		"nLt;": "≪⃒",
+		"nlt;": "≮",
+		"nltri;": "⋪",
+		"nltrie;": "⋬",
+		"nLtv;": "≪̸",
+		"nmid;": "∤",
+		"NoBreak;": "⁠",
+		"NonBreakingSpace;": " ",
+		"Nopf;": "ℕ",
+		"nopf;": "𝕟",
+		"Not;": "⫬",
+		"not;": "¬",
+		"not": "¬",
+		"NotCongruent;": "≢",
+		"NotCupCap;": "≭",
+		"NotDoubleVerticalBar;": "∦",
+		"NotElement;": "∉",
+		"NotEqual;": "≠",
+		"NotEqualTilde;": "≂̸",
+		"NotExists;": "∄",
+		"NotGreater;": "≯",
+		"NotGreaterEqual;": "≱",
+		"NotGreaterFullEqual;": "≧̸",
+		"NotGreaterGreater;": "≫̸",
+		"NotGreaterLess;": "≹",
+		"NotGreaterSlantEqual;": "⩾̸",
+		"NotGreaterTilde;": "≵",
+		"NotHumpDownHump;": "≎̸",
+		"NotHumpEqual;": "≏̸",
+		"notin;": "∉",
+		"notindot;": "⋵̸",
+		"notinE;": "⋹̸",
+		"notinva;": "∉",
+		"notinvb;": "⋷",
+		"notinvc;": "⋶",
+		"NotLeftTriangle;": "⋪",
+		"NotLeftTriangleBar;": "⧏̸",
+		"NotLeftTriangleEqual;": "⋬",
+		"NotLess;": "≮",
+		"NotLessEqual;": "≰",
+		"NotLessGreater;": "≸",
+		"NotLessLess;": "≪̸",
+		"NotLessSlantEqual;": "⩽̸",
+		"NotLessTilde;": "≴",
+		"NotNestedGreaterGreater;": "⪢̸",
+		"NotNestedLessLess;": "⪡̸",
+		"notni;": "∌",
+		"notniva;": "∌",
+		"notnivb;": "⋾",
+		"notnivc;": "⋽",
+		"NotPrecedes;": "⊀",
+		"NotPrecedesEqual;": "⪯̸",
+		"NotPrecedesSlantEqual;": "⋠",
+		"NotReverseElement;": "∌",
+		"NotRightTriangle;": "⋫",
+		"NotRightTriangleBar;": "⧐̸",
+		"NotRightTriangleEqual;": "⋭",
+		"NotSquareSubset;": "⊏̸",
+		"NotSquareSubsetEqual;": "⋢",
+		"NotSquareSuperset;": "⊐̸",
+		"NotSquareSupersetEqual;": "⋣",
+		"NotSubset;": "⊂⃒",
+		"NotSubsetEqual;": "⊈",
+		"NotSucceeds;": "⊁",
+		"NotSucceedsEqual;": "⪰̸",
+		"NotSucceedsSlantEqual;": "⋡",
+		"NotSucceedsTilde;": "≿̸",
+		"NotSuperset;": "⊃⃒",
+		"NotSupersetEqual;": "⊉",
+		"NotTilde;": "≁",
+		"NotTildeEqual;": "≄",
+		"NotTildeFullEqual;": "≇",
+		"NotTildeTilde;": "≉",
+		"NotVerticalBar;": "∤",
+		"npar;": "∦",
+		"nparallel;": "∦",
+		"nparsl;": "⫽⃥",
+		"npart;": "∂̸",
+		"npolint;": "⨔",
+		"npr;": "⊀",
+		"nprcue;": "⋠",
+		"npre;": "⪯̸",
+		"nprec;": "⊀",
+		"npreceq;": "⪯̸",
+		"nrArr;": "⇏",
+		"nrarr;": "↛",
+		"nrarrc;": "⤳̸",
+		"nrarrw;": "↝̸",
+		"nRightarrow;": "⇏",
+		"nrightarrow;": "↛",
+		"nrtri;": "⋫",
+		"nrtrie;": "⋭",
+		"nsc;": "⊁",
+		"nsccue;": "⋡",
+		"nsce;": "⪰̸",
+		"Nscr;": "𝒩",
+		"nscr;": "𝓃",
+		"nshortmid;": "∤",
+		"nshortparallel;": "∦",
+		"nsim;": "≁",
+		"nsime;": "≄",
+		"nsimeq;": "≄",
+		"nsmid;": "∤",
+		"nspar;": "∦",
+		"nsqsube;": "⋢",
+		"nsqsupe;": "⋣",
+		"nsub;": "⊄",
+		"nsubE;": "⫅̸",
+		"nsube;": "⊈",
+		"nsubset;": "⊂⃒",
+		"nsubseteq;": "⊈",
+		"nsubseteqq;": "⫅̸",
+		"nsucc;": "⊁",
+		"nsucceq;": "⪰̸",
+		"nsup;": "⊅",
+		"nsupE;": "⫆̸",
+		"nsupe;": "⊉",
+		"nsupset;": "⊃⃒",
+		"nsupseteq;": "⊉",
+		"nsupseteqq;": "⫆̸",
+		"ntgl;": "≹",
+		"Ntilde;": "Ñ",
+		"Ntilde": "Ñ",
+		"ntilde;": "ñ",
+		"ntilde": "ñ",
+		"ntlg;": "≸",
+		"ntriangleleft;": "⋪",
+		"ntrianglelefteq;": "⋬",
+		"ntriangleright;": "⋫",
+		"ntrianglerighteq;": "⋭",
+		"Nu;": "Ν",
+		"nu;": "ν",
+		"num;": "#",
+		"numero;": "№",
+		"numsp;": " ",
+		"nvap;": "≍⃒",
+		"nVDash;": "⊯",
+		"nVdash;": "⊮",
+		"nvDash;": "⊭",
+		"nvdash;": "⊬",
+		"nvge;": "≥⃒",
+		"nvgt;": ">⃒",
+		"nvHarr;": "⤄",
+		"nvinfin;": "⧞",
+		"nvlArr;": "⤂",
+		"nvle;": "≤⃒",
+		"nvlt;": "<⃒",
+		"nvltrie;": "⊴⃒",
+		"nvrArr;": "⤃",
+		"nvrtrie;": "⊵⃒",
+		"nvsim;": "∼⃒",
+		"nwarhk;": "⤣",
+		"nwArr;": "⇖",
+		"nwarr;": "↖",
+		"nwarrow;": "↖",
+		"nwnear;": "⤧",
+		"Oacute;": "Ó",
+		"Oacute": "Ó",
+		"oacute;": "ó",
+		"oacute": "ó",
+		"oast;": "⊛",
+		"ocir;": "⊚",
+		"Ocirc;": "Ô",
+		"Ocirc": "Ô",
+		"ocirc;": "ô",
+		"ocirc": "ô",
+		"Ocy;": "О",
+		"ocy;": "о",
+		"odash;": "⊝",
+		"Odblac;": "Ő",
+		"odblac;": "ő",
+		"odiv;": "⨸",
+		"odot;": "⊙",
+		"odsold;": "⦼",
+		"OElig;": "Œ",
+		"oelig;": "œ",
+		"ofcir;": "⦿",
+		"Ofr;": "𝔒",
+		"ofr;": "𝔬",
+		"ogon;": "˛",
+		"Ograve;": "Ò",
+		"Ograve": "Ò",
+		"ograve;": "ò",
+		"ograve": "ò",
+		"ogt;": "⧁",
+		"ohbar;": "⦵",
+		"ohm;": "Ω",
+		"oint;": "∮",
+		"olarr;": "↺",
+		"olcir;": "⦾",
+		"olcross;": "⦻",
+		"oline;": "‾",
+		"olt;": "⧀",
+		"Omacr;": "Ō",
+		"omacr;": "ō",
+		"Omega;": "Ω",
+		"omega;": "ω",
+		"Omicron;": "Ο",
+		"omicron;": "ο",
+		"omid;": "⦶",
+		"ominus;": "⊖",
+		"Oopf;": "𝕆",
+		"oopf;": "𝕠",
+		"opar;": "⦷",
+		"OpenCurlyDoubleQuote;": "“",
+		"OpenCurlyQuote;": "‘",
+		"operp;": "⦹",
+		"oplus;": "⊕",
+		"Or;": "⩔",
+		"or;": "∨",
+		"orarr;": "↻",
+		"ord;": "⩝",
+		"order;": "ℴ",
+		"orderof;": "ℴ",
+		"ordf;": "ª",
+		"ordf": "ª",
+		"ordm;": "º",
+		"ordm": "º",
+		"origof;": "⊶",
+		"oror;": "⩖",
+		"orslope;": "⩗",
+		"orv;": "⩛",
+		"oS;": "Ⓢ",
+		"Oscr;": "𝒪",
+		"oscr;": "ℴ",
+		"Oslash;": "Ø",
+		"Oslash": "Ø",
+		"oslash;": "ø",
+		"oslash": "ø",
+		"osol;": "⊘",
+		"Otilde;": "Õ",
+		"Otilde": "Õ",
+		"otilde;": "õ",
+		"otilde": "õ",
+		"Otimes;": "⨷",
+		"otimes;": "⊗",
+		"otimesas;": "⨶",
+		"Ouml;": "Ö",
+		"Ouml": "Ö",
+		"ouml;": "ö",
+		"ouml": "ö",
+		"ovbar;": "⌽",
+		"OverBar;": "‾",
+		"OverBrace;": "⏞",
+		"OverBracket;": "⎴",
+		"OverParenthesis;": "⏜",
+		"par;": "∥",
+		"para;": "¶",
+		"para": "¶",
+		"parallel;": "∥",
+		"parsim;": "⫳",
+		"parsl;": "⫽",
+		"part;": "∂",
+		"PartialD;": "∂",
+		"Pcy;": "П",
+		"pcy;": "п",
+		"percnt;": "%",
+		"period;": ".",
+		"permil;": "‰",
+		"perp;": "⊥",
+		"pertenk;": "‱",
+		"Pfr;": "𝔓",
+		"pfr;": "𝔭",
+		"Phi;": "Φ",
+		"phi;": "φ",
+		"phiv;": "ϕ",
+		"phmmat;": "ℳ",
+		"phone;": "☎",
+		"Pi;": "Π",
+		"pi;": "π",
+		"pitchfork;": "⋔",
+		"piv;": "ϖ",
+		"planck;": "ℏ",
+		"planckh;": "ℎ",
+		"plankv;": "ℏ",
+		"plus;": "+",
+		"plusacir;": "⨣",
+		"plusb;": "⊞",
+		"pluscir;": "⨢",
+		"plusdo;": "∔",
+		"plusdu;": "⨥",
+		"pluse;": "⩲",
+		"PlusMinus;": "±",
+		"plusmn;": "±",
+		"plusmn": "±",
+		"plussim;": "⨦",
+		"plustwo;": "⨧",
+		"pm;": "±",
+		"Poincareplane;": "ℌ",
+		"pointint;": "⨕",
+		"Popf;": "ℙ",
+		"popf;": "𝕡",
+		"pound;": "£",
+		"pound": "£",
+		"Pr;": "⪻",
+		"pr;": "≺",
+		"prap;": "⪷",
+		"prcue;": "≼",
+		"prE;": "⪳",
+		"pre;": "⪯",
+		"prec;": "≺",
+		"precapprox;": "⪷",
+		"preccurlyeq;": "≼",
+		"Precedes;": "≺",
+		"PrecedesEqual;": "⪯",
+		"PrecedesSlantEqual;": "≼",
+		"PrecedesTilde;": "≾",
+		"preceq;": "⪯",
+		"precnapprox;": "⪹",
+		"precneqq;": "⪵",
+		"precnsim;": "⋨",
+		"precsim;": "≾",
+		"Prime;": "″",
+		"prime;": "′",
+		"primes;": "ℙ",
+		"prnap;": "⪹",
+		"prnE;": "⪵",
+		"prnsim;": "⋨",
+		"prod;": "∏",
+		"Product;": "∏",
+		"profalar;": "⌮",
+		"profline;": "⌒",
+		"profsurf;": "⌓",
+		"prop;": "∝",
+		"Proportion;": "∷",
+		"Proportional;": "∝",
+		"propto;": "∝",
+		"prsim;": "≾",
+		"prurel;": "⊰",
+		"Pscr;": "𝒫",
+		"pscr;": "𝓅",
+		"Psi;": "Ψ",
+		"psi;": "ψ",
+		"puncsp;": " ",
+		"Qfr;": "𝔔",
+		"qfr;": "𝔮",
+		"qint;": "⨌",
+		"Qopf;": "ℚ",
+		"qopf;": "𝕢",
+		"qprime;": "⁗",
+		"Qscr;": "𝒬",
+		"qscr;": "𝓆",
+		"quaternions;": "ℍ",
+		"quatint;": "⨖",
+		"quest;": "?",
+		"questeq;": "≟",
+		"QUOT;": "\"",
+		"QUOT": "\"",
+		"quot;": "\"",
+		"quot": "\"",
+		"rAarr;": "⇛",
+		"race;": "∽̱",
+		"Racute;": "Ŕ",
+		"racute;": "ŕ",
+		"radic;": "√",
+		"raemptyv;": "⦳",
+		"Rang;": "⟫",
+		"rang;": "⟩",
+		"rangd;": "⦒",
+		"range;": "⦥",
+		"rangle;": "⟩",
+		"raquo;": "»",
+		"raquo": "»",
+		"Rarr;": "↠",
+		"rArr;": "⇒",
+		"rarr;": "→",
+		"rarrap;": "⥵",
+		"rarrb;": "⇥",
+		"rarrbfs;": "⤠",
+		"rarrc;": "⤳",
+		"rarrfs;": "⤞",
+		"rarrhk;": "↪",
+		"rarrlp;": "↬",
+		"rarrpl;": "⥅",
+		"rarrsim;": "⥴",
+		"Rarrtl;": "⤖",
+		"rarrtl;": "↣",
+		"rarrw;": "↝",
+		"rAtail;": "⤜",
+		"ratail;": "⤚",
+		"ratio;": "∶",
+		"rationals;": "ℚ",
+		"RBarr;": "⤐",
+		"rBarr;": "⤏",
+		"rbarr;": "⤍",
+		"rbbrk;": "❳",
+		"rbrace;": "}",
+		"rbrack;": "]",
+		"rbrke;": "⦌",
+		"rbrksld;": "⦎",
+		"rbrkslu;": "⦐",
+		"Rcaron;": "Ř",
+		"rcaron;": "ř",
+		"Rcedil;": "Ŗ",
+		"rcedil;": "ŗ",
+		"rceil;": "⌉",
+		"rcub;": "}",
+		"Rcy;": "Р",
+		"rcy;": "р",
+		"rdca;": "⤷",
+		"rdldhar;": "⥩",
+		"rdquo;": "”",
+		"rdquor;": "”",
+		"rdsh;": "↳",
+		"Re;": "ℜ",
+		"real;": "ℜ",
+		"realine;": "ℛ",
+		"realpart;": "ℜ",
+		"reals;": "ℝ",
+		"rect;": "▭",
+		"REG;": "®",
+		"REG": "®",
+		"reg;": "®",
+		"reg": "®",
+		"ReverseElement;": "∋",
+		"ReverseEquilibrium;": "⇋",
+		"ReverseUpEquilibrium;": "⥯",
+		"rfisht;": "⥽",
+		"rfloor;": "⌋",
+		"Rfr;": "ℜ",
+		"rfr;": "𝔯",
+		"rHar;": "⥤",
+		"rhard;": "⇁",
+		"rharu;": "⇀",
+		"rharul;": "⥬",
+		"Rho;": "Ρ",
+		"rho;": "ρ",
+		"rhov;": "ϱ",
+		"RightAngleBracket;": "⟩",
+		"RightArrow;": "→",
+		"Rightarrow;": "⇒",
+		"rightarrow;": "→",
+		"RightArrowBar;": "⇥",
+		"RightArrowLeftArrow;": "⇄",
+		"rightarrowtail;": "↣",
+		"RightCeiling;": "⌉",
+		"RightDoubleBracket;": "⟧",
+		"RightDownTeeVector;": "⥝",
+		"RightDownVector;": "⇂",
+		"RightDownVectorBar;": "⥕",
+		"RightFloor;": "⌋",
+		"rightharpoondown;": "⇁",
+		"rightharpoonup;": "⇀",
+		"rightleftarrows;": "⇄",
+		"rightleftharpoons;": "⇌",
+		"rightrightarrows;": "⇉",
+		"rightsquigarrow;": "↝",
+		"RightTee;": "⊢",
+		"RightTeeArrow;": "↦",
+		"RightTeeVector;": "⥛",
+		"rightthreetimes;": "⋌",
+		"RightTriangle;": "⊳",
+		"RightTriangleBar;": "⧐",
+		"RightTriangleEqual;": "⊵",
+		"RightUpDownVector;": "⥏",
+		"RightUpTeeVector;": "⥜",
+		"RightUpVector;": "↾",
+		"RightUpVectorBar;": "⥔",
+		"RightVector;": "⇀",
+		"RightVectorBar;": "⥓",
+		"ring;": "˚",
+		"risingdotseq;": "≓",
+		"rlarr;": "⇄",
+		"rlhar;": "⇌",
+		"rlm;": "‏",
+		"rmoust;": "⎱",
+		"rmoustache;": "⎱",
+		"rnmid;": "⫮",
+		"roang;": "⟭",
+		"roarr;": "⇾",
+		"robrk;": "⟧",
+		"ropar;": "⦆",
+		"Ropf;": "ℝ",
+		"ropf;": "𝕣",
+		"roplus;": "⨮",
+		"rotimes;": "⨵",
+		"RoundImplies;": "⥰",
+		"rpar;": ")",
+		"rpargt;": "⦔",
+		"rppolint;": "⨒",
+		"rrarr;": "⇉",
+		"Rrightarrow;": "⇛",
+		"rsaquo;": "›",
+		"Rscr;": "ℛ",
+		"rscr;": "𝓇",
+		"Rsh;": "↱",
+		"rsh;": "↱",
+		"rsqb;": "]",
+		"rsquo;": "’",
+		"rsquor;": "’",
+		"rthree;": "⋌",
+		"rtimes;": "⋊",
+		"rtri;": "▹",
+		"rtrie;": "⊵",
+		"rtrif;": "▸",
+		"rtriltri;": "⧎",
+		"RuleDelayed;": "⧴",
+		"ruluhar;": "⥨",
+		"rx;": "℞",
+		"Sacute;": "Ś",
+		"sacute;": "ś",
+		"sbquo;": "‚",
+		"Sc;": "⪼",
+		"sc;": "≻",
+		"scap;": "⪸",
+		"Scaron;": "Š",
+		"scaron;": "š",
+		"sccue;": "≽",
+		"scE;": "⪴",
+		"sce;": "⪰",
+		"Scedil;": "Ş",
+		"scedil;": "ş",
+		"Scirc;": "Ŝ",
+		"scirc;": "ŝ",
+		"scnap;": "⪺",
+		"scnE;": "⪶",
+		"scnsim;": "⋩",
+		"scpolint;": "⨓",
+		"scsim;": "≿",
+		"Scy;": "С",
+		"scy;": "с",
+		"sdot;": "⋅",
+		"sdotb;": "⊡",
+		"sdote;": "⩦",
+		"searhk;": "⤥",
+		"seArr;": "⇘",
+		"searr;": "↘",
+		"searrow;": "↘",
+		"sect;": "§",
+		"sect": "§",
+		"semi;": ";",
+		"seswar;": "⤩",
+		"setminus;": "∖",
+		"setmn;": "∖",
+		"sext;": "✶",
+		"Sfr;": "𝔖",
+		"sfr;": "𝔰",
+		"sfrown;": "⌢",
+		"sharp;": "♯",
+		"SHCHcy;": "Щ",
+		"shchcy;": "щ",
+		"SHcy;": "Ш",
+		"shcy;": "ш",
+		"ShortDownArrow;": "↓",
+		"ShortLeftArrow;": "←",
+		"shortmid;": "∣",
+		"shortparallel;": "∥",
+		"ShortRightArrow;": "→",
+		"ShortUpArrow;": "↑",
+		"shy;": "­",
+		"shy": "­",
+		"Sigma;": "Σ",
+		"sigma;": "σ",
+		"sigmaf;": "ς",
+		"sigmav;": "ς",
+		"sim;": "∼",
+		"simdot;": "⩪",
+		"sime;": "≃",
+		"simeq;": "≃",
+		"simg;": "⪞",
+		"simgE;": "⪠",
+		"siml;": "⪝",
+		"simlE;": "⪟",
+		"simne;": "≆",
+		"simplus;": "⨤",
+		"simrarr;": "⥲",
+		"slarr;": "←",
+		"SmallCircle;": "∘",
+		"smallsetminus;": "∖",
+		"smashp;": "⨳",
+		"smeparsl;": "⧤",
+		"smid;": "∣",
+		"smile;": "⌣",
+		"smt;": "⪪",
+		"smte;": "⪬",
+		"smtes;": "⪬︀",
+		"SOFTcy;": "Ь",
+		"softcy;": "ь",
+		"sol;": "/",
+		"solb;": "⧄",
+		"solbar;": "⌿",
+		"Sopf;": "𝕊",
+		"sopf;": "𝕤",
+		"spades;": "♠",
+		"spadesuit;": "♠",
+		"spar;": "∥",
+		"sqcap;": "⊓",
+		"sqcaps;": "⊓︀",
+		"sqcup;": "⊔",
+		"sqcups;": "⊔︀",
+		"Sqrt;": "√",
+		"sqsub;": "⊏",
+		"sqsube;": "⊑",
+		"sqsubset;": "⊏",
+		"sqsubseteq;": "⊑",
+		"sqsup;": "⊐",
+		"sqsupe;": "⊒",
+		"sqsupset;": "⊐",
+		"sqsupseteq;": "⊒",
+		"squ;": "□",
+		"Square;": "□",
+		"square;": "□",
+		"SquareIntersection;": "⊓",
+		"SquareSubset;": "⊏",
+		"SquareSubsetEqual;": "⊑",
+		"SquareSuperset;": "⊐",
+		"SquareSupersetEqual;": "⊒",
+		"SquareUnion;": "⊔",
+		"squarf;": "▪",
+		"squf;": "▪",
+		"srarr;": "→",
+		"Sscr;": "𝒮",
+		"sscr;": "𝓈",
+		"ssetmn;": "∖",
+		"ssmile;": "⌣",
+		"sstarf;": "⋆",
+		"Star;": "⋆",
+		"star;": "☆",
+		"starf;": "★",
+		"straightepsilon;": "ϵ",
+		"straightphi;": "ϕ",
+		"strns;": "¯",
+		"Sub;": "⋐",
+		"sub;": "⊂",
+		"subdot;": "⪽",
+		"subE;": "⫅",
+		"sube;": "⊆",
+		"subedot;": "⫃",
+		"submult;": "⫁",
+		"subnE;": "⫋",
+		"subne;": "⊊",
+		"subplus;": "⪿",
+		"subrarr;": "⥹",
+		"Subset;": "⋐",
+		"subset;": "⊂",
+		"subseteq;": "⊆",
+		"subseteqq;": "⫅",
+		"SubsetEqual;": "⊆",
+		"subsetneq;": "⊊",
+		"subsetneqq;": "⫋",
+		"subsim;": "⫇",
+		"subsub;": "⫕",
+		"subsup;": "⫓",
+		"succ;": "≻",
+		"succapprox;": "⪸",
+		"succcurlyeq;": "≽",
+		"Succeeds;": "≻",
+		"SucceedsEqual;": "⪰",
+		"SucceedsSlantEqual;": "≽",
+		"SucceedsTilde;": "≿",
+		"succeq;": "⪰",
+		"succnapprox;": "⪺",
+		"succneqq;": "⪶",
+		"succnsim;": "⋩",
+		"succsim;": "≿",
+		"SuchThat;": "∋",
+		"Sum;": "∑",
+		"sum;": "∑",
+		"sung;": "♪",
+		"Sup;": "⋑",
+		"sup;": "⊃",
+		"sup1;": "¹",
+		"sup1": "¹",
+		"sup2;": "²",
+		"sup2": "²",
+		"sup3;": "³",
+		"sup3": "³",
+		"supdot;": "⪾",
+		"supdsub;": "⫘",
+		"supE;": "⫆",
+		"supe;": "⊇",
+		"supedot;": "⫄",
+		"Superset;": "⊃",
+		"SupersetEqual;": "⊇",
+		"suphsol;": "⟉",
+		"suphsub;": "⫗",
+		"suplarr;": "⥻",
+		"supmult;": "⫂",
+		"supnE;": "⫌",
+		"supne;": "⊋",
+		"supplus;": "⫀",
+		"Supset;": "⋑",
+		"supset;": "⊃",
+		"supseteq;": "⊇",
+		"supseteqq;": "⫆",
+		"supsetneq;": "⊋",
+		"supsetneqq;": "⫌",
+		"supsim;": "⫈",
+		"supsub;": "⫔",
+		"supsup;": "⫖",
+		"swarhk;": "⤦",
+		"swArr;": "⇙",
+		"swarr;": "↙",
+		"swarrow;": "↙",
+		"swnwar;": "⤪",
+		"szlig;": "ß",
+		"szlig": "ß",
+		"Tab;": "\t",
+		"target;": "⌖",
+		"Tau;": "Τ",
+		"tau;": "τ",
+		"tbrk;": "⎴",
+		"Tcaron;": "Ť",
+		"tcaron;": "ť",
+		"Tcedil;": "Ţ",
+		"tcedil;": "ţ",
+		"Tcy;": "Т",
+		"tcy;": "т",
+		"tdot;": "⃛",
+		"telrec;": "⌕",
+		"Tfr;": "𝔗",
+		"tfr;": "𝔱",
+		"there4;": "∴",
+		"Therefore;": "∴",
+		"therefore;": "∴",
+		"Theta;": "Θ",
+		"theta;": "θ",
+		"thetasym;": "ϑ",
+		"thetav;": "ϑ",
+		"thickapprox;": "≈",
+		"thicksim;": "∼",
+		"ThickSpace;": "  ",
+		"thinsp;": " ",
+		"ThinSpace;": " ",
+		"thkap;": "≈",
+		"thksim;": "∼",
+		"THORN;": "Þ",
+		"THORN": "Þ",
+		"thorn;": "þ",
+		"thorn": "þ",
+		"Tilde;": "∼",
+		"tilde;": "˜",
+		"TildeEqual;": "≃",
+		"TildeFullEqual;": "≅",
+		"TildeTilde;": "≈",
+		"times;": "×",
+		"times": "×",
+		"timesb;": "⊠",
+		"timesbar;": "⨱",
+		"timesd;": "⨰",
+		"tint;": "∭",
+		"toea;": "⤨",
+		"top;": "⊤",
+		"topbot;": "⌶",
+		"topcir;": "⫱",
+		"Topf;": "𝕋",
+		"topf;": "𝕥",
+		"topfork;": "⫚",
+		"tosa;": "⤩",
+		"tprime;": "‴",
+		"TRADE;": "™",
+		"trade;": "™",
+		"triangle;": "▵",
+		"triangledown;": "▿",
+		"triangleleft;": "◃",
+		"trianglelefteq;": "⊴",
+		"triangleq;": "≜",
+		"triangleright;": "▹",
+		"trianglerighteq;": "⊵",
+		"tridot;": "◬",
+		"trie;": "≜",
+		"triminus;": "⨺",
+		"TripleDot;": "⃛",
+		"triplus;": "⨹",
+		"trisb;": "⧍",
+		"tritime;": "⨻",
+		"trpezium;": "⏢",
+		"Tscr;": "𝒯",
+		"tscr;": "𝓉",
+		"TScy;": "Ц",
+		"tscy;": "ц",
+		"TSHcy;": "Ћ",
+		"tshcy;": "ћ",
+		"Tstrok;": "Ŧ",
+		"tstrok;": "ŧ",
+		"twixt;": "≬",
+		"twoheadleftarrow;": "↞",
+		"twoheadrightarrow;": "↠",
+		"Uacute;": "Ú",
+		"Uacute": "Ú",
+		"uacute;": "ú",
+		"uacute": "ú",
+		"Uarr;": "↟",
+		"uArr;": "⇑",
+		"uarr;": "↑",
+		"Uarrocir;": "⥉",
+		"Ubrcy;": "Ў",
+		"ubrcy;": "ў",
+		"Ubreve;": "Ŭ",
+		"ubreve;": "ŭ",
+		"Ucirc;": "Û",
+		"Ucirc": "Û",
+		"ucirc;": "û",
+		"ucirc": "û",
+		"Ucy;": "У",
+		"ucy;": "у",
+		"udarr;": "⇅",
+		"Udblac;": "Ű",
+		"udblac;": "ű",
+		"udhar;": "⥮",
+		"ufisht;": "⥾",
+		"Ufr;": "𝔘",
+		"ufr;": "𝔲",
+		"Ugrave;": "Ù",
+		"Ugrave": "Ù",
+		"ugrave;": "ù",
+		"ugrave": "ù",
+		"uHar;": "⥣",
+		"uharl;": "↿",
+		"uharr;": "↾",
+		"uhblk;": "▀",
+		"ulcorn;": "⌜",
+		"ulcorner;": "⌜",
+		"ulcrop;": "⌏",
+		"ultri;": "◸",
+		"Umacr;": "Ū",
+		"umacr;": "ū",
+		"uml;": "¨",
+		"uml": "¨",
+		"UnderBar;": "_",
+		"UnderBrace;": "⏟",
+		"UnderBracket;": "⎵",
+		"UnderParenthesis;": "⏝",
+		"Union;": "⋃",
+		"UnionPlus;": "⊎",
+		"Uogon;": "Ų",
+		"uogon;": "ų",
+		"Uopf;": "𝕌",
+		"uopf;": "𝕦",
+		"UpArrow;": "↑",
+		"Uparrow;": "⇑",
+		"uparrow;": "↑",
+		"UpArrowBar;": "⤒",
+		"UpArrowDownArrow;": "⇅",
+		"UpDownArrow;": "↕",
+		"Updownarrow;": "⇕",
+		"updownarrow;": "↕",
+		"UpEquilibrium;": "⥮",
+		"upharpoonleft;": "↿",
+		"upharpoonright;": "↾",
+		"uplus;": "⊎",
+		"UpperLeftArrow;": "↖",
+		"UpperRightArrow;": "↗",
+		"Upsi;": "ϒ",
+		"upsi;": "υ",
+		"upsih;": "ϒ",
+		"Upsilon;": "Υ",
+		"upsilon;": "υ",
+		"UpTee;": "⊥",
+		"UpTeeArrow;": "↥",
+		"upuparrows;": "⇈",
+		"urcorn;": "⌝",
+		"urcorner;": "⌝",
+		"urcrop;": "⌎",
+		"Uring;": "Ů",
+		"uring;": "ů",
+		"urtri;": "◹",
+		"Uscr;": "𝒰",
+		"uscr;": "𝓊",
+		"utdot;": "⋰",
+		"Utilde;": "Ũ",
+		"utilde;": "ũ",
+		"utri;": "▵",
+		"utrif;": "▴",
+		"uuarr;": "⇈",
+		"Uuml;": "Ü",
+		"Uuml": "Ü",
+		"uuml;": "ü",
+		"uuml": "ü",
+		"uwangle;": "⦧",
+		"vangrt;": "⦜",
+		"varepsilon;": "ϵ",
+		"varkappa;": "ϰ",
+		"varnothing;": "∅",
+		"varphi;": "ϕ",
+		"varpi;": "ϖ",
+		"varpropto;": "∝",
+		"vArr;": "⇕",
+		"varr;": "↕",
+		"varrho;": "ϱ",
+		"varsigma;": "ς",
+		"varsubsetneq;": "⊊︀",
+		"varsubsetneqq;": "⫋︀",
+		"varsupsetneq;": "⊋︀",
+		"varsupsetneqq;": "⫌︀",
+		"vartheta;": "ϑ",
+		"vartriangleleft;": "⊲",
+		"vartriangleright;": "⊳",
+		"Vbar;": "⫫",
+		"vBar;": "⫨",
+		"vBarv;": "⫩",
+		"Vcy;": "В",
+		"vcy;": "в",
+		"VDash;": "⊫",
+		"Vdash;": "⊩",
+		"vDash;": "⊨",
+		"vdash;": "⊢",
+		"Vdashl;": "⫦",
+		"Vee;": "⋁",
+		"vee;": "∨",
+		"veebar;": "⊻",
+		"veeeq;": "≚",
+		"vellip;": "⋮",
+		"Verbar;": "‖",
+		"verbar;": "|",
+		"Vert;": "‖",
+		"vert;": "|",
+		"VerticalBar;": "∣",
+		"VerticalLine;": "|",
+		"VerticalSeparator;": "❘",
+		"VerticalTilde;": "≀",
+		"VeryThinSpace;": " ",
+		"Vfr;": "𝔙",
+		"vfr;": "𝔳",
+		"vltri;": "⊲",
+		"vnsub;": "⊂⃒",
+		"vnsup;": "⊃⃒",
+		"Vopf;": "𝕍",
+		"vopf;": "𝕧",
+		"vprop;": "∝",
+		"vrtri;": "⊳",
+		"Vscr;": "𝒱",
+		"vscr;": "𝓋",
+		"vsubnE;": "⫋︀",
+		"vsubne;": "⊊︀",
+		"vsupnE;": "⫌︀",
+		"vsupne;": "⊋︀",
+		"Vvdash;": "⊪",
+		"vzigzag;": "⦚",
+		"Wcirc;": "Ŵ",
+		"wcirc;": "ŵ",
+		"wedbar;": "⩟",
+		"Wedge;": "⋀",
+		"wedge;": "∧",
+		"wedgeq;": "≙",
+		"weierp;": "℘",
+		"Wfr;": "𝔚",
+		"wfr;": "𝔴",
+		"Wopf;": "𝕎",
+		"wopf;": "𝕨",
+		"wp;": "℘",
+		"wr;": "≀",
+		"wreath;": "≀",
+		"Wscr;": "𝒲",
+		"wscr;": "𝓌",
+		"xcap;": "⋂",
+		"xcirc;": "◯",
+		"xcup;": "⋃",
+		"xdtri;": "▽",
+		"Xfr;": "𝔛",
+		"xfr;": "𝔵",
+		"xhArr;": "⟺",
+		"xharr;": "⟷",
+		"Xi;": "Ξ",
+		"xi;": "ξ",
+		"xlArr;": "⟸",
+		"xlarr;": "⟵",
+		"xmap;": "⟼",
+		"xnis;": "⋻",
+		"xodot;": "⨀",
+		"Xopf;": "𝕏",
+		"xopf;": "𝕩",
+		"xoplus;": "⨁",
+		"xotime;": "⨂",
+		"xrArr;": "⟹",
+		"xrarr;": "⟶",
+		"Xscr;": "𝒳",
+		"xscr;": "𝓍",
+		"xsqcup;": "⨆",
+		"xuplus;": "⨄",
+		"xutri;": "△",
+		"xvee;": "⋁",
+		"xwedge;": "⋀",
+		"Yacute;": "Ý",
+		"Yacute": "Ý",
+		"yacute;": "ý",
+		"yacute": "ý",
+		"YAcy;": "Я",
+		"yacy;": "я",
+		"Ycirc;": "Ŷ",
+		"ycirc;": "ŷ",
+		"Ycy;": "Ы",
+		"ycy;": "ы",
+		"yen;": "¥",
+		"yen": "¥",
+		"Yfr;": "𝔜",
+		"yfr;": "𝔶",
+		"YIcy;": "Ї",
+		"yicy;": "ї",
+		"Yopf;": "𝕐",
+		"yopf;": "𝕪",
+		"Yscr;": "𝒴",
+		"yscr;": "𝓎",
+		"YUcy;": "Ю",
+		"yucy;": "ю",
+		"Yuml;": "Ÿ",
+		"yuml;": "ÿ",
+		"yuml": "ÿ",
+		"Zacute;": "Ź",
+		"zacute;": "ź",
+		"Zcaron;": "Ž",
+		"zcaron;": "ž",
+		"Zcy;": "З",
+		"zcy;": "з",
+		"Zdot;": "Ż",
+		"zdot;": "ż",
+		"zeetrf;": "ℨ",
+		"ZeroWidthSpace;": "​",
+		"Zeta;": "Ζ",
+		"zeta;": "ζ",
+		"Zfr;": "ℨ",
+		"zfr;": "𝔷",
+		"ZHcy;": "Ж",
+		"zhcy;": "ж",
+		"zigrarr;": "⇝",
+		"Zopf;": "ℤ",
+		"zopf;": "𝕫",
+		"Zscr;": "𝒵",
+		"zscr;": "𝓏",
+		"zwj;": "‍",
+		"zwnj;": "‌"
+	};
+
+/***/ },
+/* 290 */
+/*!*******************************************!*\
+  !*** ./components/ArtifactsComponent.jsx ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var propTypes = {
+	  artifacts: _react.PropTypes.object,
+	  children: _react.PropTypes.element
+	};
+	
+	function ArtifactsComponent(_ref) {
+	  var artifacts = _ref.artifacts;
+	  var children = _ref.children;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'ul',
+	      null,
+	      artifacts.data.items.map(function (artifact) {
+	        return _react2.default.createElement(
+	          'li',
+	          { key: artifact.slug },
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/artifacts/' + artifact.slug },
+	            artifact.title
+	          )
+	        );
+	      })
+	    ),
+	    children
+	  );
+	}
+	
+	ArtifactsComponent.propTypes = propTypes;
+	
+	exports.default = ArtifactsComponent;
 
 /***/ }
 /******/ ]);
