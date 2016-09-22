@@ -3,6 +3,8 @@ import { decode } from 'ent';
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import '../styles/components/artifact.scss';
+
 const propTypes = {
   artifacts: PropTypes.object,
   children: PropTypes.element,
@@ -26,8 +28,8 @@ function ArtifactComponent({ artifacts, children, params }) {
       <div>
         <h2>{artifact.title}</h2>
         <div dangerouslySetInnerHTML={{__html: decode(artifact.content)}} />
-        <Link style={{ float: 'left' }} to={'/artifacts/' + previousArtifact.slug}>previous</Link>
-        <Link style={{ float: 'right' }} to={'/artifacts/' + nextArtifact.slug}>next</Link>
+        <Link className='previous-artifact' to={'/artifacts/' + previousArtifact.slug}>previous</Link>
+        <Link className='next-artifact' to={'/artifacts/' + nextArtifact.slug}>next</Link>
       </div>
     );
   }

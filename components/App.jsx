@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 
 import * as actions from '../core/actions';
 
+import '../styles/app.scss';
+
 const propTypes = {
   children: PropTypes.element.isRequired,
   routes: PropTypes.array.isRequired,

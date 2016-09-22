@@ -12,6 +12,7 @@ export default {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
     ],
   },
   resolve: {
