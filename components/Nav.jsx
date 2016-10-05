@@ -21,7 +21,7 @@ function Nav({ pages }) {
       <ul className="nav">
         {topLevelPages(pages).map(page => (
           <li key={page.title}>
-            <Link to={'/' + page.title.toLowerCase()}>
+            <Link to={'/' + page.slug}>
               {page.title}
             </Link>
           </li>
