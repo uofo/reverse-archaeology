@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 
 import * as actions from '../core/actions';
 
+import Nav from './Nav';
+
 import '../styles/app.scss';
 
 const propTypes = {
@@ -17,15 +19,18 @@ var App = React.createClass({
 
   componentWillMount: function () {
     this.props.actions.fetchArtifactsData();
+    this.props.actions.fetchPagesData();
   },
 
   render: function () {
     return (
       <div>
         <h1>Reverse Archaeology</h1>
+        <Nav pages={this.props.pages} />
         {
           React.cloneElement(this.props.children, {
-            artifacts: this.props.artifacts
+            artifacts: this.props.artifacts,
+            pages: this.props.pages
           })
         }
       </div>
@@ -35,7 +40,8 @@ var App = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    artifacts: state.artifacts
+    artifacts: state.artifacts,
+    pages: state.pages
   };
 }
 

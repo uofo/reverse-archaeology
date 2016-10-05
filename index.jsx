@@ -9,6 +9,7 @@ import { actions, store } from './core/store';
 
 import App from './components/App';
 import Home from './components/Home';
+import PageComponent from './components/PageComponent';
 import PageNotFound from './components/PageNotFound';
 import ArtifactComponent from './components/ArtifactComponent';
 import ArtifactsComponent from './components/ArtifactsComponent';
@@ -20,6 +21,8 @@ const browserHistory = useRouterHistory(createHistory)({
 const routes = (
   <Route actions={actions} path="/" component={App}>
     <IndexRoute component={ArtifactsComponent} />
+
+    <Route path="about" component={PageComponent} title="About" />
 
     <Route path="artifacts" component={ArtifactsComponent} />
     <Route path="artifacts/:slug" component={ArtifactComponent} />

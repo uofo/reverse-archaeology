@@ -18,9 +18,6 @@ function ArtifactComponent({ artifacts, children, params }) {
   const nextArtifact = artifactItems[(artifactIndex + 1) % artifactItems.length];
   const previousArtifact = artifactItems[(artifactIndex - 1) < 0 ? artifactItems.length - 1 : artifactIndex - 1];
 
-  const head = (
-    <Link to='/artifacts/'>artifacts</Link>
-  );
   let body;
 
   if (artifact) {
@@ -41,7 +38,6 @@ function ArtifactComponent({ artifacts, children, params }) {
 
   return (
     <div>
-      {head}
       {body}
     </div>
   );
