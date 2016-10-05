@@ -24,7 +24,7 @@ const routes = (
 
     <Route path="about" component={PageComponent} title="About" />
 
-    <Route path="artifacts" component={ArtifactsComponent} />
+    <Route path="archive" component={ArtifactsComponent} />
     <Route path="artifacts/:slug" component={ArtifactComponent} />
 
     <Route path="*" component={PageNotFound} />

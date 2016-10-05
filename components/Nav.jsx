@@ -27,7 +27,13 @@ function Nav({ pages }) {
           </li>
         ))}
         <li>
-          <Link to={'/artifacts/'}>Artifacts</Link>
+          <Link to={'/archive/'}>Archive</Link>
+        </li>
+        <li>
+          <Link to={'/chasm/'}>Chasm</Link>
+        </li>
+        <li>
+          <Link to={'/prism/'}>Prism</Link>
         </li>
       </ul>
       <div style={{ clear: 'both' }}></div>
