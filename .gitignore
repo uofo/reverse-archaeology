@@ -7,6 +7,4 @@ node_modules
 # Files marked with gitigx
 *gitigx*
 
-__build__
-
 config.js
