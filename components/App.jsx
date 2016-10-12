@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import * as actions from '../core/actions';
 
 import Nav from './Nav';
+import Search from './Search';
 
 import '../styles/app.scss';
 
@@ -26,6 +27,7 @@ var App = React.createClass({
     return (
       <div>
         <h1>Reverse Archaeology</h1>
+        <Search artifacts={this.props.artifacts.data.items} />
         <Nav pages={this.props.pages} />
         {
           React.cloneElement(this.props.children, {
