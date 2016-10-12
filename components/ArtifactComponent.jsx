@@ -24,6 +24,7 @@ function ArtifactComponent({ artifacts, children, params }) {
     body = (
       <div>
         <h2>{artifact.title}</h2>
+        {artifact.image_url ? <img src={artifact.image_url} /> : ''}
         <div dangerouslySetInnerHTML={{__html: decode(artifact.content)}} />
         <Link className='previous-artifact' to={'/artifacts/' + previousArtifact.slug}>previous</Link>
         <Link className='next-artifact' to={'/artifacts/' + nextArtifact.slug}>next</Link>

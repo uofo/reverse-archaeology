@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
+
 import * as actions from './actions';
+import { cleanArtifacts } from '../models/artifacts';
 
 export default {
   artifacts: combineReducers({
@@ -14,7 +16,7 @@ export default {
         case actions.ARTIFACTS_DATA_RESPONSE:
           return Object.assign({}, state, {
             isFetching: false,
-            items: action.items,
+            items: cleanArtifacts(action.items),
             error: null
           });
         case actions.ARTIFACTS_DATA_ERROR_RESPONSE:
