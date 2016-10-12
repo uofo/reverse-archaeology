@@ -3,6 +3,8 @@ polyfill();
 
 import fetch from 'isomorphic-fetch';
 
+import config from '../config';
+
 export const ARTIFACTS_DATA_REQUEST = 'ARTIFACTS_DATA_REQUEST';
 export const ARTIFACTS_DATA_RESPONSE = 'ARTIFACTS_DATA_RESPONSE';
 export const ARTIFACTS_DATA_ERROR_RESPONSE = 'ARTIFACTS_DATA_ERROR_RESPONSE';
@@ -10,11 +12,6 @@ export const ARTIFACTS_DATA_ERROR_RESPONSE = 'ARTIFACTS_DATA_ERROR_RESPONSE';
 export const PAGES_DATA_REQUEST = 'PAGES_DATA_REQUEST';
 export const PAGES_DATA_RESPONSE = 'PAGES_DATA_RESPONSE';
 export const PAGES_DATA_ERROR_RESPONSE = 'PAGES_DATA_ERROR_RESPONSE';
-
-const dataUrls = {
-  artifacts: 'http://localhost:4000/reverse-archaeology-content/data/artifacts.json',
-  pages: 'http://localhost:4000/reverse-archaeology-content/data/pages.json'
-};
 
 export function requestArtifactsData () {
   return {
@@ -39,7 +36,7 @@ export function receiveArtifactsDataError (error) {
 export function fetchArtifactsData () {
   return (dispatch => {
     dispatch(requestArtifactsData());
-    return fetch(dataUrls.artifacts)
+    return fetch(config.dataUrls.artifacts)
       .then(response => response.json())
       .then(json => dispatch(receiveArtifactsData(json)))
       .catch(error => dispatch(receiveArtifactsDataError(error)));
@@ -69,7 +66,7 @@ export function receivePagesDataError (error) {
 export function fetchPagesData () {
   return (dispatch => {
     dispatch(requestPagesData());
-    return fetch(dataUrls.pages)
+    return fetch(config.dataUrls.pages)
       .then(response => response.json())
       .then(json => dispatch(receivePagesData(json)))
       .catch(error => dispatch(receivePagesDataError(error)));
