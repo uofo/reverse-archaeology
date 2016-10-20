@@ -13,9 +13,10 @@ import PageComponent from './components/PageComponent';
 import PageNotFound from './components/PageNotFound';
 import ArtifactComponent from './components/ArtifactComponent';
 import ArtifactsComponent from './components/ArtifactsComponent';
+import config from './config';
 
 const browserHistory = useRouterHistory(createHistory)({
-    basename: "/reverse-archaeology-2"
+    basename: config.basename
 });
 
 const routes = (

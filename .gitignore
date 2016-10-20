@@ -7,4 +7,5 @@ node_modules
 # Files marked with gitigx
 *gitigx*
 
-config.js
+__dev__
+__dist__

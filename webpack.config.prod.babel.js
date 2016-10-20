@@ -6,7 +6,7 @@ export default {
   context: __dirname,
   entry: './index.jsx',
   output: {
-    path: `${__dirname}/__dev__`,
+    path: `${__dirname}/__dist__`,
     filename: 'bundle.js',
   },
   module: {
@@ -20,6 +20,16 @@ export default {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      output: {
+        comments: false,
+      },
+    }),
     new HtmlWebpackPlugin({
       template: 'index.template.ejs',
       inject: 'body'
