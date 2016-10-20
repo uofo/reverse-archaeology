@@ -8,6 +8,7 @@ export default {
   entry: './index.jsx',
   output: {
     path: `${__dirname}/__dist__`,
+    publicPath: '/',
     filename: 'bundle.js',
   },
   module: {
