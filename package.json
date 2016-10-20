@@ -4,6 +4,7 @@
   "description": "Single Page Apps for GitHub Pages",
   "scripts": {
     "build": "webpack -p --config webpack.config.prod.babel.js",
+    "deploy": "gh-pages -d __dist__",
     "start": "webpack -d --watch",
     "serve": "cd __dev__ && live-server --entry-file=index.html --no-browser"
   },
@@ -35,6 +36,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
     "bootstrap-sass": "^3.3.7",
+    "copy-webpack-plugin": "^3.0.1",
     "css-loader": "^0.25.0",
     "eslint": "^3.2.2",
     "eslint-config-airbnb": "^10.0.0",
@@ -42,6 +44,7 @@
     "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^6.0.0",
     "file-loader": "^0.9.0",
+    "gh-pages": "^0.11.0",
     "html-webpack-plugin": "^2.22.0",
     "live-server": "^1.0.0",
     "node-sass": "^3.10.1",

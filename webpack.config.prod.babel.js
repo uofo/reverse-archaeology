@@ -1,5 +1,6 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 import webpack from 'webpack';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
@@ -20,6 +21,9 @@ export default {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
+    new CopyWebpackPlugin([
+      { from: 'CNAME' },
+    ]),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
