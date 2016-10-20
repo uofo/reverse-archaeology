@@ -23,6 +23,7 @@ export default {
   plugins: [
     new CopyWebpackPlugin([
       { from: 'CNAME' },
+      { from: '404.html' },
     ]),
     new webpack.DefinePlugin({
       'process.env': {
