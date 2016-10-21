@@ -1,7 +1,7 @@
 {
-  "name": "spa-github-pages",
-  "version": "2.0.0",
-  "description": "Single Page Apps for GitHub Pages",
+  "name": "reverse-archaeology",
+  "version": "1.0.0",
+  "description": "Reverse Archaeology",
   "scripts": {
     "build": "webpack -p --config webpack.config.prod.babel.js",
     "deploy": "gh-pages -d __dist__",
@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rafrex/spa-github-pages.git"
+    "url": "git+https://github.com/uofo/reverse-archaeology.git"
   },
-  "author": "Rafael Pedicini <code@rafrex.com>",
+  "author": "Eric Brelsford <ebrelsford@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "current-input": "^1.1.0",
