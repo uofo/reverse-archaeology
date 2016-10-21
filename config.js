@@ -13,11 +13,11 @@ const base = {
 
 let combined = {};
 
-if (process.env.NODE_ENV === 'development') {
-  Object.assign(combined, base, local);
+if (process.env.NODE_ENV === 'production') {
+  Object.assign(combined, base);
 }
 else {
-  Object.assign(combined, base);
+  Object.assign(combined, base, local);
 }
 
 export default combined;
