@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'development') {
   Object.assign(combined, base, local);
 }
 else {
-  Object.assign(combined, base, local);
+  Object.assign(combined, base);
 }
 
 export default combined;
