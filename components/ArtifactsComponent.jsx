@@ -2,32 +2,27 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 const propTypes = {
-  artifacts: PropTypes.object,
   children: PropTypes.element,
+  themes: PropTypes.object,
 };
 
-function ArtifactsComponent({ artifacts, children }) {
-  let themes = [];
-  artifacts.data.items.forEach((artifact) => {
-    if (!artifact.themes) return;
-    themes = themes.concat(artifact.themes);
-  });
+function ArtifactsComponent({ children, themes }) {
+  const themeSlugs = Object.keys(themes);
 
-  if (!themes.length) {
+  if (!themeSlugs.length) {
     return (
       <div>loading</div>
     );
   }
 
-  themes = Array.from(new Set(themes));
   return (
     <div>
       <div>Themes:</div>
       <ul>
-        {themes.map((theme) => {
+        {themeSlugs.map((slug) => {
           return (
-            <li key={theme}>
-              <Link to={'/artifacts/theme/' + theme}>{theme}</Link>
+            <li key={slug}>
+              <Link to={'/artifacts/theme/' + slug}>{themes[slug]}</Link>
             </li>
           );
         })}

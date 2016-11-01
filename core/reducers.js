@@ -55,4 +55,13 @@ export default {
       }
     }
   }),
+
+  themes: (state = {}, action) => {
+    switch (action.type) {
+      case actions.SITE_DATA_RESPONSE:
+        return action.data.themes;
+      default:
+        return state;
+    }
+  }
 };

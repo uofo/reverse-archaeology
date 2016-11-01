@@ -31,7 +31,8 @@ var App = React.createClass({
         {
           React.cloneElement(this.props.children, {
             artifacts: this.props.artifacts,
-            pages: this.props.pages
+            pages: this.props.pages,
+            themes: this.props.themes
           })
         }
       </div>
@@ -42,7 +43,8 @@ var App = React.createClass({
 function mapStateToProps(state) {
   return {
     artifacts: state.artifacts,
-    pages: state.pages
+    pages: state.pages,
+    themes: state.themes
   };
 }
 
