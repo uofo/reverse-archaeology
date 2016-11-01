@@ -12,6 +12,7 @@ import Home from './components/Home';
 import PageComponent from './components/PageComponent';
 import PageNotFound from './components/PageNotFound';
 import ArtifactComponent from './components/ArtifactComponent';
+import ArtifactThemeComponent from './components/ArtifactThemeComponent';
 import ArtifactsComponent from './components/ArtifactsComponent';
 import config from './config';
 
@@ -26,6 +27,7 @@ const routes = (
     <Route path="about" component={PageComponent} title="About" />
 
     <Route path="archive" component={ArtifactsComponent} />
+    <Route path="artifacts/theme/:slug" component={ArtifactThemeComponent} />
     <Route path="artifacts/:slug" component={ArtifactComponent} />
 
     <Route path="*" component={PageNotFound} />

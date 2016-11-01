@@ -7,13 +7,27 @@ const propTypes = {
 };
 
 function ArtifactsComponent({ artifacts, children }) {
+  let themes = [];
+  artifacts.data.items.forEach((artifact) => {
+    if (!artifact.themes) return;
+    themes = themes.concat(artifact.themes);
+  });
+
+  if (!themes.length) {
+    return (
+      <div>loading</div>
+    );
+  }
+
+  themes = Array.from(new Set(themes));
   return (
     <div>
+      <div>Themes:</div>
       <ul>
-        {artifacts.data.items.map((artifact) => {
+        {themes.map((theme) => {
           return (
-            <li key={artifact.slug}>
-              <Link to={'/artifacts/' + artifact.slug}>{artifact.title}</Link>
+            <li key={theme}>
+              <Link to={'/artifacts/theme/' + theme}>{theme}</Link>
             </li>
           );
         })}
