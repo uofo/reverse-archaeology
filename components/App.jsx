@@ -19,8 +19,7 @@ var App = React.createClass({
   propTypes: propTypes,
 
   componentWillMount: function () {
-    this.props.actions.fetchArtifactsData();
-    this.props.actions.fetchPagesData();
+    this.props.actions.fetchSiteData();
   },
 
   render: function () {

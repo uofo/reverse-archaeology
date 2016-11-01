@@ -5,70 +5,37 @@ import fetch from 'isomorphic-fetch';
 
 import config from '../config';
 
-export const ARTIFACTS_DATA_REQUEST = 'ARTIFACTS_DATA_REQUEST';
-export const ARTIFACTS_DATA_RESPONSE = 'ARTIFACTS_DATA_RESPONSE';
-export const ARTIFACTS_DATA_ERROR_RESPONSE = 'ARTIFACTS_DATA_ERROR_RESPONSE';
+export const SITE_DATA_REQUEST = 'SITE_DATA_REQUEST';
+export const SITE_DATA_RESPONSE = 'SITE_DATA_RESPONSE';
+export const SITE_DATA_ERROR_RESPONSE = 'SITE_DATA_ERROR_RESPONSE';
 
-export const PAGES_DATA_REQUEST = 'PAGES_DATA_REQUEST';
-export const PAGES_DATA_RESPONSE = 'PAGES_DATA_RESPONSE';
-export const PAGES_DATA_ERROR_RESPONSE = 'PAGES_DATA_ERROR_RESPONSE';
 
-export function requestArtifactsData () {
+export function requestSiteData () {
   return {
-    type: ARTIFACTS_DATA_REQUEST
+    type: SITE_DATA_REQUEST
   };
 }
 
-export function receiveArtifactsData (json) {
+export function receiveSiteData (json) {
   return {
-    type: ARTIFACTS_DATA_RESPONSE,
-    items: json
+    type: SITE_DATA_RESPONSE,
+    data: json
   };
 }
 
-export function receiveArtifactsDataError (error) {
+export function receiveSiteDataError (error) {
   return {
-    type: ARTIFACTS_DATA_ERROR_RESPONSE,
+    type: SITE_DATA_ERROR_RESPONSE,
     error
   };
 }
 
-export function fetchArtifactsData () {
+export function fetchSiteData () {
   return (dispatch => {
-    dispatch(requestArtifactsData());
-    return fetch(config.dataUrls.artifacts)
+    dispatch(requestSiteData());
+    return fetch(config.dataUrls.data)
       .then(response => response.json())
-      .then(json => dispatch(receiveArtifactsData(json)))
-      .catch(error => dispatch(receiveArtifactsDataError(error)));
-  });
-}
-
-export function requestPagesData () {
-  return {
-    type: PAGES_DATA_REQUEST
-  };
-}
-
-export function receivePagesData (json) {
-  return {
-    type: PAGES_DATA_RESPONSE,
-    items: json
-  };
-}
-
-export function receivePagesDataError (error) {
-  return {
-    type: PAGES_DATA_ERROR_RESPONSE,
-    error
-  };
-}
-
-export function fetchPagesData () {
-  return (dispatch => {
-    dispatch(requestPagesData());
-    return fetch(config.dataUrls.pages)
-      .then(response => response.json())
-      .then(json => dispatch(receivePagesData(json)))
-      .catch(error => dispatch(receivePagesDataError(error)));
+      .then(json => dispatch(receiveSiteData(json)))
+      .catch(error => dispatch(receiveSiteDataError(error)));
   });
 }

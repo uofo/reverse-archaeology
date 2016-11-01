@@ -4,8 +4,7 @@ const base = {
   basename: '/',
 
   dataUrls: {
-    artifacts: 'http://uofo.github.io/reverse-archaeology-content/data/artifacts.json',
-    pages: 'http://uofo.github.io/reverse-archaeology-content/data/pages.json'
+    data: 'http://uofo.github.io/reverse-archaeology-content/data/data.json'
   },
 
   imageUrlBase: 'http://uofo.github.io/reverse-archaeology-content/'

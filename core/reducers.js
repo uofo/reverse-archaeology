@@ -8,18 +8,18 @@ export default {
 
     data (state = { isFetching: false, items: [] }, action) {
       switch (action.type) {
-        case actions.ARTIFACTS_DATA_REQUEST:
+        case actions.SITE_DATA_REQUEST:
           return Object.assign({}, state, {
             isFetching: true,
             error: null
           });
-        case actions.ARTIFACTS_DATA_RESPONSE:
+        case actions.SITE_DATA_RESPONSE:
           return Object.assign({}, state, {
             isFetching: false,
-            items: cleanArtifacts(action.items),
+            items: cleanArtifacts(action.data.artifacts),
             error: null
           });
-        case actions.ARTIFACTS_DATA_ERROR_RESPONSE:
+        case actions.SITE_DATA_ERROR_RESPONSE:
           return Object.assign({}, state, {
             isFetching: false,
             error: action.error
@@ -28,25 +28,24 @@ export default {
           return state;
       }
     }
-
   }),
 
   pages: combineReducers({
 
     data (state = { isFetching: false, items: [] }, action) {
       switch (action.type) {
-        case actions.PAGES_DATA_REQUEST:
+        case actions.SITE_DATA_REQUEST:
           return Object.assign({}, state, {
             isFetching: true,
             error: null
           });
-        case actions.PAGES_DATA_RESPONSE:
+        case actions.SITE_DATA_RESPONSE:
           return Object.assign({}, state, {
             isFetching: false,
-            items: action.items,
+            items: action.data.pages,
             error: null
           });
-        case actions.PAGES_DATA_ERROR_RESPONSE:
+        case actions.SITE_DATA_ERROR_RESPONSE:
           return Object.assign({}, state, {
             isFetching: false,
             error: action.error
