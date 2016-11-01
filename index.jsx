@@ -9,8 +9,10 @@ import { actions, store } from './core/store';
 
 import About from './components/About';
 import App from './components/App';
+import Chasm from './components/Chasm';
 import Home from './components/Home';
 import PageNotFound from './components/PageNotFound';
+import Prism from './components/Prism';
 import ArtifactComponent from './components/ArtifactComponent';
 import ArtifactThemeComponent from './components/ArtifactThemeComponent';
 import ArtifactsComponent from './components/ArtifactsComponent';
@@ -25,6 +27,8 @@ const routes = (
     <IndexRoute component={ArtifactsComponent} />
 
     <Route path="about" component={About} title="About" />
+    <Route path="chasm" component={Chasm} title="Chasm" />
+    <Route path="prism" component={Prism} title="Prism" />
 
     <Route path="archive" component={ArtifactsComponent} />
     <Route path="artifacts/theme/:slug" component={ArtifactThemeComponent} />
