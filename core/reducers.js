@@ -30,6 +30,15 @@ export default {
     }
   }),
 
+  bios: (state = [], action) => {
+    switch (action.type) {
+      case actions.SITE_DATA_RESPONSE:
+        return action.data.bios;
+      default:
+        return state;
+    }
+  },
+
   pages: combineReducers({
 
     data (state = { isFetching: false, items: [] }, action) {

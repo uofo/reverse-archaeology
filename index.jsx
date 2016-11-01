@@ -7,9 +7,9 @@ import { Provider } from 'react-redux';
 
 import { actions, store } from './core/store';
 
+import About from './components/About';
 import App from './components/App';
 import Home from './components/Home';
-import PageComponent from './components/PageComponent';
 import PageNotFound from './components/PageNotFound';
 import ArtifactComponent from './components/ArtifactComponent';
 import ArtifactThemeComponent from './components/ArtifactThemeComponent';
@@ -24,7 +24,7 @@ const routes = (
   <Route actions={actions} path="/" component={App}>
     <IndexRoute component={ArtifactsComponent} />
 
-    <Route path="about" component={PageComponent} title="About" />
+    <Route path="about" component={About} title="About" />
 
     <Route path="archive" component={ArtifactsComponent} />
     <Route path="artifacts/theme/:slug" component={ArtifactThemeComponent} />

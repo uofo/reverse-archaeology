@@ -116,15 +116,9 @@ a:hover, a:active {
 
 /*custom bullets*/
 li {
-  list-style: none;
   padding-left: 18px;
   text-indent: -15px;
   margin: 0.5vh 0;
-}
-
-li:before {
-  content: "\2013";
-  padding-right: 7px;
 }
 
 /*title*/
