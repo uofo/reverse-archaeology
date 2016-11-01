@@ -33,8 +33,10 @@ function PageComponent({ bios, children, funders, pages, partners, route }) {
             {bios.map((bio) => {
               return (
                 <li key={bio.name} className="bio-item">
-                  <img src={bio.image_url} />
-                  <div>{bio.name}</div>
+                  <Link to={"about/bios/" + bio.slug}>
+                    <img src={bio.image_url} />
+                    <div>{bio.name}</div>
+                  </Link>
                 </li>
               );
             })}

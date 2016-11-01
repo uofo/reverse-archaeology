@@ -9,6 +9,7 @@ import { actions, store } from './core/store';
 
 import About from './components/About';
 import App from './components/App';
+import Bio from './components/Bio';
 import Chasm from './components/Chasm';
 import Home from './components/Home';
 import PageNotFound from './components/PageNotFound';
@@ -27,6 +28,8 @@ const routes = (
     <IndexRoute component={ArtifactsComponent} />
 
     <Route path="about" component={About} title="About" />
+    <Route path="about/bios/:slug" component={Bio} />
+
     <Route path="chasm" component={Chasm} title="Chasm" />
     <Route path="prism" component={Prism} title="Prism" />
 
