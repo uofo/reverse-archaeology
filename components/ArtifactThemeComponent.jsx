@@ -5,16 +5,17 @@ const propTypes = {
   artifacts: PropTypes.object,
   children: PropTypes.element,
   params: PropTypes.object,
+  themes: PropTypes.object,
 };
 
-function ArtifactThemeComponent({ artifacts, children, params }) {
+function ArtifactThemeComponent({ artifacts, children, params, themes }) {
   const theme = params.slug;
   const themeArtifacts = artifacts.data.items.filter((artifact) => {
     return artifact.themes && artifact.themes.includes(theme);
   });
   return (
     <div>
-      Artifacts on the theme of {theme}
+      Artifacts on the theme of {themes[theme]}
       <ul>
         {themeArtifacts.map((artifact) => {
           return (
