@@ -9,3 +9,27 @@
         }
     }
 }
+
+.funder-list {
+    list-style: none;
+
+    .funder-item {
+        width: 150px;
+
+        img {
+            max-width: 100%;
+        }
+    }
+}
+
+.partner-list {
+    list-style: none;
+
+    .partner-item {
+        width: 150px;
+
+        img {
+            max-width: 100%;
+        }
+    }
+}

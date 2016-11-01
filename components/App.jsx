@@ -32,7 +32,9 @@ var App = React.createClass({
           React.cloneElement(this.props.children, {
             artifacts: this.props.artifacts,
             bios: this.props.bios,
+            funders: this.props.funders,
             pages: this.props.pages,
+            partners: this.props.partners,
             themes: this.props.themes
           })
         }
@@ -45,7 +47,9 @@ function mapStateToProps(state) {
   return {
     artifacts: state.artifacts,
     bios: state.bios,
+    funders: state.funders,
     pages: state.pages,
+    partners: state.partners,
     themes: state.themes
   };
 }
