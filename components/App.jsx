@@ -25,7 +25,9 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <h1>Reverse Archaeology</h1>
+        <h1>
+          <Link to="/">Reverse Archaeology</Link>
+        </h1>
         <Search artifacts={this.props.artifacts.data.items} />
         <Nav pages={this.props.pages} />
         {
