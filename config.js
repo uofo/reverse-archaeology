@@ -4,10 +4,10 @@ const base = {
   basename: '/',
 
   dataUrls: {
-    data: 'http://uofo.github.io/reverse-archaeology-content/data/data.json'
+    data: 'https://uofo.github.io/reverse-archaeology-content/data/data.json'
   },
 
-  imageUrlBase: 'http://uofo.github.io/reverse-archaeology-content/'
+  imageUrlBase: 'https://uofo.github.io/reverse-archaeology-content/'
 };
 
 let combined = {};
