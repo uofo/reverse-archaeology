@@ -10,11 +10,10 @@ const propTypes = {
   children: PropTypes.element,
   funders: PropTypes.array,
   pages: PropTypes.object,
-  partners: PropTypes.array,
   route: PropTypes.object,
 };
 
-function PageComponent({ bios, children, funders, pages, partners, route }) {
+function PageComponent({ bios, children, funders, pages, route }) {
   let body;
   let page;
 
@@ -37,19 +36,6 @@ function PageComponent({ bios, children, funders, pages, partners, route }) {
                     <img src={bio.image_url} />
                     <div>{bio.name}</div>
                   </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-        <section>
-          <h3>Partners</h3>
-          <ul className="partner-list">
-            {partners.map((partner) => {
-              return (
-                <li key={partner.name} className="partner-item">
-                  <img src={partner.image_url} />
-                  <div>{partner.name}</div>
                 </li>
               );
             })}

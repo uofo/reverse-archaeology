@@ -74,15 +74,6 @@ export default {
     }
   }),
 
-  partners: (state = [], action) => {
-    switch (action.type) {
-      case actions.SITE_DATA_RESPONSE:
-        return action.data.partners;
-      default:
-        return state;
-    }
-  },
-
   themes: (state = {}, action) => {
     switch (action.type) {
       case actions.SITE_DATA_RESPONSE:

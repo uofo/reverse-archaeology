@@ -36,7 +36,6 @@ var App = React.createClass({
             bios: this.props.bios,
             funders: this.props.funders,
             pages: this.props.pages,
-            partners: this.props.partners,
             themes: this.props.themes
           })
         }
@@ -51,7 +50,6 @@ function mapStateToProps(state) {
     bios: state.bios,
     funders: state.funders,
     pages: state.pages,
-    partners: state.partners,
     themes: state.themes
   };
 }
