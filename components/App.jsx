@@ -25,11 +25,14 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <h1>
-          <Link to="/">Hidden Treasures of our Orange</Link>
-        </h1>
-        <Search artifacts={this.props.artifacts.data.items} />
-        <Nav pages={this.props.pages} />
+        <header>
+          <h1>
+            <Link to="/">Hidden Treasures of our Orange</Link>
+          </h1>
+          <Nav pages={this.props.pages} />
+          <Search artifacts={this.props.artifacts.data.items} />
+          <div style={{clear: 'both'}}></div>
+        </header>
         {
           React.cloneElement(this.props.children, {
             artifacts: this.props.artifacts,

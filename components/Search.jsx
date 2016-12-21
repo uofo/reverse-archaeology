@@ -50,28 +50,30 @@ var State = React.createClass({
 
   render: function () {
     return (
-        <Autocomplete
-          value={this.state.value}
-          inputProps={{name: "Artifact search", id: "artifacts-autocomplete"}}
-          items={this.props.artifacts}
-          getItemValue={(item) => item.title}
-          shouldItemRender={this.matchArtifactToTerm}
-          sortItems={this.sortArtifacts}
-          onChange={(event, value) => this.setState({ value })}
-          onSelect={(value, item) => {
-            this.setState({ value });
-            this.context.router.push('/artifacts/' + item.slug);
-          }}
-          renderMenu={(items, value, style) => {
-            return React.createElement('div', { className: 'artifacts-autocomplete-menu', children: items })
-          }}
-          renderItem={(item, isHighlighted) => (
-            <div
-              style={isHighlighted ? autocompleteStyles.highlightedItem : autocompleteStyles.item}
-              key={item.id}
-            >{item.title}</div>
-          )}
-        />
+        <div className="search">
+          <Autocomplete
+            value={this.state.value}
+            inputProps={{name: "Artifact search", id: "artifacts-autocomplete"}}
+            items={this.props.artifacts}
+            getItemValue={(item) => item.title}
+            shouldItemRender={this.matchArtifactToTerm}
+            sortItems={this.sortArtifacts}
+            onChange={(event, value) => this.setState({ value })}
+            onSelect={(value, item) => {
+              this.setState({ value });
+              this.context.router.push('/artifacts/' + item.slug);
+            }}
+            renderMenu={(items, value, style) => {
+              return React.createElement('div', { className: 'artifacts-autocomplete-menu', children: items })
+            }}
+            renderItem={(item, isHighlighted) => (
+              <div
+                style={isHighlighted ? autocompleteStyles.highlightedItem : autocompleteStyles.item}
+                key={item.id}
+              >{item.title}</div>
+            )}
+          />
+        </div>
     );
   }
 });
