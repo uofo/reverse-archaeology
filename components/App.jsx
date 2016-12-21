@@ -5,8 +5,8 @@ import { Link } from 'react-router';
 
 import * as actions from '../core/actions';
 
-import Nav from './Nav';
-import Search from './Search';
+import Footer from './Footer';
+import Header from './Header';
 
 import '../styles/app.scss';
 
@@ -25,14 +25,7 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <header>
-          <h1>
-            <Link to="/">Hidden Treasures of our Orange</Link>
-          </h1>
-          <Nav pages={this.props.pages} />
-          <Search artifacts={this.props.artifacts.data.items} />
-          <div style={{clear: 'both'}}></div>
-        </header>
+        <Header artifacts={this.props.artifacts} pages={this.props.pages} />
         {
           React.cloneElement(this.props.children, {
             artifacts: this.props.artifacts,
@@ -42,6 +35,7 @@ var App = React.createClass({
             themes: this.props.themes
           })
         }
+        <Footer />
       </div>
     );
   }
