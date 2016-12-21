@@ -15,21 +15,45 @@ function ArtifactThemeComponent({ artifacts, children, params, themes }) {
   });
   return (
     <div>
-      Artifacts on the theme of {themes[theme]}
-      <ul>
+      {themes[theme]}
+      <ul className="artifact-grid">
         {themeArtifacts.map((artifact) => {
-          return (
-            <li key={artifact.slug}>
-              <Link to={'/artifacts/' + artifact.slug}>{artifact.title}</Link>
-            </li>
-          );
+          return <ArtifactGridItem artifact={artifact} key={artifact.slug} />;
         })}
       </ul>
       {children}
+      <div style={{clear: 'both'}}></div>
     </div>
   );
 }
 
 ArtifactThemeComponent.propTypes = propTypes;
+
+var ArtifactGridItem = React.createClass({
+  propTypes: {
+    artifact: PropTypes.object.isRequired
+  },
+
+  contextTypes: {
+    router: React.PropTypes.object
+  },
+
+  onClick: function () {
+    this.context.router.push('/artifacts/' + this.props.artifact.slug);
+  },
+
+  render: function () {
+    const width = this.props.artifact.headline.length > 100 ? 'wide': 'narrow';
+    return (
+      <li className={"artifact-grid-item-" + width} onClick={this.onClick} style={{backgroundImage: "url('" + this.props.artifact.image_url + "')"}}>
+        <div className="artifact-grid-item-inner">
+          <div className="artifact-grid-item-inner-text">
+            {this.props.artifact.headline}
+          </div>
+        </div>
+      </li>
+    );
+  }
+});
 
 export default ArtifactThemeComponent;

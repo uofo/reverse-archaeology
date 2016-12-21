@@ -41,7 +41,7 @@ body {
 /*reactroot div*/
 #root > div {
   min-width: 34vw;
-  max-width: 500px;
+  max-width: 1000px;
   padding: 3vh 0 12vh 0;
 
   /*center based on vw to prevent content jump when vertical scroll bar show/hide
@@ -117,7 +117,6 @@ a:hover, a:active {
 /*custom bullets*/
 li {
   padding-left: 18px;
-  text-indent: -15px;
   margin: 0.5vh 0;
 }
 
