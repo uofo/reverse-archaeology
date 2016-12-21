@@ -26,15 +26,17 @@ var App = React.createClass({
     return (
       <div>
         <Header artifacts={this.props.artifacts} pages={this.props.pages} />
-        {
-          React.cloneElement(this.props.children, {
-            artifacts: this.props.artifacts,
-            bios: this.props.bios,
-            funders: this.props.funders,
-            pages: this.props.pages,
-            themes: this.props.themes
-          })
-        }
+        <main>
+          {
+            React.cloneElement(this.props.children, {
+              artifacts: this.props.artifacts,
+              bios: this.props.bios,
+              funders: this.props.funders,
+              pages: this.props.pages,
+              themes: this.props.themes
+            })
+          }
+        </main>
         <Footer />
       </div>
     );
