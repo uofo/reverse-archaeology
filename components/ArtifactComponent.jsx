@@ -23,12 +23,21 @@ function ArtifactComponent({ artifacts, children, params }) {
   if (artifact) {
     body = (
       <div>
-        <h2>{artifact.title}</h2>
-        {artifact.image_url ? <img className='artifact-image' src={artifact.image_url} /> : ''}
-        {artifact.image_caption ? <div className='artifact-image-caption'>{artifact.image_caption}</div> : ''}
-        <div dangerouslySetInnerHTML={{__html: decode(artifact.content)}} />
-        <Link className='previous-artifact' to={'/artifacts/' + previousArtifact.slug}>previous</Link>
-        <Link className='next-artifact' to={'/artifacts/' + nextArtifact.slug}>next</Link>
+        <Link className='previous-artifact' to={'/artifacts/' + previousArtifact.slug}>&lsaquo;</Link>
+        <Link className='next-artifact' to={'/artifacts/' + nextArtifact.slug}>&rsaquo;</Link>
+        <div className="artifact">
+          <h2>{artifact.headline}</h2>
+          <div>
+            <div className="artifact-left">
+              {artifact.image_url ? <img className='artifact-image' src={artifact.image_url} /> : ''}
+              {artifact.image_caption ? <div className='artifact-image-caption'>{artifact.image_caption}</div> : ''}
+            </div>
+            <div className="artifact-right">
+              <div dangerouslySetInnerHTML={{__html: decode(artifact.content)}} />
+            </div>
+            <div style={{clear: 'both'}}></div>
+          </div>
+        </div>
       </div>
     );
   }

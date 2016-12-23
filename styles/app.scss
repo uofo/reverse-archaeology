@@ -64,22 +64,9 @@ space for vertical scroll bar without creating horizontal scroll bar
 
 /*links*/
 a {
-  border-bottom: 1px dotted rgb(0, 168, 0);
+  font-weight: bold;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-}
-
-a:hover, a:active {
-  border-bottom: 1px solid rgb(0, 168, 0);
-}
-
-.current-input-touch a:hover {
-  border-bottom: 1px dotted rgb(0, 168, 0);
-  color: inherit;
-}
-
-.current-input-touch a:active {
-  border-bottom: 1px dashed rgb(0, 168, 0);
 }
 
 /*extended link*/
