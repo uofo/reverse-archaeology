@@ -25,7 +25,7 @@ const browserHistory = useRouterHistory(createHistory)({
 
 const routes = (
   <Route actions={actions} path="/" component={App}>
-    <IndexRoute component={ArtifactsComponent} />
+    <IndexRoute component={Home} />
 
     <Route path="about" component={About} title="About" />
     <Route path="about/bios/:slug" component={Bio} />
