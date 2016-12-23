@@ -16,7 +16,7 @@ import PageNotFound from './components/PageNotFound';
 import Prism from './components/Prism';
 import ArtifactComponent from './components/ArtifactComponent';
 import ArtifactThemeComponent from './components/ArtifactThemeComponent';
-import ArtifactsComponent from './components/ArtifactsComponent';
+import Archive from './components/Archive';
 import config from './config';
 
 const browserHistory = useRouterHistory(createHistory)({
@@ -33,7 +33,7 @@ const routes = (
     <Route path="chasm" component={Chasm} title="Chasm" />
     <Route path="prism" component={Prism} title="Prism" />
 
-    <Route path="archive" component={ArtifactsComponent} />
+    <Route path="archive" component={Archive} />
     <Route path="artifacts/theme/:slug" component={ArtifactThemeComponent} />
     <Route path="artifacts/:slug" component={ArtifactComponent} />
 

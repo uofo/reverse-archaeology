@@ -8,7 +8,7 @@ const propTypes = {
   themes: PropTypes.object,
 };
 
-function ArtifactsComponent({ children, themes }) {
+function Archive({ children, themes }) {
   const themeSlugs = Object.keys(themes);
 
   if (!themeSlugs.length) {
@@ -41,6 +41,6 @@ function ArtifactsComponent({ children, themes }) {
   );
 }
 
-ArtifactsComponent.propTypes = propTypes;
+Archive.propTypes = propTypes;
 
-export default ArtifactsComponent;
+export default Archive;
