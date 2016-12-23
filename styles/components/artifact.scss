@@ -16,6 +16,7 @@ img {
 
 @mixin artifact-grid-item() {
     background: #7D494E;
+    background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     color: white;
