@@ -21,8 +21,13 @@ function PageComponent({ children, pages, route }) {
 
   if (page) {
     body = (
-      <div>
-        <h2>Prism</h2>
+      <div className="prism">
+        <div className="prism-screen">
+          <div className="prism-blurb">
+            <h2>The Prism</h2>
+            <div>Prism blurb</div>
+          </div>
+        </div>
         <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
       </div>
     );

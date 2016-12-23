@@ -1,0 +1,26 @@
+@mixin full-screen-page() {
+    margin-top: -100px;
+}
+
+@mixin full-screen-container() {
+    box-sizing: border-box;
+    height: 100vh;
+    padding-top: 100px;
+    position: relative;
+}
+
+@mixin full-screen-blurb() {
+    bottom: 0;
+    position: absolute;
+    width: 250px;
+
+    h2 {
+        margin-top: 0;
+    }
+
+    & > * {
+        background-color: black;
+        color: white;
+        padding: 10px;
+    }
+}

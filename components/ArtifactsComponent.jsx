@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import '../styles/components/archive.scss';
+
 const propTypes = {
   children: PropTypes.element,
   themes: PropTypes.object,
@@ -17,17 +19,24 @@ function ArtifactsComponent({ children, themes }) {
 
   return (
     <div>
-      <div>Themes:</div>
-      <ul>
-        {themeSlugs.map((slug) => {
-          return (
-            <li key={slug}>
-              <Link to={'/artifacts/theme/' + slug}>{themes[slug]}</Link>
-            </li>
-          );
-        })}
-      </ul>
-      {children}
+      <div className="archive">
+        <div className="archive-screen">
+          <div className="archive-blurb">
+            <h2>The Archive</h2>
+            <div>About the archive</div>
+          </div>
+          <ul>
+            {themeSlugs.map((slug) => {
+              return (
+                <li key={slug}>
+                  <Link to={'/artifacts/theme/' + slug}>{themes[slug]}</Link>
+                </li>
+              );
+            })}
+          </ul>
+          {children}
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,11 +1,13 @@
-.bio-list {
-    list-style: none;
+@import "../screen";
 
-    .bio-item {
-        width: 150px;
+.chasm {
+    @include full-screen-page();
 
-        img {
-            max-width: 100%;
-        }
+    .chasm-screen {
+        @include full-screen-container();
+    }
+
+    .chasm-blurb {
+        @include full-screen-blurb();
     }
 }

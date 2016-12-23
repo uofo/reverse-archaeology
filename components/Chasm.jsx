@@ -21,8 +21,13 @@ function PageComponent({ children, pages, route }) {
 
   if (page) {
     body = (
-      <div>
-        <h2>Chasm</h2>
+      <div className="chasm">
+        <div className="chasm-screen">
+          <div className="chasm-blurb">
+            <h2>The Chasm</h2>
+            <div>Chasm blurb</div>
+          </div>
+        </div>
         <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
       </div>
     );

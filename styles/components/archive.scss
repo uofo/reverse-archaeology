@@ -1,13 +1,13 @@
 @import "../screen";
 
-.prism {
+.archive {
     @include full-screen-page();
 
-    .prism-screen {
+    .archive-screen {
         @include full-screen-container();
     }
 
-    .prism-blurb {
+    .archive-blurb {
         @include full-screen-blurb();
     }
 }
