@@ -136,4 +136,8 @@ main {
   margin-left: 25px;
   margin-right: 25px;
   width: calc(100% - 50px);
+
+  & > div {
+    padding-top: 100px;
+  }
 }

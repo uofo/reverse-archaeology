@@ -1,6 +1,8 @@
 header {
     margin-left: 25px;
     padding: 25px 0;
+    position: absolute;
+    z-index: 100;
 
     h1 {
         float: left;

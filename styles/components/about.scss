@@ -1,10 +1,38 @@
+.about {
+    margin-top: -100px;
+
+    .about-screen {
+        height: 100vh;
+        position: relative;
+    }
+
+    .about-blurb {
+        bottom: 0;
+        position: absolute;
+        width: 250px;
+
+        h2 {
+            margin-top: 0;
+        }
+
+        & > * {
+            background-color: black;
+            color: white;
+            padding: 10px;
+        }
+    }
+}
+
 .bio-list {
     list-style: none;
 
     .bio-item {
+        float: left;
+        text-align: center;
         width: 150px;
 
         img {
+            border-radius: 50%;
             max-width: 100%;
         }
     }

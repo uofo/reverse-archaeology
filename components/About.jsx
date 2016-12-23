@@ -23,11 +23,15 @@ function PageComponent({ bios, children, funders, pages, route }) {
 
   if (page) {
     body = (
-      <div>
-        <h2>About</h2>
-        <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
+      <div className="about">
+        <div className="about-screen">
+          <div className="about-blurb">
+            <h2>About Us</h2>
+            <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
+          </div>
+        </div>
         <section>
-          <h3>Bios</h3>
+          <h3>Our Team</h3>
           <ul className="bio-list">
             {bios.map((bio) => {
               return (
@@ -40,6 +44,7 @@ function PageComponent({ bios, children, funders, pages, route }) {
               );
             })}
           </ul>
+          <div style={{clear: 'both'}}></div>
         </section>
         <section>
           <h3>Funders</h3>
