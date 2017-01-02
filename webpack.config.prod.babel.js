@@ -13,6 +13,13 @@ export default {
   },
   module: {
     loaders: [
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+            'file?hash=sha512&digest=hex&name=[hash].[ext]',
+            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
+      },
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
@@ -25,6 +32,7 @@ export default {
     new CopyWebpackPlugin([
       { from: 'CNAME' },
       { from: '404.html' },
+      { from: 'img', to: 'img' }
     ]),
     new webpack.DefinePlugin({
       'process.env': {
