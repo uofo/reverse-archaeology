@@ -1,5 +1,13 @@
 @import "../screen";
 
+body.home-page {
+    background-image: url('/img/backgrounds/home.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: gold;
+}
+
 .home {
     @include full-screen-page();
 
