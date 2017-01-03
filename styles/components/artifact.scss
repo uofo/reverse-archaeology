@@ -82,3 +82,24 @@ img {
         width: 33.3333%;
     }
 }
+
+body.archive-section.archive-page {
+    background-image: url('/img/backgrounds/archive.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+body.archive-section.theme-page {
+    background-image: url('/img/backgrounds/archive-theme.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body.archive-section.artifact-page {
+    background-image: url('/img/backgrounds/archive-artifact.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
