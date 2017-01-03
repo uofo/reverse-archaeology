@@ -26,17 +26,17 @@ const browserHistory = syncHistoryWithStore(useRouterHistory(createHistory)({
 
 const routes = (
   <Route actions={actions} path="/" component={App}>
-    <IndexRoute component={Home} section="home" />
+    <IndexRoute component={Home} section="home" page="home" />
 
-    <Route path="about" component={About} title="About" section="about" />
-    <Route path="about/bios/:slug" component={Bio} section="about" />
+    <Route path="about" component={About} title="About" section="about" page="about" />
+    <Route path="about/bios/:slug" component={Bio} section="about" page="bio" />
 
-    <Route path="chasm" component={Chasm} title="Chasm" section="chasm" />
-    <Route path="prism" component={Prism} title="Prism" section="prism" />
+    <Route path="chasm" component={Chasm} title="Chasm" section="chasm" page="chasm" />
+    <Route path="prism" component={Prism} title="Prism" section="prism" page="prism" />
 
-    <Route path="archive" component={Archive} section="archive" />
-    <Route path="artifacts/theme/:slug" component={ArtifactThemeComponent} section="archive" />
-    <Route path="artifacts/:slug" component={ArtifactComponent} section="archive" />
+    <Route path="archive" component={Archive} section="archive" page="archive" />
+    <Route path="artifacts/theme/:slug" component={ArtifactThemeComponent} section="archive" page="theme" />
+    <Route path="artifacts/:slug" component={ArtifactComponent} section="archive" page="artifact" />
 
     <Route path="*" component={PageNotFound} />
   </Route>
@@ -45,6 +45,20 @@ const routes = (
 function onRouteUpdate() {
   const section = this.state.routes[this.state.routes.length - 1].section;
   toggleSectionClass(section);
+
+  const page = this.state.routes[this.state.routes.length - 1].page;
+  togglePageClass(page);
+}
+
+function togglePageClass(page) {
+  const currentPage = `${page}-page`;
+  document.body.classList.add();
+  document.body.classList.forEach(function (className) {
+    if (className !== currentPage && className.endsWith('-page')) {
+      document.body.classList.remove(className);
+    }
+  });
+  document.body.classList.add(currentPage);
 }
 
 function toggleSectionClass(section) {
