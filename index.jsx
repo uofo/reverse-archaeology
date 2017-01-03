@@ -42,23 +42,27 @@ const routes = (
   </Route>
 );
 
-function onUpdate() {
+function onRouteUpdate() {
   const section = this.state.routes[this.state.routes.length - 1].section;
-  const currentPage = `${section}-page`;
+  toggleSectionClass(section);
+}
+
+function toggleSectionClass(section) {
+  const currentSection = `${section}-section`;
   document.body.classList.add();
   document.body.classList.forEach(function (className) {
-    if (className !== currentPage && className.endsWith('-page')) {
+    if (className !== currentSection && className.endsWith('-section')) {
       document.body.classList.remove(className);
     }
   });
-  document.body.classList.add(currentPage);
+  document.body.classList.add(currentSection);
 }
 
 render(
   <Provider store={store}>
     <Router
       history={browserHistory}
-      onUpdate={onUpdate}
+      onUpdate={onRouteUpdate}
       routes={routes}
     />
   </Provider>,
