@@ -7,6 +7,10 @@
         margin: 0 5px;
         padding: 5px 15px;
 
+        &.active {
+            background: gold;
+        }
+
         &:before {
             content: "";
             padding: 0;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { createHistory } from "history";
 import 'current-input';
 import { Provider } from 'react-redux';
@@ -19,9 +20,9 @@ import ArtifactThemeComponent from './components/ArtifactThemeComponent';
 import Archive from './components/Archive';
 import config from './config';
 
-const browserHistory = useRouterHistory(createHistory)({
+const browserHistory = syncHistoryWithStore(useRouterHistory(createHistory)({
     basename: config.basename
-});
+}), store);
 
 const routes = (
   <Route actions={actions} path="/" component={App}>
@@ -49,8 +50,8 @@ function onUpdate() {
     if (className !== currentPage && className.endsWith('-page')) {
       document.body.classList.remove(className);
     }
-    document.body.classList.add(currentPage);
   });
+  document.body.classList.add(currentPage);
 }
 
 render(

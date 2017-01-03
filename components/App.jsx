@@ -25,7 +25,7 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <Header artifacts={this.props.artifacts} pages={this.props.pages} />
+        <Header artifacts={this.props.artifacts} pages={this.props.pages} section={this.props.section} />
         <main>
           {
             React.cloneElement(this.props.children, {
@@ -33,6 +33,7 @@ var App = React.createClass({
               bios: this.props.bios,
               funders: this.props.funders,
               pages: this.props.pages,
+              section: this.props.section,
               themes: this.props.themes
             })
           }
@@ -43,12 +44,14 @@ var App = React.createClass({
   }
 });
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  const route = ownProps.routes[ownProps.routes.length - 1];
   return {
     artifacts: state.artifacts,
     bios: state.bios,
     funders: state.funders,
     pages: state.pages,
+    section: route.section,
     themes: state.themes
   };
 }
