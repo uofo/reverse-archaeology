@@ -34,6 +34,7 @@ var App = React.createClass({
               funders: this.props.funders,
               pages: this.props.pages,
               section: this.props.section,
+              slideshowimages: this.props.slideshowimages,
               themes: this.props.themes
             })
           }
@@ -52,6 +53,7 @@ function mapStateToProps(state, ownProps) {
     funders: state.funders,
     pages: state.pages,
     section: route.section,
+    slideshowimages: state.slideshowimages,
     themes: state.themes
   };
 }
