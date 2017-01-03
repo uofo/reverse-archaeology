@@ -20,9 +20,9 @@ export default {
             'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
         ]
       },
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
+      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
     ],
   },
   resolve: {
