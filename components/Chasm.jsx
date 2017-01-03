@@ -3,15 +3,18 @@ import { decode } from 'ent';
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import Slideshow from './Slideshow';
+
 import '../styles/components/chasm.scss';
 
 const propTypes = {
   children: PropTypes.element,
   pages: PropTypes.object,
   route: PropTypes.object,
+  slideshowimages: PropTypes.array,
 };
 
-function PageComponent({ children, pages, route }) {
+function PageComponent({ children, pages, route, slideshowimages }) {
   let body;
   let page;
 
@@ -19,9 +22,12 @@ function PageComponent({ children, pages, route }) {
     page = pages.data.items.filter(page => page.title === route.title)[0];
   }
 
+  const chasmSlideshowImages = slideshowimages.filter(image => image.page === 'chasm');
+
   if (page) {
     body = (
       <div className="chasm">
+        <Slideshow images={chasmSlideshowImages} />
         <div className="chasm-screen">
           <div className="chasm-blurb">
             <h2>The Chasm</h2>

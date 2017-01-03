@@ -3,6 +3,8 @@ import { decode } from 'ent';
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import Slideshow from './Slideshow';
+
 import '../styles/components/about.scss';
 
 const propTypes = {
@@ -11,9 +13,10 @@ const propTypes = {
   funders: PropTypes.array,
   pages: PropTypes.object,
   route: PropTypes.object,
+  slideshowimages: PropTypes.array,
 };
 
-function PageComponent({ bios, children, funders, pages, route }) {
+function PageComponent({ bios, children, funders, pages, route, slideshowimages }) {
   let body;
   let page;
 
@@ -21,9 +24,12 @@ function PageComponent({ bios, children, funders, pages, route }) {
     page = pages.data.items.filter(page => page.title === route.title)[0];
   }
 
+  const aboutSlideshowImages = slideshowimages.filter(image => image.page === 'about');
+
   if (page) {
     body = (
       <div className="about">
+        <Slideshow images={aboutSlideshowImages} />
         <div className="about-screen">
           <div className="about-blurb">
             <h2>About Us</h2>

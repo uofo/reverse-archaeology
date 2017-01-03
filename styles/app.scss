@@ -36,16 +36,6 @@ body {
 /*reactroot div*/
 #root > div {
     width: 100%;
-
-    /*center based on vw to prevent content jump when vertical scroll bar show/hide
-    note: vw/vh include the width of scroll bars*/
-    position: relative;
-    left: 50vw;
-    -webkit-transform: translate(-50%, 0);
-    -moz-transform: translate(-50%, 0);
-    -ms-transform: translate(-50%, 0);
-    -o-transform: translate(-50%, 0);
-    transform: translate(-50%, 0);
 }
 
 /*use responsive max-width to simulate padding/margin to allow

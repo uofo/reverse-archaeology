@@ -1,0 +1,32 @@
+.slideshow {
+    height: 100%;
+    width: 100%;
+
+    &-current-image {
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+    }
+
+    &-prev, &-next {
+        color: gold;
+        cursor: pointer;
+        font-size: 80px;
+        position: absolute;
+        top: 50%;
+        z-index: 100;
+    }
+
+    &-prev {
+        left: 25px;
+    }
+
+    &-next {
+        right: 25px;
+    }
+}
