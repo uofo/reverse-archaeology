@@ -67,11 +67,13 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
               }
               return (
                 <li key={funder.name} className="funder-item">
-                  <img src={imgUrl} />
-                  <div>{funder.name}</div>
+                  <a href={funder.website_url} target="_blank">
+                    <img alt={funder.name} src={imgUrl} />
+                  </a>
                 </li>
               );
             })}
+            <li style={{clear: 'both'}}></li>
           </ul>
         </section>
       </div>
