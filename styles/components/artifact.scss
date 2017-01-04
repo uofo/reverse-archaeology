@@ -20,46 +20,6 @@ img {
     font-size: 75%;
 }
 
-@mixin artifact-grid-item() {
-    background: #7D494E;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: white;
-    cursor: pointer;
-    float: left;
-    height: 125px;
-    list-style: none;
-    margin: 5px 0;
-    padding: 0;
-
-    &:hover .artifact-grid-item-inner {
-        display: block;
-    }
-}
-
-.artifact-grid-item-narrow {
-    @include artifact-grid-item();
-    width: 33.3333%;
-}
-
-.artifact-grid-item-wide {
-    @include artifact-grid-item();
-    width: 66.6666%;
-}
-
-.artifact-grid-item-inner {
-    background-color: rgba(122, 72, 76, 0.6);
-    display: none;
-    height: 100%;
-    width: 100%;
-
-    &-text {
-        padding: 15px;
-        padding-top: 30px;
-    }
-}
-
 .artifact {
     background-color: #D8C7A5;
     max-width: 80%;
@@ -88,13 +48,6 @@ body.archive-section.archive-page {
     background-position: top center;
     background-repeat: no-repeat;
     background-size: contain;
-}
-
-body.archive-section.theme-page {
-    background-image: url('/img/backgrounds/archive-theme.jpg');
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 body.archive-section.artifact-page {

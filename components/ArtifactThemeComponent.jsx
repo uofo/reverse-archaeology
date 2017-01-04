@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import '../styles/components/artifact-theme.scss';
+
 const propTypes = {
   artifacts: PropTypes.object,
   children: PropTypes.element,
@@ -14,8 +16,8 @@ function ArtifactThemeComponent({ artifacts, children, params, themes }) {
     return artifact.themes && artifact.themes.includes(theme);
   });
   return (
-    <div>
-      {themes[theme]}
+    <div className="artifact-grid-container">
+      <h2 className="artifact-theme">{themes[theme]}</h2>
       <ul className="artifact-grid">
         {themeArtifacts.map((artifact) => {
           return <ArtifactGridItem artifact={artifact} key={artifact.slug} />;
