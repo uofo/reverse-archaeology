@@ -10,7 +10,7 @@ const propTypes = {
   themes: PropTypes.object,
 };
 
-function ArtifactThemeComponent({ artifacts, children, params, themes }) {
+function ArtifactTheme({ artifacts, children, params, themes }) {
   const theme = params.slug;
   const themeArtifacts = artifacts.data.items.filter((artifact) => {
     return artifact.themes && artifact.themes.includes(theme);
@@ -29,7 +29,7 @@ function ArtifactThemeComponent({ artifacts, children, params, themes }) {
   );
 }
 
-ArtifactThemeComponent.propTypes = propTypes;
+ArtifactTheme.propTypes = propTypes;
 
 var ArtifactGridItem = React.createClass({
   propTypes: {
@@ -58,4 +58,4 @@ var ArtifactGridItem = React.createClass({
   }
 });
 
-export default ArtifactThemeComponent;
+export default ArtifactTheme;

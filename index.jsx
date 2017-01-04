@@ -16,7 +16,7 @@ import Home from './components/Home';
 import PageNotFound from './components/PageNotFound';
 import Prism from './components/Prism';
 import ArtifactComponent from './components/ArtifactComponent';
-import ArtifactThemeComponent from './components/ArtifactThemeComponent';
+import ArtifactTheme from './components/ArtifactTheme';
 import Archive from './components/Archive';
 import config from './config';
 
@@ -35,7 +35,7 @@ const routes = (
     <Route path="prism" component={Prism} title="Prism" section="prism" page="prism" />
 
     <Route path="archive" component={Archive} section="archive" page="archive" />
-    <Route path="artifacts/theme/:slug" component={ArtifactThemeComponent} section="archive" page="theme" />
+    <Route path="artifacts/theme/:slug" component={ArtifactTheme} section="archive" page="theme" />
     <Route path="artifacts/:slug" component={ArtifactComponent} section="archive" page="artifact" />
 
     <Route path="*" component={PageNotFound} />
