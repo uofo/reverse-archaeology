@@ -73,6 +73,7 @@ var State = React.createClass({
               >{item.title}</div>
             )}
           />
+          <img className="search-icon" src="/img/search.png" />
         </div>
     );
   }

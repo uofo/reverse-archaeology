@@ -8,3 +8,19 @@
     position: fixed;
     max-height: 50%;
 }
+
+.search {
+    input {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 0;
+        height: 33px;
+        padding-left: 31px;
+    }
+
+    .search-icon {
+        float: left;
+        margin-right: -28px;
+        margin-top: 4px;
+        padding-left: 4px;
+    }
+}
