@@ -16,7 +16,7 @@ function Header({ artifacts, pages, section }) {
   return (
     <header>
       <h1>
-        <Link to="/">Hidden Treasures of our Orange</Link>
+        <Link className="logo-link" to="/"></Link>
       </h1>
       <Nav pages={pages} section={section} />
       <Search artifacts={artifacts.data.items} />

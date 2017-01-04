@@ -6,15 +6,25 @@ header {
 
     h1 {
         float: left;
+        width: 300px;
+    }
+
+    .logo-link {
+        background-image: url(/img/logo.png);
+        display: inline-block;
+        height: 63px;
+        width: 189px;
     }
 
     .navbar {
         float: left;
         margin-left: 20px;
+        margin-top: 20px;
     }
 
     .search {
         float: left;
         margin-left: 20px;
+        margin-top: 20px;
     }
 }
