@@ -3,6 +3,8 @@ import { decode } from 'ent';
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import config from '../config';
+
 import '../styles/components/bio.scss';
 
 const propTypes = {
@@ -18,11 +20,21 @@ function Bio({ bios, children, params }) {
   let body;
 
   if (bio) {
+    let imgUrl = bio.image_url;
+    if (imgUrl && !imgUrl.startsWith('http')) {
+      imgUrl = config.imageUrlBase + imgUrl;
+    }
+
     body = (
-      <div>
-        <h2>{bio.name}</h2>
-        {bio.image_url ? <img className='bio-image' src={bio.image_url} /> : ''}
-        <div dangerouslySetInnerHTML={{__html: decode(bio.content)}} />
+      <div className="bio-individual">
+        <div className="bio-left">
+          {imgUrl ? <img className='bio-image' src={imgUrl} /> : ''}
+          <h2 className="bio-name">{bio.name}</h2>
+        </div>
+        <div className="bio-right">
+          <div dangerouslySetInnerHTML={{__html: decode(bio.content)}} />
+        </div>
+        <div style={{ clear: 'both' }}></div>
       </div>
     );
   }

@@ -1,0 +1,22 @@
+.bio-individual {
+    .bio-left {
+        float: left;
+        width: 25%;
+    }
+
+    .bio-right {
+        float: left;
+        padding-left: 25px;
+        width: 75%;
+    }
+
+    .bio-image {
+        border: 2px solid gold;
+        border-radius: 50%;
+        max-width: 100%;
+    }
+
+    .bio-name {
+        text-align: center;
+    }
+}
