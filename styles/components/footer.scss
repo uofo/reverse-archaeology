@@ -6,3 +6,19 @@ footer {
     min-height: 20vh;
     padding: 35px;
 }
+
+.footer-left {
+    float: left;
+    width: 25%;
+}
+
+.footer-center {
+    float: left;
+    text-align: center;
+    width: 50%;
+}
+
+.footer-right {
+    float: left;
+    width: 25%;
+}

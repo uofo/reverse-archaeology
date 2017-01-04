@@ -9,7 +9,15 @@ const propTypes = {
 function Footer() {
   return (
     <footer>
-      Hidden Treasures of Our Orange
+      <div className="footer-left">
+        Hidden Treasures of Our Orange
+      </div>
+      <div className="footer-center">
+        Hidden Treasures of Our Orange
+      </div>
+      <div className="footer-right">
+        right side
+      </div>
     </footer>
   );
 }
