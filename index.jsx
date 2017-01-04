@@ -15,7 +15,7 @@ import Chasm from './components/Chasm';
 import Home from './components/Home';
 import PageNotFound from './components/PageNotFound';
 import Prism from './components/Prism';
-import ArtifactComponent from './components/ArtifactComponent';
+import Artifact from './components/Artifact';
 import ArtifactTheme from './components/ArtifactTheme';
 import Archive from './components/Archive';
 import config from './config';
@@ -36,7 +36,7 @@ const routes = (
 
     <Route path="archive" component={Archive} section="archive" page="archive" />
     <Route path="artifacts/theme/:slug" component={ArtifactTheme} section="archive" page="theme" />
-    <Route path="artifacts/:slug" component={ArtifactComponent} section="archive" page="artifact" />
+    <Route path="artifacts/:slug" component={Artifact} section="archive" page="artifact" />
 
     <Route path="*" component={PageNotFound} />
   </Route>

@@ -11,7 +11,7 @@ const propTypes = {
   params: PropTypes.object,
 };
 
-function ArtifactComponent({ artifacts, children, params }) {
+function Artifact({ artifacts, children, params }) {
   const artifactItems = artifacts.data.items;
   const artifactIndex = artifactItems.findIndex((a) => a.slug === params.slug);
   const artifact = artifactItems[artifactIndex];
@@ -54,6 +54,6 @@ function ArtifactComponent({ artifacts, children, params }) {
   );
 }
 
-ArtifactComponent.propTypes = propTypes;
+Artifact.propTypes = propTypes;
 
-export default ArtifactComponent;
+export default Artifact;
