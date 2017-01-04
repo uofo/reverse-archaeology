@@ -36,7 +36,7 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
             <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
           </div>
         </div>
-        <section>
+        <section className="about-team">
           <h3>Our Team</h3>
           <ul className="bio-list">
             {bios.map((bio) => {
@@ -49,10 +49,10 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
                 </li>
               );
             })}
+            <li style={{clear: 'both'}}></li>
           </ul>
-          <div style={{clear: 'both'}}></div>
         </section>
-        <section>
+        <section className="about-funders">
           <h3>Funders</h3>
           <ul className="funder-list">
             {funders.map((funder) => {

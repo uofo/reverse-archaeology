@@ -12,18 +12,36 @@
     }
 }
 
+.about-team {
+    margin: 0 auto;
+    width: 90%;
+
+    h3 {
+        text-align: center;
+    }
+}
+
 .bio-list {
     list-style: none;
 
     .bio-item {
         float: left;
+        height: 200px;
+        padding: 0;
         text-align: center;
-        width: 150px;
+        width: 25%;
 
         img {
             border-radius: 50%;
+            max-height: 100%;
             max-width: 100%;
         }
+    }
+}
+
+.about-funders {
+    h3 {
+        text-align: center;
     }
 }
 
