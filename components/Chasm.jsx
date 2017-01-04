@@ -31,7 +31,7 @@ function PageComponent({ children, pages, route, slideshowimages }) {
         <div className="chasm-screen">
           <div className="chasm-blurb">
             <h2>The Chasm</h2>
-            <div>Chasm blurb</div>
+            <div>{page.blurb}</div>
           </div>
         </div>
         <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />

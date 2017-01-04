@@ -31,7 +31,7 @@ function PageComponent({ children, pages, route, slideshowimages }) {
         <div className="prism-screen">
           <div className="prism-blurb">
             <h2>The Prism</h2>
-            <div>Prism blurb</div>
+            <div>{page.blurb}</div>
           </div>
         </div>
         <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
