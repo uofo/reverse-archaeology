@@ -22,3 +22,9 @@ footer {
     float: left;
     width: 25%;
 }
+
+footer {
+    .artifacts-autocomplete-menu {
+        position: relative;
+    }
+}

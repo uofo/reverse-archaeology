@@ -39,7 +39,7 @@ var App = React.createClass({
             })
           }
         </main>
-        <Footer />
+        <Footer artifacts={this.props.artifacts} />
       </div>
     );
   }
