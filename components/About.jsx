@@ -3,6 +3,7 @@ import { decode } from 'ent';
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import config from '../config';
 import Slideshow from './Slideshow';
 
 import '../styles/components/about.scss';
@@ -40,10 +41,14 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
           <h3>Our Team</h3>
           <ul className="bio-list">
             {bios.map((bio) => {
+              let imgUrl = bio.image_url;
+              if (imgUrl && !imgUrl.startsWith('http')) {
+                imgUrl = config.imageUrlBase + imgUrl;
+              }
               return (
                 <li key={bio.name} className="bio-item">
                   <Link to={"about/bios/" + bio.slug}>
-                    <img src={bio.image_url} />
+                    <img src={imgUrl} />
                     <div>{bio.name}</div>
                   </Link>
                 </li>
@@ -56,9 +61,13 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
           <h3>Funders</h3>
           <ul className="funder-list">
             {funders.map((funder) => {
+              let imgUrl = funder.image_url;
+              if (imgUrl && !imgUrl.startsWith('http')) {
+                imgUrl = config.imageUrlBase + imgUrl;
+              }
               return (
                 <li key={funder.name} className="funder-item">
-                  <img src={funder.image_url} />
+                  <img src={imgUrl} />
                   <div>{funder.name}</div>
                 </li>
               );
