@@ -12,9 +12,15 @@
     }
 }
 
-body.archive-section.archive-page {
-    background-image: url('/img/backgrounds/archive.jpg');
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-size: contain;
+body.archive-section {
+    .logo-link {
+        background-image: url(/img/archive-icon.png);
+    }
+
+    &.archive-page {
+        background-image: url('/img/backgrounds/archive.jpg');
+        background-position: top center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
 }
