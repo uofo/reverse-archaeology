@@ -7,40 +7,50 @@ import '../styles/components/archive.scss';
 class PinnedOverlay extends React.Component {
   constructor(props) {
     super(props);
-
-    var image = new Image();
-    image.src = window.getComputedStyle(this.props.overlaid)['background-image'].replace(/"/g,"").replace(/url\(|\)$/ig, "");
-
-    this.imageWidth = image.width;
-    this.imageHeight = image.height;
-    this.aspectRatio = this.imageWidth / this.imageHeight;
-
     this.state = {
       computedLeft: props.left,
       computedTop: props.top
     };
+    this.updatePinnedLocation = debounce(this.updatePinnedLocation.bind(this), 100);
+  }
 
-    this.updatePinnedLocation = debounce(this.updatePinnedLocation, 100);
+  getImage() {
+    var image = new Image();
+    image.src = window.getComputedStyle(this.props.overlaid)['background-image'].replace(/"/g,"").replace(/url\(|\)$/ig, "");
+    return image;
   }
 
   updatePinnedLocation() {
-    const windowWidth = document.body.clientWidth;
-    const imageScaledHeight = windowWidth / this.aspectRatio;
     this.setState(function (prevState, props) {
+      const windowWidth = document.body.clientWidth;
+      let imageWidth = prevState.imageWidth;
+      let imageHeight = prevState.imageHeight;
+      let aspectRatio = prevState.aspectRatio;
+
+      if (!imageWidth || !imageHeight) {
+        const image = this.getImage();
+        imageWidth = image.width;
+        imageHeight = image.height;
+        aspectRatio = image.width / image.height;
+      }
+      const imageScaledHeight = windowWidth / aspectRatio;
       return {
-        computedLeft: props.left * (windowWidth / this.imageWidth),
-        computedTop: props.top * (imageScaledHeight / this.imageHeight)
+        computedLeft: props.left * (windowWidth / imageWidth),
+        computedTop: props.top * (imageScaledHeight / imageHeight),
+        imageWidth: imageWidth,
+        imageHeight: imageHeight,
+        aspectRatio: aspectRatio
       };
     });
   }
 
   componentDidMount() {
     this.updatePinnedLocation();
-    window.addEventListener("resize", this.updatePinnedLocation.bind(this));
+    window.addEventListener("resize", this.updatePinnedLocation);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updatePinnedLocation.bind(this));
+    window.removeEventListener("resize", this.updatePinnedLocation);
   }
 
   render() {
