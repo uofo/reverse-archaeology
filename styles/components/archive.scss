@@ -10,6 +10,41 @@
     .archive-blurb {
         @include full-screen-blurb();
     }
+
+    .theme-button {
+        color: white;
+        height: 155px;
+        text-align: center;
+        text-transform: uppercase;
+        transform: translate(-50%, 0);
+        width: 240px;
+
+        .theme-button-inactive {
+            img {
+                display: block;
+                margin: 0 auto;
+            }
+        }
+
+        .theme-button-active {
+            background-image: url(/img/theme-button-active.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: none;
+            height: 100%;
+            margin-top: -25px;
+
+            .theme-button-label {
+                padding-top: 25px;
+            }
+        }
+
+        &:hover {
+            .theme-button-active {
+                display: block;
+            }
+        }
+    }
 }
 
 body.archive-section {
