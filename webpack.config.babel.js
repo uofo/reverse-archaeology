@@ -31,7 +31,8 @@ export default {
   plugins: [
     new CopyWebpackPlugin([
       { from: '404.html' },
-      { from: 'img', to: 'img' }
+      { from: 'img', to: 'img' },
+      { from: 'fonts', to: 'fonts' }
     ]),
     new HtmlWebpackPlugin({
       template: 'index.template.ejs',

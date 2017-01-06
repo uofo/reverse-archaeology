@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'affogato-regular';
+    src: url('/fonts/Affogato-Regular.eot');
+    src: url('/fonts/Affogato-Regular.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/Affogato-Regular.woff2') format('woff2'),
+    url('/fonts/Affogato-Regular.woff') format('woff'),
+    url('/fonts/Affogato-Regular.ttf')  format('truetype'),
+    url('/fonts/Affogato-Regular.svg#svgFontName') format('svg');
+}
+
+@font-face {
+    font-family: 'linowrite';
+    font-style: normal;
+    font-weight: normal;
+    src: url('/fonts/Affogato-Regular.woff') format('woff');
+}

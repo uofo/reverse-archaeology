@@ -32,7 +32,8 @@ export default {
     new CopyWebpackPlugin([
       { from: 'CNAME' },
       { from: '404.html' },
-      { from: 'img', to: 'img' }
+      { from: 'img', to: 'img' },
+      { from: 'fonts', to: 'fonts' }
     ]),
     new webpack.DefinePlugin({
       'process.env': {
