@@ -1,3 +1,5 @@
+@import "../colors";
+
 .slideshow {
     height: 100%;
     width: 100%;
@@ -14,7 +16,7 @@
     }
 
     &-prev, &-next {
-        color: gold;
+        color: $gold;
         cursor: pointer;
         font-size: 80px;
         position: absolute;

@@ -1,3 +1,4 @@
+@import "../colors";
 @import "../screen";
 
 .about {
@@ -12,7 +13,7 @@
     }
 
     .header-separator {
-        background-color: gold;
+        background-color: $gold;
         height: 3px;
         margin: 0 auto;
         margin-top: 5px;
