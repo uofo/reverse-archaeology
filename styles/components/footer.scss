@@ -1,10 +1,18 @@
+@import "compass";
+@import "../colors";
+
 footer {
-    background: black;
+    background: $dark-grey;
     color: white;
     margin: 0;
     margin-top: 100px;
     min-height: 20vh;
     padding: 35px;
+
+    .search {
+        margin: 0 auto;
+        width: 80%;
+    }
 }
 
 .footer-left {
@@ -21,6 +29,70 @@ footer {
 .footer-right {
     float: left;
     width: 25%;
+}
+
+.footer-logo {
+    background-image: url(/img/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 63px;
+    margin: 0 auto;
+    width: 189px;
+}
+
+.footer-separator {
+    border-bottom: 3px dotted $gold;
+    margin: 15px auto;
+    width: 60%;
+}
+
+.footer-social-media {
+    @include display-flex;
+
+    ul {
+        list-style: none;
+        margin: auto;
+        padding: 0;
+    }
+
+    li {
+        float: left;
+        padding: 0;
+        margin: 0;
+        margin-left: 15px;
+
+        &:first-of-type {
+            margin-left: 0;
+        }
+    }
+
+    a {
+        background-color: white;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 25px;
+        border-radius: 50%;
+        display: inline-block;
+        height: 35px;
+        width: 35px;
+    }
+
+    .mail {
+        background-image: url(/img/social-media/mail.png);
+    }
+
+    .facebook {
+        background-image: url(/img/social-media/facebook.png);
+        background-size: 15px;
+    }
+
+    .instagram {
+        background-image: url(/img/social-media/instagram.png);
+    }
+
+    .twitter {
+        background-image: url(/img/social-media/twitter.png);
+    }
 }
 
 footer {

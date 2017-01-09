@@ -13,13 +13,31 @@ function Footer({ artifacts }) {
   return (
     <footer>
       <div className="footer-left">
-        Hidden Treasures of Our Orange
+        <div className="footer-logo"></div>
+        <div className="footer-separator"></div>
       </div>
       <div className="footer-center">
         <Search artifacts={artifacts.data.items} />
       </div>
       <div className="footer-right">
-        right side
+        <div className="footer-social-media">
+          <ul>
+            <li>
+              <a className="mail" href="mailto:universityoforange@gmail.com" target="_blank"></a>
+            </li>
+            <li>
+              <a className="facebook" href="https://www.facebook.com/pages/University-of-Orange/209708885716392" target="_blank"></a>
+            </li>
+            <li>
+              <a className="twitter" href="http://twitter.com" target="_blank"></a>
+            </li>
+            <li>
+              <a className="instagram" href="http://instagram.com" target="_blank"></a>
+            </li>
+            <div style={{ clear: 'both' }}></div>
+          </ul>
+        </div>
+        <div className="footer-separator"></div>
       </div>
       <div style={{clear: 'both'}}></div>
     </footer>
