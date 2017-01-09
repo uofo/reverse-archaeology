@@ -3,10 +3,11 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+    border: 1px solid white;
     color: white;
     cursor: pointer;
     float: left;
-    height: 125px;
+    height: 200px;
     list-style: none;
     margin: 5px 0;
     padding: 0;
@@ -18,6 +19,14 @@
 
 .artifact-grid-container {
     min-height: 90vh;
+
+    h2 {
+        border-bottom: 1px solid white;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        margin-top: 75px;
+        width: 90%;
+    }
 
     .artifact-theme {
         color: white;
