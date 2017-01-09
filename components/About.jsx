@@ -34,7 +34,10 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
         <div className="about-screen">
           <div className="about-blurb">
             <h2>About Us</h2>
-            <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
+            <div>
+              <div className="header-separator"></div>
+              <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
+            </div>
           </div>
         </div>
         <section className="about-team">

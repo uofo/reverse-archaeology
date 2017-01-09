@@ -12,15 +12,16 @@
 @mixin full-screen-blurb() {
     bottom: 0;
     position: absolute;
-    width: 250px;
+    width: 300px;
 
     h2 {
         margin-top: 0;
+        text-align: center;
     }
 
     & > * {
         background-color: black;
         color: white;
-        padding: 10px;
+        padding: 20px;
     }
 }
