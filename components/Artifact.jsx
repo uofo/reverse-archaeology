@@ -37,8 +37,6 @@ function Artifact({ artifacts, children, params, themes }) {
                 {artifact.image_caption ? <div className='artifact-image-caption'>{artifact.image_caption}</div> : ''}
               </div>
               <div className="artifact-details">
-                <div>Name:</div>
-                <div>Location:</div>
                 <div>Title: {artifact.title}</div>
               </div>
             </div>
