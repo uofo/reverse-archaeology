@@ -38,7 +38,10 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
           </div>
         </div>
         <section className="about-team">
-          <h3>Our Team</h3>
+          <h3>
+            Our Team
+            <div className="header-separator"></div>
+          </h3>
           <ul className="bio-list">
             {bios.map((bio) => {
               let imgUrl = bio.image_url;
@@ -58,7 +61,10 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
           </ul>
         </section>
         <section className="about-funders">
-          <h3>Funders</h3>
+          <h3>
+            Funders
+            <div className="header-separator"></div>
+          </h3>
           <ul className="funder-list">
             {funders.map((funder) => {
               let imgUrl = funder.image_url;

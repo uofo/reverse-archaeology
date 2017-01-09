@@ -10,6 +10,14 @@
     .about-blurb {
         @include full-screen-blurb();
     }
+
+    .header-separator {
+        background-color: gold;
+        height: 3px;
+        margin: 0 auto;
+        margin-top: 5px;
+        width: 45px;
+    }
 }
 
 .about-team {
@@ -17,6 +25,7 @@
     width: 90%;
 
     h3 {
+        color: black;
         text-align: center;
     }
 }
@@ -41,6 +50,7 @@
 
 .about-funders {
     h3 {
+        color: black;
         text-align: center;
     }
 }
