@@ -22,7 +22,11 @@ export default {
       },
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.scss$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
+      { test: /\.scss$/, loaders: [
+        'style-loader',
+        'css-loader',
+        'sass-loader?includePaths[]=' + path.resolve(__dirname, './node_modules/compass-mixins/lib')
+      ]},
     ],
   },
   resolve: {

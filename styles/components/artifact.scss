@@ -1,3 +1,5 @@
+@import "compass";
+
 @import "../arrows";
 @import "../spacing";
 
@@ -18,9 +20,12 @@ img {
 }
 
 .artifact {
+    @include display-flex;
+    @include flex-direction(column);
     background-image: url(/img/artifact-sheet.png);
     background-repeat: no-repeat;
     background-size: contain;
+    height: 609px;
     max-height: 609px;
     max-width: 871px;
     margin: 0 auto;
@@ -29,17 +34,52 @@ img {
     h2 {
         border-bottom: 1px solid black;
         color: white;
+        @include flex(0 auto);
         font-weight: normal;
     }
 
+    &-body {
+        @include display-flex;
+        @include flex-direction(row);
+    }
+
     &-left {
-        float: left;
-        width: 66.6666%;
+        @include display-flex;
+        @include flex-direction(column);
+        width: 55%;
+    }
+
+    &-image-container {
+        @include display-flex;
+        @include flex-direction(column);
+        height: 66%;
+        max-height: 66%;
+    }
+
+    &-image {
+        @include flex(1 1 auto);
+        background-repeat: no-repeat;
+        background-size: contain;
+        max-height: 100%;
     }
 
     &-right {
-        float: left;
-        width: 33.3333%;
+        @include display-flex;
+        @include flex-direction(column);
+        width: 45%;
+    }
+
+    &-text {
+        max-height: 50%;
+        overflow: auto;
+
+        & p:first-of-type {
+            margin-top: 0;
+        }
+    }
+
+    &-more {
+        margin-top: 15px;
     }
 }
 

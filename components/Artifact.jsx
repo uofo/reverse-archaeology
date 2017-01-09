@@ -9,9 +9,10 @@ const propTypes = {
   artifacts: PropTypes.object,
   children: PropTypes.element,
   params: PropTypes.object,
+  themes: PropTypes.object,
 };
 
-function Artifact({ artifacts, children, params }) {
+function Artifact({ artifacts, children, params, themes }) {
   const artifactItems = artifacts.data.items;
   const artifactIndex = artifactItems.findIndex((a) => a.slug === params.slug);
   const artifact = artifactItems[artifactIndex];
@@ -27,15 +28,34 @@ function Artifact({ artifacts, children, params }) {
         <Link className='next-artifact' to={'/artifacts/' + nextArtifact.slug}>&rsaquo;</Link>
         <div className="artifact">
           <h2>{artifact.headline}</h2>
-          <div>
+          <div className="artifact-body">
             <div className="artifact-left">
-              {artifact.image_url ? <img className='artifact-image' src={artifact.image_url} /> : ''}
-              {artifact.image_caption ? <div className='artifact-image-caption'>{artifact.image_caption}</div> : ''}
+              <div className="artifact-image-container">
+                <div className="artifact-image" style={{
+                  backgroundImage: `url("${artifact.image_url}")`,
+                }}></div>
+                {artifact.image_caption ? <div className='artifact-image-caption'>{artifact.image_caption}</div> : ''}
+              </div>
+              <div className="artifact-details">
+                <div>Name:</div>
+                <div>Location:</div>
+                <div>Title: {artifact.title}</div>
+              </div>
             </div>
             <div className="artifact-right">
-              <div dangerouslySetInnerHTML={{__html: decode(artifact.content)}} />
+              <div className="artifact-text">
+                <div dangerouslySetInnerHTML={{__html: decode(artifact.content)}} />
+              </div>
+              <div className="artifact-more">
+                Learn More
+              </div>
+              <div className="artifact-themes">
+                Themes: {artifact.themes.map(t => themes[t]).join(', ')}
+              </div>
+              <div className="artifact-subthemes">
+                Subthemes
+              </div>
             </div>
-            <div style={{clear: 'both'}}></div>
           </div>
         </div>
       </div>
