@@ -1,3 +1,4 @@
+@import "colors";
 @import "fonts";
 
 /*reset*/
@@ -177,4 +178,12 @@ main {
     & > div {
         padding-top: 100px;
     }
+}
+
+.header-separator {
+    background-color: $gold;
+    height: 3px;
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 45px;
 }
