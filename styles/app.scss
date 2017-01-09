@@ -1,5 +1,6 @@
 @import "colors";
 @import "fonts";
+@import "spacing";
 
 /*reset*/
 html, body, div, span, a, p, ul, li, h1, code, nav {
@@ -171,9 +172,9 @@ code {
 }
 
 main {
-    margin-left: 25px;
-    margin-right: 25px;
-    width: calc(100% - 50px);
+    margin-left: $body-margin;
+    margin-right: $body-margin;
+    width: calc(100% - #{2 * $body-margin});
 
     & > div {
         padding-top: 100px;

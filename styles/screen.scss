@@ -1,3 +1,5 @@
+@import "spacing";
+
 @mixin full-screen-page() {
     margin-top: -100px;
 }
@@ -11,17 +13,26 @@
 
 @mixin full-screen-blurb() {
     bottom: 0;
+    margin-left: -$body-margin;
     position: absolute;
     width: 300px;
 
     h2 {
+        background-image: url(/img/blurb-header.png);
+        background-repeat: no-repeat;
+        background-size: cover;
         margin-top: 0;
         text-align: center;
     }
 
     & > * {
-        background-color: black;
         color: white;
         padding: 20px;
+    }
+
+    & > div {
+        background-image: url(/img/blurb-body.png);
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 }
