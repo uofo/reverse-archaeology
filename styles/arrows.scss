@@ -1,0 +1,20 @@
+@import "spacing";
+
+@mixin arrow() {
+    cursor: pointer;
+    font-size: 80px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    z-index: 100;
+}
+
+@mixin next-arrow() {
+    @include arrow();
+    right: $body-margin;
+}
+
+@mixin prev-arrow() {
+    @include arrow();
+    left: $body-margin;
+}

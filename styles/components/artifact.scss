@@ -1,15 +1,12 @@
+@import "../arrows";
+@import "../spacing";
+
 .previous-artifact {
-    float: left;
-    font-size: 50px;
-    font-weight: normal;
-    margin-top: 50%;
+    @include prev-arrow();
 }
 
 .next-artifact {
-    float: right;
-    font-size: 50px;
-    font-weight: normal;
-    margin-top: 50%;
+    @include next-arrow();
 }
 
 img {
@@ -21,8 +18,11 @@ img {
 }
 
 .artifact {
-    background-color: #D8C7A5;
-    max-width: 80%;
+    background-image: url(/img/artifact-sheet.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    max-height: 609px;
+    max-width: 871px;
     margin: 0 auto;
     padding: 20px;
 
