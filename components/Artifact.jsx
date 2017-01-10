@@ -23,9 +23,9 @@ function Artifact({ artifacts, children, params, themes }) {
 
   if (artifact) {
     body = (
-      <div>
-        <Link className='previous-artifact' to={'/artifacts/' + previousArtifact.slug}>&lsaquo;</Link>
-        <Link className='next-artifact' to={'/artifacts/' + nextArtifact.slug}>&rsaquo;</Link>
+      <div className="artifact-container">
+        <Link className='previous-artifact' to={'/artifacts/' + previousArtifact.slug}></Link>
+        <Link className='next-artifact' to={'/artifacts/' + nextArtifact.slug}></Link>
         <div className="artifact">
           <div className="artifact-header">
             <h2>{artifact.headline}</h2>

@@ -3,12 +3,25 @@
 @import "../arrows";
 @import "../spacing";
 
+.artifact-container {
+    position: relative;
+}
+
+.previous-artifact,
+.next-artifact {
+    display: inline-block;
+    height: 56px;
+    width: 32px;
+}
+
 .previous-artifact {
     @include prev-arrow();
+    background-image: url(/img/black-left-arrow.png);
 }
 
 .next-artifact {
     @include next-arrow();
+    background-image: url(/img/black-right-arrow.png);
 }
 
 img {
