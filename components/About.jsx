@@ -17,7 +17,7 @@ const propTypes = {
   slideshowimages: PropTypes.array,
 };
 
-function PageComponent({ bios, children, funders, pages, route, slideshowimages }) {
+function PageComponent({ bios, blurbs, children, funders, pages, route, slideshowimages }) {
   let body;
   let page;
   let ourWorkPage;
@@ -29,6 +29,11 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
 
   const aboutSlideshowImages = slideshowimages.filter(image => image.page === 'about');
 
+  let blurb;
+  if (blurbs) {
+    blurb = blurbs.filter(blurb => blurb.page === 'about')[0];
+  }
+
   if (page) {
     body = (
       <div className="about">
@@ -38,7 +43,7 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
             <h2>About Us</h2>
             <div>
               <div className="header-separator"></div>
-              <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
+              <div dangerouslySetInnerHTML={{__html: decode(blurb.content)}} />
             </div>
           </div>
         </div>

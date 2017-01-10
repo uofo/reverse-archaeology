@@ -14,7 +14,7 @@ const propTypes = {
   slideshowimages: PropTypes.array,
 };
 
-function PageComponent({ children, pages, route, slideshowimages }) {
+function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
   let body;
   let page;
 
@@ -23,6 +23,11 @@ function PageComponent({ children, pages, route, slideshowimages }) {
   }
 
   const chasmSlideshowImages = slideshowimages.filter(image => image.page === 'chasm');
+
+  let blurb;
+  if (blurbs) {
+    blurb = blurbs.filter(blurb => blurb.page === 'chasm')[0];
+  }
 
   if (page) {
     body = (
@@ -33,7 +38,7 @@ function PageComponent({ children, pages, route, slideshowimages }) {
             <h2>The Chasm</h2>
             <div>
               <div className="header-separator"></div>
-              <p>{page.blurb}</p>
+              <div dangerouslySetInnerHTML={{__html: decode(blurb.content)}} />
             </div>
           </div>
         </div>
