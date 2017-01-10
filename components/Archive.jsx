@@ -1,3 +1,5 @@
+import { decode } from 'ent';
+
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import debounce from 'lodash.debounce';
@@ -93,7 +95,7 @@ ThemeButton.propTypes = {
   theme: PropTypes.string.isRequired
 };
 
-function Archive({ children, themes }) {
+function Archive({ blurbs, children, themes }) {
   const themeSlugs = Object.keys(themes);
 
   if (!themeSlugs.length) {
@@ -111,13 +113,23 @@ function Archive({ children, themes }) {
     'nostalgia': [830, 460],
   };
 
+  let blurb;
+  if (blurbs) {
+    blurb = blurbs.filter(blurb => blurb.page === 'archive')[0];
+  }
+
   return (
     <div>
       <div className="archive">
         <div className="archive-screen">
           <div className="archive-blurb">
             <h2>The Archive</h2>
-            <div>About the archive</div>
+            <div>
+              <div className="header-separator"></div>
+              {blurb ?
+                <div dangerouslySetInnerHTML={{__html: decode(blurb.content)}} /> :
+                null}
+            </div>
           </div>
           <ul>
             {themeSlugs.map((slug) => {
@@ -137,6 +149,7 @@ function Archive({ children, themes }) {
 }
 
 Archive.propTypes = {
+  blurbs: PropTypes.array,
   children: PropTypes.element,
   themes: PropTypes.object,
 };

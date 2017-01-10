@@ -39,6 +39,15 @@ export default {
     }
   },
 
+  blurbs: (state = [], action) => {
+    switch (action.type) {
+      case actions.SITE_DATA_RESPONSE:
+        return action.data.blurbs;
+      default:
+        return state;
+    }
+  },
+
   funders: (state = [], action) => {
     switch (action.type) {
       case actions.SITE_DATA_RESPONSE:
