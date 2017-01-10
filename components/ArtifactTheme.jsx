@@ -46,8 +46,11 @@ var ArtifactGridItem = React.createClass({
 
   render: function () {
     const width = this.props.artifact.headline.length > 100 ? 'wide': 'narrow';
+    const imageUrl = (this.props.artifact.image_thumbnail_url 
+        ? this.props.artifact.image_thumbnail_url 
+        : this.props.artifact.image_url);
     return (
-      <li className={"artifact-grid-item-" + width} onClick={this.onClick} style={{backgroundImage: "url('" + this.props.artifact.image_url + "')"}}>
+      <li className={"artifact-grid-item-" + width} onClick={this.onClick} style={{backgroundImage: "url('" + imageUrl + "')"}}>
         <div className="artifact-grid-item-inner">
           <div className="artifact-grid-item-inner-text">
             {this.props.artifact.headline}
