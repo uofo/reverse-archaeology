@@ -39,19 +39,13 @@ function Artifact({ artifacts, children, params, themes }) {
               <div className="artifact-details">
                 <div>Title: {artifact.title}</div>
               </div>
+              <div className="artifact-themes">
+                Themes: {artifact.themes.map(t => themes[t]).join(', ')}
+              </div>
             </div>
             <div className="artifact-right">
               <div className="artifact-text">
                 <div dangerouslySetInnerHTML={{__html: decode(artifact.content)}} />
-              </div>
-              <div className="artifact-more">
-                Learn More
-              </div>
-              <div className="artifact-themes">
-                Themes: {artifact.themes.map(t => themes[t]).join(', ')}
-              </div>
-              <div className="artifact-subthemes">
-                Subthemes
               </div>
             </div>
           </div>
