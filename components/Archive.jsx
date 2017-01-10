@@ -80,10 +80,12 @@ function ThemeButton({ slug, theme }) {
     <div className="theme-button">
       <Link to={`/artifacts/theme/${slug}`}>
         <div className="theme-button-inactive">
-          <img src={`/img/${slug}.png`} />
+          <img src={`/img/themes/${slug}.png`} />
         </div>
         <div className="theme-button-active">
+          <img src={`/img/themes/${slug}-active.png`} />
           <div className="theme-button-label">{theme}</div>
+          <div className="header-separator"></div>
         </div>
       </Link>
     </div>

@@ -29,13 +29,15 @@
         .theme-button-active {
             background-image: url(/img/theme-button-active.png);
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: cover;
             display: none;
-            height: 100%;
+            font-family: Linowrite;
+            font-weight: normal;
+            padding: 10px;
             margin-top: -25px;
 
             .theme-button-label {
-                padding-top: 25px;
+                padding: 10px 0;
             }
         }
 
