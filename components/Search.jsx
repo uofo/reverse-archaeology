@@ -38,7 +38,12 @@ var State = React.createClass({
   },
 
   matchArtifactToTerm: function (artifact, value) {
-    return  artifact.title.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    value = value.toLowerCase();
+    return (
+      (artifact.title && artifact.title.toLowerCase().indexOf(value) !== -1) ||
+      (artifact.headline && artifact.headline.toLowerCase().indexOf(value) !== -1) ||
+      (artifact.content && artifact.content.toLowerCase().indexOf(value) !== -1)
+    );
   },
 
   sortArtifacts: function (a, b, value) {
