@@ -32,7 +32,7 @@ function Artifact({ artifacts, children, params, themes }) {
             <div className="artifact-header-themes">
               {artifact.themes.map((theme) => {
                 return (
-                  <div className="artifact-header-theme">
+                  <div key={theme} className="artifact-header-theme">
                     <Link to={`/artifacts/theme/${theme}`}>
                       <img key={theme} src={`/img/themes/${theme}.png`} />
                     </Link>
