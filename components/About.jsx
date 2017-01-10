@@ -20,9 +20,11 @@ const propTypes = {
 function PageComponent({ bios, children, funders, pages, route, slideshowimages }) {
   let body;
   let page;
+  let ourWorkPage;
 
   if (pages) {
     page = pages.data.items.filter(page => page.title === route.title)[0];
+    ourWorkPage = pages.data.items.filter(page => page.title === "Methods")[0];
   }
 
   const aboutSlideshowImages = slideshowimages.filter(image => image.page === 'about');
@@ -40,6 +42,15 @@ function PageComponent({ bios, children, funders, pages, route, slideshowimages 
             </div>
           </div>
         </div>
+        <section className="about-our-work">
+          <h3>
+            Our Work
+            <div className="header-separator"></div>
+          </h3>
+          <div>
+            <div dangerouslySetInnerHTML={{__html: decode(ourWorkPage.content)}} />
+          </div>
+        </section>
         <section className="about-team">
           <h3>
             Our Team
