@@ -32,11 +32,30 @@ img {
     padding: 20px;
 
     h2 {
-        border-bottom: 1px solid black;
         color: white;
         font-family: "affogato-regular";
-        @include flex(0 auto);
         font-weight: normal;
+    }
+
+    &-header {
+        @include flex(0 auto);
+        border-bottom: 1px solid black;
+        position: relative;
+    }
+
+    &-header-themes {
+        bottom: 0;
+        right: 0;
+        position: absolute;
+    }
+
+    &-header-theme {
+        display: inline-block;
+        margin-left: 5px;
+
+        &:first-of-type {
+            margin: 0;
+        }
     }
 
     &-body {

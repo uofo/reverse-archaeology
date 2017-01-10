@@ -27,7 +27,20 @@ function Artifact({ artifacts, children, params, themes }) {
         <Link className='previous-artifact' to={'/artifacts/' + previousArtifact.slug}>&lsaquo;</Link>
         <Link className='next-artifact' to={'/artifacts/' + nextArtifact.slug}>&rsaquo;</Link>
         <div className="artifact">
-          <h2>{artifact.headline}</h2>
+          <div className="artifact-header">
+            <h2>{artifact.headline}</h2>
+            <div className="artifact-header-themes">
+              {artifact.themes.map((theme) => {
+                return (
+                  <div className="artifact-header-theme">
+                    <Link to={`/artifacts/theme/${theme}`}>
+                      <img key={theme} src={`/img/themes/${theme}.png`} />
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
           <div className="artifact-body">
             <div className="artifact-left">
               <div className="artifact-image-container">
