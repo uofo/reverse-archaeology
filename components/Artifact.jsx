@@ -37,10 +37,12 @@ function Artifact({ artifacts, children, params, themes }) {
                 {artifact.image_caption ? <div className='artifact-image-caption'>{artifact.image_caption}</div> : ''}
               </div>
               <div className="artifact-details">
-                <div>Title: {artifact.title}</div>
+                <span className="artifact-label">Title:</span>
+                {artifact.title}
               </div>
               <div className="artifact-themes">
-                Themes: {artifact.themes.map(t => themes[t]).join(', ')}
+                <span className="artifact-label">Themes:</span>
+                {artifact.themes.map(t => themes[t]).join(', ')}
               </div>
             </div>
             <div className="artifact-right">
