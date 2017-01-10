@@ -16,3 +16,7 @@ body.home-section {
         @include full-screen-container();
     }
 }
+
+.home-menu {
+    transform: rotate(-8deg);
+}
