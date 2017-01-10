@@ -1,4 +1,6 @@
 .nav {
+    font-family: Linowrite;
+
     li {
         background-image: url(/img/nav-bg.png);;
         color: black;
@@ -20,6 +22,7 @@
 
         a {
             display: inline-block;
+            font-weight: normal;
             height: 100%;
             line-height: 33px;
             text-align: center;

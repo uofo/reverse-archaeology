@@ -107,47 +107,52 @@ li {
 h1 {
     font-family: "Linowrite";
     font-size: 20px;
+    font-weight: normal;
     margin-bottom: 0.5vh;
     font-size: 48px;
     color: rgb(255, 255, 255);
-    font-variant: small-caps;
     line-height: 1.2;
+    text-transform: uppercase;
 }
 
 h2 {
     font-size: 30px;
     font-family: "Linowrite";
+    font-weight: normal;
     color: rgb(79, 27, 27);
-    font-variant: small-caps;
     line-height: 1.2;
+    text-transform: uppercase;
 }
 
 h3 {
     font-size: 24px;
     font-family: "Linowrite";
+    font-weight: normal;
     color: rgb(255, 255, 255);
-    font-variant: small-caps;
     line-height: 1.2;
     text-align: center;
     -moz-transform: matrix( 1.13833333333333,0,0,1.13819444444444,0,0);
     -webkit-transform: matrix( 1.13833333333333,0,0,1.13819444444444,0,0);
     -ms-transform: matrix( 1.13833333333333,0,0,1.13819444444444,0,0);
+    text-transform: uppercase;
 }
 
 h4 {
     font-size: 18px;
     font-family: "Linowrite";
+    font-weight: normal;
     color: rgb(0, 0, 0);
-    font-variant: small-caps;
     line-height: 1.2;
+    text-transform: uppercase;
 }
 
 h5 {
     font-size: 16px;
     font-family: "Linowrite";
+    font-weight: normal;
     color: rgb(49, 43, 43);
-    font-variant: small-caps;
     line-height: 1.2;
+    text-transform: uppercase;
 }
 
 /*repo link*/
