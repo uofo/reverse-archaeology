@@ -17,6 +17,19 @@ body.home-section {
     }
 }
 
+.home-icon-menu {
+    transform: rotate(-8deg);
+
+    .archive-link {
+        background-image: url(/img/archive-icon.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: inline-block;
+        height: 50px;
+        width: 50px;
+    }
+}
+
 .home-menu {
     transform: rotate(-8deg);
 }

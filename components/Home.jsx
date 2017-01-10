@@ -10,6 +10,11 @@ function Home() {
     <div>
       <div className="home">
         <div className="home-screen">
+          <PinnedOverlay overlaid={document.body} left={525} top={325}>
+            <div className="home-icon-menu">
+              <Link to={'/archive'} className="archive-link"></Link>
+            </div>
+          </PinnedOverlay>
           <PinnedOverlay overlaid={document.body} left={600} top={570}>
             <ul className="home-menu">
               <li><Link to="/archive">Enter the archive</Link></li>
