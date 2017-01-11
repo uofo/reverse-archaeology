@@ -8,6 +8,10 @@ body.home-section {
     background-repeat: no-repeat;
     background-size: contain;
     color: $gold;
+
+    footer {
+        margin-top: 0;
+    }
 }
 
 .home {
@@ -15,11 +19,7 @@ body.home-section {
 
     .home-screen {
         @include full-screen-container();
-        height: 57vw;
-
-        @include respond-to('tablet-down') {
-            height: 50vw;
-        }
+        height: 67vw;
     }
 }
 
