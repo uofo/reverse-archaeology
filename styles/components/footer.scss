@@ -1,4 +1,5 @@
 @import "compass";
+@import "../breakpoints";
 @import "../colors";
 
 footer {
@@ -15,19 +16,32 @@ footer {
     }
 }
 
-.footer-left {
+@mixin footer-cell {
     float: left;
+
+    @include respond-to('phone-down') {
+        margin-top: 30px;
+        width: 100%;
+
+        &:first-of-type {
+            margin-top: 0;
+        }
+    }
+}
+
+.footer-left {
+    @include footer-cell;
     width: 25%;
 }
 
 .footer-center {
-    float: left;
+    @include footer-cell;
     text-align: center;
     width: 50%;
 }
 
 .footer-right {
-    float: left;
+    @include footer-cell;
     width: 25%;
 }
 
