@@ -1,3 +1,4 @@
+@import "../breakpoints";
 @import "../colors";
 @import "../screen";
 
@@ -14,6 +15,11 @@ body.home-section {
 
     .home-screen {
         @include full-screen-container();
+        height: 57vw;
+
+        @include respond-to('tablet-down') {
+            height: 50vw;
+        }
     }
 }
 
