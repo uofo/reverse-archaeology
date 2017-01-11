@@ -1,3 +1,4 @@
+@import "../breakpoints";
 @import "../screen";
 
 .about {
@@ -16,6 +17,10 @@
     margin: 0 auto;
     width: 90%;
 
+    @include respond-to('phone-down') {
+        width: 100%;
+    }
+
     h3 {
         color: black;
         text-align: center;
@@ -25,6 +30,10 @@
 .about-team {
     margin: 0 auto;
     width: 90%;
+
+    @include respond-to('phone-down') {
+        width: 100%;
+    }
 
     h3 {
         color: black;
@@ -41,6 +50,11 @@
         padding: 0;
         text-align: center;
         width: 25%;
+
+        @include respond-to('phone-down') {
+            padding: 0 10px;
+            width: 50%;
+        }
 
         img {
             border-radius: 50%;
@@ -63,6 +77,16 @@
     .funder-item {
         float: left;
         width: 250px;
+
+        @include respond-to('phone-down') {
+            margin-top: 30px;
+            padding-left: 0;
+            width: 100%;
+
+            &:first-of-type {
+                margin-top: 0;
+            }
+        }
 
         img {
             max-width: 100%;
