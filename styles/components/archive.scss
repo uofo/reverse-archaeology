@@ -21,6 +21,11 @@
         transform: translate(-50%, 0);
         width: 240px;
 
+        @include respond-to('phone-down') {
+            height: 30px;
+            width: 50px;
+        }
+
         .theme-button-inactive {
             img {
                 display: block;
