@@ -12,6 +12,10 @@ body.home-section {
     footer {
         margin-top: 0;
     }
+
+    @include respond-to('phone-down') {
+        background-size: auto 100vh;
+    }
 }
 
 .home {
@@ -20,6 +24,10 @@ body.home-section {
     .home-screen {
         @include full-screen-container();
         height: 67vw;
+
+        @include respond-to('phone-down') {
+            height: 100vh;
+        }
     }
 }
 
