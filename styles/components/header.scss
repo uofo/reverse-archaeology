@@ -1,3 +1,4 @@
+@import "../breakpoints";
 @import "../spacing";
 
 header {
@@ -8,9 +9,25 @@ header {
     width: calc(100% - #{2 * $body-margin});
     z-index: 100;
 
+    @include respond-to('phone-down') {
+        background-color: rgba(118, 16, 105, 0.5);
+        height: 80px;
+        margin: 0;
+        padding: 0;
+        position: fixed;
+        width: 100%;
+    }
+
     h1 {
         float: left;
         width: 20%;
+
+        @include respond-to('phone-down') {
+            float: none;
+            height: 100%;
+            margin: 0 auto;
+            width: 25%;
+        }
     }
 
     .logo-link {
@@ -20,12 +37,39 @@ header {
         display: inline-block;
         height: 63px;
         width: 100%;
+
+        @include respond-to('phone-down') {
+            height: 40px;
+            margin-top: 25px;
+        }
+    }
+
+    .header-menu {
+        float: left;
+
+        @include respond-to('phone-down') {
+            background-color: rgba(118, 16, 105, 0.5);
+            display: none;
+            float: none;
+            padding: 15px;
+            width: 100%;
+        }
+    }
+
+    &.menu-open .header-menu {
+        display: block;
     }
 
     .navbar {
         float: left;
         margin-left: 20px;
         margin-top: 20px;
+
+        @include respond-to('phone-down') {
+            float: none;
+            margin: 0;
+            width: 100%;
+        }
     }
 
     .search {
@@ -33,5 +77,34 @@ header {
         margin-left: 20px;
         margin-top: 20px;
         width: 15%;
+
+        @include respond-to('phone-down') {
+            float: none;
+            margin-left: 0;
+            width: 100%;
+        }
+    }
+
+    .header-menu-button {
+        cursor: pointer;
+        display: none;
+        float: right;
+        height: 50px;
+        position: absolute;
+        right: 25px;
+        top: 25px;
+        width: 30px;
+
+        &-line {
+            background: white;
+            border-radius: 10%;
+            height: 5px;
+            margin: 4px 0;
+            width: 100%;
+        }
+
+        @include respond-to('phone-down') {
+            display: block;
+        }
     }
 }

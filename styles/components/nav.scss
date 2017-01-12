@@ -1,8 +1,12 @@
+@import "../breakpoints";
+
 .nav {
     font-family: Linowrite;
 
     li {
-        background-image: url(/img/nav-bg.png);;
+        background-image: url(/img/nav-bg.png);
+        background-repeat: no-repeat;
+        background-size: cover;
         color: black;
         float: left;
         height: 33px;
@@ -12,7 +16,13 @@
         width: 129px;
 
         &.active {
-            background-image: url(/img/nav-bg-active.png);;
+            background-image: url(/img/nav-bg-active.png);
+        }
+
+        @include respond-to('phone-down') {
+            float: none;
+            margin: 10px auto;
+            width: 150px;
         }
 
         &:before {
