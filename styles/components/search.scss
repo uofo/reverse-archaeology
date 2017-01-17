@@ -31,3 +31,15 @@
         padding-left: 4px;
     }
 }
+
+body.search-section.search-results-page {
+    background-image: url('/img/backgrounds/archive-theme.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+
+    h2 {
+        color: white;
+    }
+}

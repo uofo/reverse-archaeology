@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 
 import Autocomplete from 'react-autocomplete';
 
+import { ArtifactGrid } from './ArtifactGrid';
+
 import '../styles/components/search.scss';
 
 const autocompleteStyles = {
@@ -22,6 +24,15 @@ const autocompleteStyles = {
   }
 };
 
+function artifactMatches(artifact, query) {
+  query = query.toLowerCase();
+  return (
+    (artifact.title && artifact.title.toLowerCase().indexOf(query) !== -1) ||
+    (artifact.headline && artifact.headline.toLowerCase().indexOf(query) !== -1) ||
+    (artifact.content && artifact.content.toLowerCase().indexOf(query) !== -1)
+  );
+}
+
 var SearchBar = React.createClass({
   propTypes: {
     artifacts: PropTypes.array.isRequired
@@ -37,15 +48,6 @@ var SearchBar = React.createClass({
     }
   },
 
-  matchArtifactToTerm: function (artifact, value) {
-    value = value.toLowerCase();
-    return (
-      (artifact.title && artifact.title.toLowerCase().indexOf(value) !== -1) ||
-      (artifact.headline && artifact.headline.toLowerCase().indexOf(value) !== -1) ||
-      (artifact.content && artifact.content.toLowerCase().indexOf(value) !== -1)
-    );
-  },
-
   sortArtifacts: function (a, b, value) {
     return (
       a.title.toLowerCase().indexOf(value.toLowerCase()) >
@@ -58,10 +60,18 @@ var SearchBar = React.createClass({
         <div className="search">
           <Autocomplete
             value={this.state.value}
-            inputProps={{name: "Artifact search", id: "artifacts-autocomplete"}}
+            inputProps={{
+              name: "Artifact search",
+              id: "artifacts-autocomplete",
+              onKeyDown: (event) => {
+                if (event.key === 'Enter') {
+                  this.context.router.push('/search/' + this.state.value);
+                }
+              }
+            }}
             items={this.props.artifacts}
             getItemValue={(item) => item.title}
-            shouldItemRender={this.matchArtifactToTerm}
+            shouldItemRender={artifactMatches}
             sortItems={this.sortArtifacts}
             onChange={(event, value) => this.setState({ value })}
             onSelect={(value, item) => {
@@ -84,6 +94,37 @@ var SearchBar = React.createClass({
   }
 });
 
+class SearchResultsPage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  findResults(query) {
+    return this.props.artifacts.data.items.filter((artifact) => {
+      return artifactMatches(artifact, query);
+    });
+  }
+
+  render() {
+    const results = this.findResults(this.props.params.query);
+    return (
+      <div className="search-results artifact-grid-container">
+        <h2>Search results</h2>
+        <div>
+          Results for {this.props.params.query}
+        </div>
+        <ArtifactGrid artifacts={results} />
+      </div>
+    );
+  }
+}
+
+SearchResultsPage.propTypes = {
+  artifacts: PropTypes.object,
+  params: PropTypes.object.isRequired,
+};
+
 export {
-  SearchBar
+  SearchBar,
+  SearchResultsPage,
 };

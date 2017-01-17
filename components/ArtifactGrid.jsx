@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import '../styles/components/artifact-grid.scss';
+
 var ArtifactGridItem = React.createClass({
   propTypes: {
     artifact: PropTypes.object.isRequired
@@ -33,11 +35,14 @@ var ArtifactGridItem = React.createClass({
 
 function ArtifactGrid({ artifacts }) {
   return (
-    <ul className="artifact-grid">
-      {artifacts.map((artifact) => {
-        return <ArtifactGridItem artifact={artifact} key={artifact.slug} />;
-      })}
-    </ul>
+    <div>
+      <ul className="artifact-grid">
+        {artifacts.map((artifact) => {
+          return <ArtifactGridItem artifact={artifact} key={artifact.slug} />;
+        })}
+      </ul>
+      <div style={{ clear: 'both' }}></div>
+    </div>
   );
 }
 

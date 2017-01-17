@@ -18,6 +18,7 @@ import Prism from './components/Prism';
 import Artifact from './components/Artifact';
 import ArtifactTheme from './components/ArtifactTheme';
 import Archive from './components/Archive';
+import { SearchResultsPage } from './components/Search';
 import config from './config';
 
 const browserHistory = syncHistoryWithStore(useRouterHistory(createHistory)({
@@ -37,6 +38,8 @@ const routes = (
     <Route path="archive" component={Archive} section="archive" page="archive" />
     <Route path="artifacts/theme/:slug" component={ArtifactTheme} section="archive" page="theme" />
     <Route path="artifacts/:slug" component={Artifact} section="archive" page="artifact" />
+
+    <Route path="search/:query" component={SearchResultsPage} section="search" page="search-results" />
 
     <Route path="*" component={PageNotFound} />
   </Route>
