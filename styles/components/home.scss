@@ -23,7 +23,7 @@ body.home-section {
 
     .home-screen {
         @include full-screen-container();
-        height: 67vw;
+        height: 66vw;
 
         @include respond-to('phone-down') {
             height: 100vh;
