@@ -1,6 +1,7 @@
 @import "compass";
 
 @import "../arrows";
+@import "../breakpoints";
 @import "../spacing";
 
 .artifact-container {
@@ -125,6 +126,43 @@ img {
 
     &-more {
         margin-top: 15px;
+    }
+}
+
+@include respond-to('phone-down') {
+    .artifact {
+        background-image: none;
+        height: auto;
+        max-height: none;
+
+        &-body {
+            @include flex-direction(column);
+        }
+
+        &-left {
+            width: 100%;
+        }
+
+        &-right {
+            width: 100%;
+        }
+
+        &-image {
+            height: 200px;
+        }
+
+        &-text {
+            max-height: none;
+            overflow: inherit;
+        }
+    }
+
+    .previous-artifact {
+        left: -20px;
+    }
+
+    .next-artifact {
+        right: -20px;
     }
 }
 
