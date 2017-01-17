@@ -35,7 +35,8 @@ function artifactMatches(artifact, query) {
 
 var SearchBar = React.createClass({
   propTypes: {
-    artifacts: PropTypes.array.isRequired
+    artifacts: PropTypes.array.isRequired,
+    autocomplete: PropTypes.bool,
   },
 
   contextTypes: {
@@ -56,38 +57,44 @@ var SearchBar = React.createClass({
   },
 
   render: function () {
+    let autocompleteProps = {
+      value: this.state.value,
+      inputProps: {
+        name: "Artifact search",
+        id: "artifacts-autocomplete",
+        onKeyDown: (event) => {
+          if (event.key === 'Enter') {
+            this.context.router.push('/search/' + this.state.value);
+          }
+        }
+      },
+      items: this.props.artifacts,
+      getItemValue: (item) => item.title,
+      shouldItemRender: artifactMatches,
+      sortItems: this.sortArtifacts,
+      onChange: (event, value) => this.setState({ value }),
+      onSelect: (value, item) => {
+        this.setState({ value });
+        this.context.router.push('/artifacts/' + item.slug);
+      },
+      renderMenu: (items, value, style) => {
+        return React.createElement('div', { className: 'artifacts-autocomplete-menu', children: items })
+      },
+      renderItem: (item, isHighlighted) => (
+        <div
+          style={isHighlighted ? autocompleteStyles.highlightedItem : autocompleteStyles.item}
+          key={item.id}
+        >{item.title}</div>
+      ),
+    };
+
+    if (this.props.autocomplete === false) {
+      autocompleteProps.open = false;
+    }
+
     return (
         <div className="search">
-          <Autocomplete
-            value={this.state.value}
-            inputProps={{
-              name: "Artifact search",
-              id: "artifacts-autocomplete",
-              onKeyDown: (event) => {
-                if (event.key === 'Enter') {
-                  this.context.router.push('/search/' + this.state.value);
-                }
-              }
-            }}
-            items={this.props.artifacts}
-            getItemValue={(item) => item.title}
-            shouldItemRender={artifactMatches}
-            sortItems={this.sortArtifacts}
-            onChange={(event, value) => this.setState({ value })}
-            onSelect={(value, item) => {
-              this.setState({ value });
-              this.context.router.push('/artifacts/' + item.slug);
-            }}
-            renderMenu={(items, value, style) => {
-              return React.createElement('div', { className: 'artifacts-autocomplete-menu', children: items })
-            }}
-            renderItem={(item, isHighlighted) => (
-              <div
-                style={isHighlighted ? autocompleteStyles.highlightedItem : autocompleteStyles.item}
-                key={item.id}
-              >{item.title}</div>
-            )}
-          />
+          <Autocomplete {...autocompleteProps} />
           <img className="search-icon" src="/img/search.png" />
         </div>
     );

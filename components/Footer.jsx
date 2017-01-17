@@ -17,7 +17,7 @@ function Footer({ artifacts }) {
         <div className="footer-separator"></div>
       </div>
       <div className="footer-center">
-        <SearchBar artifacts={artifacts.data.items} />
+        <SearchBar artifacts={artifacts.data.items} autocomplete={false} />
       </div>
       <div className="footer-right">
         <div className="footer-social-media">
