@@ -64,29 +64,21 @@ body.home-section {
 .home-menu {
     list-style: none;
     padding: 0;
-    transform: rotate(-8deg);
+    transform: translate(-50%, 0) rotate(-8.25deg);
+    width: 22vw;
 
     li {
+        margin: 10px 0;
         padding: 0;
     }
 
     a {
-        background-repeat: no-repeat;
-        background-size: contain;
         display: inline-block;
-        height: 50px;
-        width: 250px;
-    }
+        height: auto;
+        width: 100%;
 
-    .archive-text-link {
-        background-image: url(/img/archive-text.png);
-    }
-
-    .chasm-text-link {
-        background-image: url(/img/chasm-text.png);
-    }
-
-    .prism-text-link {
-        background-image: url(/img/prism-text.png);
+        img {
+            width: 100%;
+        }
     }
 }

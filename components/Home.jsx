@@ -22,7 +22,7 @@ const textMenuPositions = {
     top: 1600
   },
   default: {
-    left: 575,
+    left: 695,
     top: 570
   }
 };
@@ -50,9 +50,21 @@ function Home() {
           </PinnedOverlay>
           <PinnedOverlay overlaid={document.body} left={textMenuPosition.left} top={textMenuPosition.top}>
             <ul className="home-menu">
-              <li><Link to="/archive" className="archive-text-link"></Link></li>
-              <li><Link to="/chasm" className="chasm-text-link"></Link></li>
-              <li><Link to="/prism" className="prism-text-link"></Link></li>
+              <li>
+                <Link to="/archive" className="archive-text-link">
+                  <img src="/img/archive-text.png" />
+                </Link>
+              </li>
+              <li>
+                <Link to="/chasm" className="chasm-text-link">
+                  <img src="/img/chasm-text.png" />
+                </Link>
+              </li>
+              <li>
+                <Link to="/prism" className="prism-text-link">
+                  <img src="/img/prism-text.png" />
+                </Link>
+              </li>
             </ul>
           </PinnedOverlay>
         </div>
