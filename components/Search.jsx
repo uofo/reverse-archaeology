@@ -88,7 +88,8 @@ var SearchBar = React.createClass({
       ),
     };
 
-    if (this.props.autocomplete === false) {
+    const windowWidth = document.body.clientWidth;
+    if (windowWidth <= 400 || this.props.autocomplete === false) {
       autocompleteProps.open = false;
     }
 
