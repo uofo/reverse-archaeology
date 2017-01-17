@@ -18,11 +18,11 @@ function Home() {
               <div style={{ clear: 'both' }}></div>
             </div>
           </PinnedOverlay>
-          <PinnedOverlay overlaid={document.body} left={600} top={570}>
+          <PinnedOverlay overlaid={document.body} left={575} top={570}>
             <ul className="home-menu">
-              <li><Link to="/archive">Enter the archive</Link></li>
-              <li><Link to="/chasm">The chasm is real</Link></li>
-              <li><Link to="/prism">The prism is magic</Link></li>
+              <li><Link to="/archive" className="archive-text-link"></Link></li>
+              <li><Link to="/chasm" className="chasm-text-link"></Link></li>
+              <li><Link to="/prism" className="prism-text-link"></Link></li>
             </ul>
           </PinnedOverlay>
         </div>

@@ -62,5 +62,31 @@ body.home-section {
 }
 
 .home-menu {
+    list-style: none;
+    padding: 0;
     transform: rotate(-8deg);
+
+    li {
+        padding: 0;
+    }
+
+    a {
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: inline-block;
+        height: 50px;
+        width: 250px;
+    }
+
+    .archive-text-link {
+        background-image: url(/img/archive-text.png);
+    }
+
+    .chasm-text-link {
+        background-image: url(/img/chasm-text.png);
+    }
+
+    .prism-text-link {
+        background-image: url(/img/prism-text.png);
+    }
 }
