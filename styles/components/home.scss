@@ -32,15 +32,32 @@ body.home-section {
 }
 
 .home-icon-menu {
+    min-width: 200px;
     transform: rotate(-8deg);
 
-    .archive-link {
-        background-image: url(/img/archive-icon.png);
+    a {
         background-repeat: no-repeat;
         background-size: contain;
         display: inline-block;
         height: 50px;
+        margin-left: 20px;
         width: 50px;
+
+        &:first-of-type {
+            margin-left: 0;
+        }
+    }
+
+    .archive-link {
+        background-image: url(/img/archive-icon.png);
+    }
+
+    .chasm-link {
+        background-image: url(/img/chasm-icon.png);
+    }
+
+    .prism-link {
+        background-image: url(/img/prism-icon.png);
     }
 }
 
