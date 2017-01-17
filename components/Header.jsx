@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import Nav from './Nav';
-import Search from './Search';
+import { SearchBar } from './Search';
 
 import '../styles/components/header.scss';
 
@@ -63,7 +63,7 @@ class Header extends React.Component {
         </h1>
         <div className="header-menu">
           <Nav onLinkClick={this.closeMenu.bind(this)} pages={this.props.pages} section={this.props.section} />
-          <Search artifacts={this.props.artifacts.data.items} />
+          <SearchBar artifacts={this.props.artifacts.data.items} />
         </div>
         <MenuButton toggle={this.toggleMenu.bind(this)} />
         <div style={{clear: 'both'}}></div>

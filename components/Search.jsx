@@ -22,7 +22,7 @@ const autocompleteStyles = {
   }
 };
 
-var State = React.createClass({
+var SearchBar = React.createClass({
   propTypes: {
     artifacts: PropTypes.array.isRequired
   },
@@ -84,4 +84,6 @@ var State = React.createClass({
   }
 });
 
-export default State;
+export {
+  SearchBar
+};

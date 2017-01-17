@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import Search from './Search';
+import { SearchBar } from './Search';
 
 import '../styles/components/footer.scss';
 
@@ -17,7 +17,7 @@ function Footer({ artifacts }) {
         <div className="footer-separator"></div>
       </div>
       <div className="footer-center">
-        <Search artifacts={artifacts.data.items} />
+        <SearchBar artifacts={artifacts.data.items} />
       </div>
       <div className="footer-right">
         <div className="footer-social-media">
