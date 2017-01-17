@@ -45,7 +45,8 @@ var ArtifactGridItem = React.createClass({
   },
 
   render: function () {
-    const width = this.props.artifact.headline.length > 100 ? 'wide': 'narrow';
+    const headline = this.props.artifact.headline;
+    const width = (headline && headline.length) > 100 ? 'wide': 'narrow';
     const imageUrl = (this.props.artifact.image_thumbnail_url
         ? this.props.artifact.image_thumbnail_url
         : this.props.artifact.image_url);
