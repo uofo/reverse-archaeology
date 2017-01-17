@@ -11,3 +11,9 @@
         @include full-screen-blurb();
     }
 }
+
+body.prism-section {
+    .logo-link {
+        background-image: url(/img/prism-icon.png);
+    }
+}

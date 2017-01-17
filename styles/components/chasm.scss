@@ -11,3 +11,9 @@
         @include full-screen-blurb();
     }
 }
+
+body.chasm-section {
+    .logo-link {
+        background-image: url(/img/chasm-icon.png);
+    }
+}
