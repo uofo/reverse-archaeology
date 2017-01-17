@@ -35,8 +35,7 @@
 body.search-section.search-results-page {
     background-image: url('/img/backgrounds/archive-theme.jpg');
     background-position: top center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
     color: white;
 
     h2 {
