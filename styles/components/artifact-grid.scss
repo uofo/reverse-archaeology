@@ -32,9 +32,39 @@
         color: white;
     }
 
+    .artifact-grid-themes {
+        display: inline-block;
+    }
+
+    .artifact-grid-theme {
+        float: left;
+        margin-left: 3px;
+
+        &:first-of-type {
+            margin-left: 0;
+        }
+    }
+
+    .artifact-grid-item-inner {
+        background-color: rgba(122, 72, 76, 0.6);
+        display: none;
+        font-family: Linowrite, serif;
+        font-size: 30px;
+        font-variant: small-caps;
+        height: 100%;
+        line-height: 28px;
+        padding: 10px 12%;
+        text-align: center;
+        width: 100%;
+    }
+
     .artifact-grid-item-narrow {
         @include artifact-grid-item();
         width: 33.3333%;
+
+        .artifact-grid-item-inner {
+            padding: 10px 2%;
+        }
     }
 
     .artifact-grid-item-wide {
@@ -42,15 +72,4 @@
         width: 66.6666%;
     }
 
-    .artifact-grid-item-inner {
-        background-color: rgba(122, 72, 76, 0.6);
-        display: none;
-        height: 100%;
-        width: 100%;
-
-        &-text {
-            padding: 15px;
-            padding-top: 30px;
-        }
-    }
 }
