@@ -7,7 +7,7 @@ const base = {
     data: 'https://uofo.github.io/reverse-archaeology-content/data/data.json'
   },
 
-  imageUrlBase: 'https://uofo.github.io/'
+  imageUrlBase: 'https://uofo.github.io/reverse-archaeology-content/'
 };
 
 let combined = {};

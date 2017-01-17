@@ -3,5 +3,5 @@ export default {
     data: 'http://localhost:4000/reverse-archaeology-content/data/data.json'
   },
 
-  imageUrlBase: 'http://localhost:4000/'
+  imageUrlBase: 'http://localhost:4000/reverse-archaeology-content/'
 };
