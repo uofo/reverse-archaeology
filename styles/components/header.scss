@@ -1,7 +1,10 @@
+@import "compass";
+
 @import "../breakpoints";
 @import "../spacing";
 
 header {
+    @include display-flex;
     margin-left: $body-margin;
     margin-right: $body-margin;
     padding: 25px 0;
@@ -11,6 +14,7 @@ header {
 
     @include respond-to('phone-down') {
         background-color: rgba(118, 16, 105, 0.5);
+        display: block;
         height: 80px;
         margin: 0;
         padding: 0;
@@ -19,7 +23,7 @@ header {
     }
 
     h1 {
-        float: left;
+        @include flex(0 0 auto);
         width: 20%;
 
         @include respond-to('phone-down') {
@@ -32,6 +36,7 @@ header {
 
     .logo-link {
         background-image: url(/img/logo.png);
+        background-position: center center;
         background-repeat: no-repeat;
         background-size: contain;
         display: inline-block;
@@ -39,13 +44,14 @@ header {
         width: 100%;
 
         @include respond-to('phone-down') {
-            height: 40px;
-            margin-top: 25px;
+            height: 80%;
+            margin-top: 10%;
         }
     }
 
     .header-menu {
-        float: left;
+        @include flex(1 1 auto);
+        @include display-flex;
 
         @include respond-to('phone-down') {
             background-color: rgba(118, 16, 105, 0.5);
@@ -61,7 +67,7 @@ header {
     }
 
     .navbar {
-        float: left;
+        @include flex(0 0 auto);
         margin-left: 20px;
         margin-top: 20px;
 
@@ -73,10 +79,9 @@ header {
     }
 
     .search {
-        float: left;
+        @include flex(1 1 auto);
         margin-left: 20px;
         margin-top: 20px;
-        width: 15%;
 
         @include respond-to('phone-down') {
             float: none;
