@@ -50,20 +50,29 @@ header {
     }
 
     .header-menu {
-        @include flex(1 1 auto);
-        @include display-flex;
-
         @include respond-to('phone-down') {
             background-color: rgba(118, 16, 105, 0.5);
-            display: none;
-            float: none;
-            padding: 15px;
+            height: 0;
+            overflow: hidden;
+            transition: 1s ease all;
             width: 100%;
         }
     }
 
-    &.menu-open .header-menu {
-        display: block;
+    &.menu-open {
+        .header-menu {
+            height: 50vh;
+        }
+    }
+
+    .header-menu-inner {
+        @include flex(1 1 auto);
+        @include display-flex;
+        padding: 15px;
+
+        @include respond-to('phone-down') {
+            display: block;
+        }
     }
 
     .navbar {
