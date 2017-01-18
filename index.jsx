@@ -46,6 +46,8 @@ const routes = (
 );
 
 function onRouteUpdate() {
+  window.scrollTo(0, 0);
+
   const section = this.state.routes[this.state.routes.length - 1].section;
   toggleSectionClass(section);
 
