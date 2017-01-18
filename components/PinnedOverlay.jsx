@@ -23,7 +23,7 @@ class PinnedOverlay extends React.Component {
   }
 
   updatePinnedLocation(image) {
-    this.setState(function (prevState, props) {
+    this.setState((prevState, props) => {
       const windowWidth = document.body.clientWidth;
 
       // Try to get image details from previous state
@@ -37,7 +37,7 @@ class PinnedOverlay extends React.Component {
         imageHeight = image.height;
         aspectRatio = image.width / image.height;
       }
-      else {
+      else if (!image && (!imageWidth || !imageHeight)) {
         // Finally, get the image with this function as a callback
         this.getImage(this.updatePinnedLocation.bind(this));
         return {};
