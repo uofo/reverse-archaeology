@@ -25,7 +25,7 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <Header artifacts={this.props.artifacts} pages={this.props.pages} section={this.props.section} />
+        <Header artifacts={this.props.artifacts} pages={this.props.pages} section={this.props.section} closeMenu={this.props.actions.closeMenu} menuOpen={this.props.menuOpen} openMenu={this.props.actions.openMenu} />
         <main>
           {
             React.cloneElement(this.props.children, {
@@ -53,6 +53,7 @@ function mapStateToProps(state, ownProps) {
     bios: state.bios,
     blurbs: state.blurbs,
     funders: state.funders,
+    menuOpen: state.menuOpen,
     pages: state.pages,
     section: route.section,
     slideshowimages: state.slideshowimages,

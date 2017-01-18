@@ -5,10 +5,25 @@ import fetch from 'isomorphic-fetch';
 
 import config from '../config';
 
+export const MENU_VISIBILITY = 'MENU_VISIBILITY';
 export const SITE_DATA_REQUEST = 'SITE_DATA_REQUEST';
 export const SITE_DATA_RESPONSE = 'SITE_DATA_RESPONSE';
 export const SITE_DATA_ERROR_RESPONSE = 'SITE_DATA_ERROR_RESPONSE';
 
+
+export function closeMenu () {
+  return {
+    value: false,
+    type: MENU_VISIBILITY
+  };
+}
+
+export function openMenu () {
+  return {
+    value: true,
+    type: MENU_VISIBILITY
+  };
+}
 
 export function requestSiteData () {
   return {

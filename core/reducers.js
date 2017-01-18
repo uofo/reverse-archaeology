@@ -4,6 +4,13 @@ import * as actions from './actions';
 import { cleanArtifacts } from '../models/artifacts';
 
 export default {
+  menuOpen: (state=false, action) => {
+    if (action.type === actions.MENU_VISIBILITY) {
+      return action.value;
+    }
+    return state;
+  },
+
   artifacts: combineReducers({
 
     data (state = { isFetching: false, items: [] }, action) {

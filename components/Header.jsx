@@ -32,37 +32,23 @@ MenuButton.propTypes = {
 
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuOpen: false,
-    };
-  }
-
-  closeMenu() {
-    this.setState((prevState) => {
-      return {
-        menuOpen: false,
-      }
-    });
-  }
-
   toggleMenu() {
-    this.setState((prevState) => {
-      return {
-        menuOpen: !prevState.menuOpen,
-      }
-    });
+    if (this.props.menuOpen) {
+      this.props.closeMenu();
+    }
+    else {
+      this.props.openMenu();
+    }
   }
 
   render() {
     return (
-      <header className={this.state.menuOpen ? 'menu-open' : ''}>
+      <header className={this.props.menuOpen ? 'menu-open' : ''}>
         <h1>
-          <Link className="logo-link" to="/"></Link>
+          <Link className="logo-link" to="/" onClick={this.props.closeMenu}></Link>
         </h1>
         <div className="header-menu">
-          <Nav onLinkClick={this.closeMenu.bind(this)} pages={this.props.pages} section={this.props.section} />
+          <Nav onLinkClick={this.props.closeMenu} pages={this.props.pages} section={this.props.section} />
           <SearchBar artifacts={this.props.artifacts.data.items} />
         </div>
         <MenuButton toggle={this.toggleMenu.bind(this)} />
@@ -76,6 +62,9 @@ Header.propTypes = {
   artifacts: PropTypes.object.isRequired,
   pages: PropTypes.object.isRequired,
   section: PropTypes.string.isRequired,
+  closeMenu: PropTypes.func.isRequired,
+  openMenu: PropTypes.func.isRequired,
+  menuOpen: PropTypes.bool.isRequired,
 };
 
 export default Header;
