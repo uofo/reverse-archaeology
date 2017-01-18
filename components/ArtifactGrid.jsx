@@ -11,6 +11,10 @@ const allowedThemes = [
   'nostalgia',
 ];
 
+function artifactIsNarrow(artifact) {
+  return artifact.headline && artifact.headline.length <= 90;
+}
+
 var ArtifactGridItem = React.createClass({
   propTypes: {
     artifact: PropTypes.object.isRequired
@@ -26,8 +30,7 @@ var ArtifactGridItem = React.createClass({
 
   render: function () {
     const artifact = this.props.artifact;
-    const headline = artifact.headline;
-    const width = (headline && headline.length) > 90 ? 'wide': 'narrow';
+    const width = artifactIsNarrow(artifact) ? 'narrow': 'wide';
     const imageUrl = (artifact.image_thumbnail_url
         ? artifact.image_thumbnail_url
         : artifact.image_url);
@@ -57,10 +60,45 @@ var ArtifactGridItem = React.createClass({
 });
 
 function ArtifactGrid({ artifacts }) {
+  const gridWidth = 3;
+  const wideWidth = 2;
+  const narrowWidth = 1;
+
+  function sortArtifacts(artifacts) {
+    // Divide artifacts into narrow and wide
+    let sortedArtifacts = [];
+    let narrowArtifacts = [];
+    let wideArtifacts = [];
+    artifacts.forEach((artifact) => {
+      if (artifactIsNarrow(artifact)) {
+        narrowArtifacts.push(artifact);
+      }
+      else {
+        wideArtifacts.push(artifact);
+      }
+    });
+
+    // Put the artifacts in an order that will make them look good when put in a
+    // grid. Randomly pick narrow artifacts over wide sometimes, but skew toward
+    // wide to ensure that the grid fills up more often than not.
+    let mod = 0;
+    while (narrowArtifacts.length || wideArtifacts.length) {
+      if ((mod === 0 || mod === 1) && wideArtifacts.length && Math.random() < 0.7) {
+        sortedArtifacts.push(wideArtifacts.pop());
+        mod = (mod + wideWidth) % gridWidth;
+      }
+      else if (narrowArtifacts.length) {
+        sortedArtifacts.push(narrowArtifacts.pop());
+        mod = (mod + narrowWidth) % gridWidth;
+      }
+    }
+    return sortedArtifacts;
+  }
+
   return (
     <div>
       <ul className="artifact-grid">
-        {artifacts.map((artifact) => {
+        {sortArtifacts(artifacts).map((artifact) => {
           return <ArtifactGridItem artifact={artifact} key={artifact.slug} />;
         })}
       </ul>
