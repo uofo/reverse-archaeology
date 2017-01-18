@@ -1,3 +1,5 @@
+@import "../breakpoints";
+
 @mixin artifact-grid-item() {
     background: #7D494E;
     background-position: center center;
@@ -70,6 +72,13 @@
     .artifact-grid-item-wide {
         @include artifact-grid-item();
         width: 66.6666%;
+    }
+
+    @include respond-to('phone-down') {
+        .artifact-grid-item-narrow,
+        .artifact-grid-item-wide {
+            width: 100%;
+        }
     }
 
 }
