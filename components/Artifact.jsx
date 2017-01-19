@@ -30,19 +30,15 @@ function Artifact({ artifacts, children, params, themes }) {
           <div className="artifact-header">
             <h2>{artifact.headline}</h2>
             <div className="artifact-header-themes">
-              {() => {
-                if (artifact.themes) {
-                  return artifact.themes.map((theme) => {
-                    return (
-                      <div key={theme} className="artifact-header-theme">
-                        <Link to={`/artifacts/theme/${theme}`}>
-                          <img key={theme} src={`/img/themes/${theme}.png`} />
-                        </Link>
-                      </div>
-                    );
-                  });
-                }
-             }}
+              {artifact.themes.map((theme) => {
+                return (
+                  <div key={theme} className="artifact-header-theme">
+                    <Link to={`/artifacts/theme/${theme}`}>
+                      <img key={theme} src={`/img/themes/${theme}.png`} />
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="artifact-body">
@@ -59,7 +55,7 @@ function Artifact({ artifacts, children, params, themes }) {
               </div>
               <div className="artifact-themes">
                 <span className="artifact-label">Themes:</span>
-                {artifact.themes ? artifact.themes.map(t => themes[t]).join(', ') : ''}
+                {artifact.themes.map(t => themes[t]).join(', ')}
               </div>
             </div>
             <div className="artifact-right">
