@@ -70,7 +70,7 @@ function PageComponent({ bios, blurbs, children, funders, pages, route, slidesho
               return (
                 <li key={bio.name} className="bio-item">
                   <Link to={"about/bios/" + bio.slug}>
-                    <img src={imgUrl} />
+                    <div className="bio-item-image" style={{ backgroundImage: `url("${imgUrl}")` }}></div>
                     <div>{bio.name}</div>
                   </Link>
                 </li>

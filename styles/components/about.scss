@@ -46,20 +46,27 @@
 
     .bio-item {
         float: left;
-        height: 200px;
+        max-width: 200px;
+        margin: 0 20px;
         padding: 0;
         text-align: center;
-        width: 25%;
 
         @include respond-to('phone-down') {
+            float: none;
+            max-width: none;
+            margin: 20px auto;
             padding: 0 10px;
             width: 50%;
         }
 
-        img {
+        &-image {
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
             border-radius: 50%;
-            max-height: 90%;
-            max-width: 100%;
+            height: 200px;
+            margin: 0 auto;
+            width: 200px;
         }
     }
 }

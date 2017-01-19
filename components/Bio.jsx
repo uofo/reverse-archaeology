@@ -28,7 +28,7 @@ function Bio({ bios, children, params }) {
     body = (
       <div className="bio-individual">
         <div className="bio-left">
-          {imgUrl ? <img className='bio-image' src={imgUrl} /> : ''}
+          <div className="bio-image" style={{ backgroundImage: `url("${imgUrl}")` }}></div>
           <h2 className="bio-name">{bio.name}</h2>
         </div>
         <div className="bio-right">
