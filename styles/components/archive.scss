@@ -19,7 +19,7 @@
         text-align: center;
         text-transform: uppercase;
         transform: translate(-50%, 0);
-        width: 240px;
+        width: 20vw;
 
         @include respond-to('phone-down') {
             height: 30px;
