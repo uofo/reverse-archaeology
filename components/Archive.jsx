@@ -40,11 +40,11 @@ function Archive({ blurbs, children, themes }) {
 
   const positions = {
     'corner-good-hope': [485, 450],
-    'crossroads': [830, 670],
+    'crossroads': [820, 670],
     'history-us-cities': [490, 670],
-    'industry-and-infrastructure': [830, 260],
+    'industry-and-infrastructure': [820, 260],
     'lifecycle': [1160, 670],
-    'nostalgia': [830, 460],
+    'nostalgia': [820, 460],
   };
 
   let blurb;
