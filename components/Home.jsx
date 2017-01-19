@@ -18,7 +18,7 @@ const iconMenuPositions = {
 
 const textMenuPositions = {
   phone: {
-    left: 200,
+    left: 700,
     top: 1600
   },
   default: {

@@ -67,6 +67,10 @@ body.home-section {
     transform: translate(-50%, 0) rotate(-8.25deg);
     width: 22vw;
 
+    @include respond-to('phone-down') {
+        width: 50vw;
+    }
+
     li {
         margin: 10px 0;
         padding: 0;
