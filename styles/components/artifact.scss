@@ -94,6 +94,7 @@ img {
 
     &-image {
         @include flex(1 1 auto);
+        background-position: center center;
         background-repeat: no-repeat;
         background-size: contain;
         max-height: 100%;
