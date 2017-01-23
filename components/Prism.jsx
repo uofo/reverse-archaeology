@@ -35,7 +35,7 @@ function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
         <Slideshow images={prismSlideshowImages} />
         <div className="prism-screen">
           <div className="prism-blurb">
-            <h2>The Prism</h2>
+            <h2>The Prism is magic</h2>
             <div>
               <div className="header-separator"></div>
               <div dangerouslySetInnerHTML={{__html: decode(blurb.content)}} />

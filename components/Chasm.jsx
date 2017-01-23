@@ -35,7 +35,7 @@ function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
         <Slideshow images={chasmSlideshowImages} />
         <div className="chasm-screen">
           <div className="chasm-blurb">
-            <h2>The Chasm</h2>
+            <h2>The Chasm is real</h2>
             <div>
               <div className="header-separator"></div>
               <div dangerouslySetInnerHTML={{__html: decode(blurb.content)}} />
