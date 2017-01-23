@@ -36,7 +36,7 @@ var ArtifactGridItem = React.createClass({
         : artifact.image_url);
     const themes = artifact.themes.filter(t => allowedThemes.indexOf(t) >= 0);
     return (
-      <li className={"artifact-grid-item-" + width} onClick={this.onClick} style={{backgroundImage: "url('" + imageUrl + "')"}}>
+      <li className={"artifact-grid-item-" + width} onClick={this.onClick} style={{backgroundImage: `url("${imageUrl}")`}}>
         <div className="artifact-grid-item-inner">
           <div className="artifact-grid-themes">
             {themes.map((theme) => {
