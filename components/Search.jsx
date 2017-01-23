@@ -72,7 +72,6 @@ var SearchBar = React.createClass({
           }
         }
       },
-      open: true,
       items: this.props.artifacts,
       getItemValue: (item) => item.title,
       shouldItemRender: artifactMatches,
