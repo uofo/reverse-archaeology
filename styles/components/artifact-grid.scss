@@ -48,7 +48,7 @@
     }
 
     .artifact-grid-item-inner {
-        background-color: rgba(122, 72, 76, 0.6);
+        background-color: rgba(122, 72, 76, 0.75);
         display: none;
         font-family: Linowrite, serif;
         font-size: 30px;
@@ -58,6 +58,10 @@
         padding: 10px 12%;
         text-align: center;
         width: 100%;
+
+        @include respond-to('phone-down') {
+            display: block;
+        }
     }
 
     .artifact-grid-item-narrow {
