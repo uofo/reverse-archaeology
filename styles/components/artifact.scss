@@ -8,13 +8,6 @@
     position: relative;
 }
 
-.previous-artifact,
-.next-artifact {
-    display: inline-block;
-    height: 56px;
-    width: 32px;
-}
-
 .previous-artifact {
     @include prev-arrow();
     background-image: url(/img/black-left-arrow.png);
@@ -23,6 +16,17 @@
 .next-artifact {
     @include next-arrow();
     background-image: url(/img/black-right-arrow.png);
+}
+
+.previous-artifact,
+.next-artifact {
+    display: inline-block;
+    height: 56px;
+    width: 32px;
+
+    @include respond-to('phone-down') {
+        top: 100px;
+    }
 }
 
 img {
