@@ -14,7 +14,7 @@ const autocompleteStyles = {
 
   highlightedItem: {
     color: 'white',
-    background: 'hsl(200, 50%, 50%)',
+    background: 'rgba(118, 16, 105, 0.5)',
     padding: '2px 6px',
     cursor: 'default'
   },
@@ -72,6 +72,7 @@ var SearchBar = React.createClass({
           }
         }
       },
+      open: true,
       items: this.props.artifacts,
       getItemValue: (item) => item.title,
       shouldItemRender: artifactMatches,
