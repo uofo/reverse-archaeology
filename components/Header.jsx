@@ -50,7 +50,7 @@ class Header extends React.Component {
         <div className="header-menu">
           <div className="header-menu-inner">
             <Nav onLinkClick={this.props.closeMenu} pages={this.props.pages} section={this.props.section} />
-            <SearchBar artifacts={this.props.artifacts.data.items} />
+            <SearchBar artifacts={this.props.artifacts.data.items} closeMenu={this.props.closeMenu} />
           </div>
         </div>
         <MenuButton toggle={this.toggleMenu.bind(this)} />

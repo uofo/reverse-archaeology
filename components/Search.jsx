@@ -37,6 +37,7 @@ var SearchBar = React.createClass({
   propTypes: {
     artifacts: PropTypes.array.isRequired,
     autocomplete: PropTypes.bool,
+    closeMenu: PropTypes.func,
   },
 
   contextTypes: {
@@ -65,6 +66,9 @@ var SearchBar = React.createClass({
         onKeyDown: (event) => {
           if (event.key === 'Enter') {
             this.context.router.push('/search/' + this.state.value);
+            if (this.props.closeMenu) {
+              this.props.closeMenu();
+            }
           }
         }
       },
