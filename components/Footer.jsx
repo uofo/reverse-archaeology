@@ -32,6 +32,7 @@ function Footer({ artifacts }) {
           </ul>
         </div>
         <div className="footer-separator"></div>
+        <div className="footer-text">Hidden Treasures of Our Orange is a project of the <a href="http://www.universityoforange.org" target="_blank">University of Orange</a>.</div>
       </div>
       <div style={{clear: 'both'}}></div>
     </footer>

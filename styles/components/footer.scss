@@ -60,6 +60,10 @@ footer {
     width: 60%;
 }
 
+.footer-text {
+    text-align: center;
+}
+
 .footer-social-media {
     @include display-flex;
 
