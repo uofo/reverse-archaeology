@@ -1,8 +1,7 @@
-import { decode } from 'ent';
-
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import DynamicContent from './DynamicContent';
 import PinnedOverlay from './PinnedOverlay';
 
 import '../styles/components/archive.scss';
@@ -61,7 +60,7 @@ function Archive({ blurbs, children, themes }) {
             <div>
               <div className="header-separator"></div>
               {blurb ?
-                <div dangerouslySetInnerHTML={{__html: decode(blurb.content)}} /> :
+                <DynamicContent innerHTML={blurb.content} /> :
                 null}
             </div>
           </div>

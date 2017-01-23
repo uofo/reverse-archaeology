@@ -1,9 +1,8 @@
-import { decode } from 'ent';
-
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import config from '../config';
+import DynamicContent from './DynamicContent';
 import Slideshow from './Slideshow';
 
 import '../styles/components/about.scss';
@@ -43,7 +42,7 @@ function PageComponent({ bios, blurbs, children, funders, pages, route, slidesho
             <h2>About Us</h2>
             <div>
               <div className="header-separator"></div>
-              <div dangerouslySetInnerHTML={{__html: decode(blurb.content)}} />
+              <DynamicContent innerHTML={blurb.content} />
             </div>
           </div>
         </div>
@@ -53,7 +52,7 @@ function PageComponent({ bios, blurbs, children, funders, pages, route, slidesho
             <div className="header-separator"></div>
           </h3>
           <div>
-            <div dangerouslySetInnerHTML={{__html: decode(ourWorkPage.content)}} />
+            <DynamicContent innerHTML={ourWorkPage.content} />
           </div>
         </section>
         <section className="about-team">

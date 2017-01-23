@@ -1,9 +1,8 @@
-import { decode } from 'ent';
-
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import config from '../config';
+import DynamicContent from './DynamicContent';
 
 import '../styles/components/bio.scss';
 
@@ -32,7 +31,7 @@ function Bio({ bios, children, params }) {
           <h2 className="bio-name">{bio.name}</h2>
         </div>
         <div className="bio-right">
-          <div dangerouslySetInnerHTML={{__html: decode(bio.content)}} />
+          <DynamicContent innerHTML={bio.content} />
         </div>
         <div style={{ clear: 'both' }}></div>
       </div>

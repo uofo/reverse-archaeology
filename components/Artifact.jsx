@@ -1,7 +1,7 @@
-import { decode } from 'ent';
-
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+
+import DynamicContent from './DynamicContent';
 
 import '../styles/components/artifact.scss';
 
@@ -60,7 +60,7 @@ function Artifact({ artifacts, children, params, themes }) {
             </div>
             <div className="artifact-right">
               <div className="artifact-text">
-                <div dangerouslySetInnerHTML={{__html: decode(artifact.content)}} />
+                <DynamicContent innerHTML={artifact.content} />
               </div>
             </div>
           </div>

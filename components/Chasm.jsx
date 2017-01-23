@@ -1,8 +1,7 @@
-import { decode } from 'ent';
-
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import DynamicContent from './DynamicContent';
 import Slideshow from './Slideshow';
 
 import '../styles/components/chasm.scss';
@@ -38,11 +37,11 @@ function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
             <h2>The Chasm is real</h2>
             <div>
               <div className="header-separator"></div>
-              <div dangerouslySetInnerHTML={{__html: decode(blurb.content)}} />
+              <DynamicContent innerHTML={blurb.content} />
             </div>
           </div>
         </div>
-        <div dangerouslySetInnerHTML={{__html: decode(page.content)}} />
+        <DynamicContent innerHTML={page.content} />
       </div>
     );
   }
