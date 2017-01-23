@@ -75,6 +75,7 @@ img {
     &-body {
         @include display-flex;
         @include flex-direction(row);
+        overflow: hidden;
     }
 
     &-left {
