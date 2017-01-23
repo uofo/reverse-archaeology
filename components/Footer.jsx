@@ -23,16 +23,10 @@ function Footer({ artifacts }) {
         <div className="footer-social-media">
           <ul>
             <li>
-              <a className="mail" href="mailto:universityoforange@gmail.com" target="_blank"></a>
+              <a className="mail" href="http://universityoforange.us10.list-manage.com/subscribe?u=80b878a13ce943d415039dccd&id=5827de607a" target="_blank"></a>
             </li>
             <li>
-              <a className="facebook" href="https://www.facebook.com/pages/University-of-Orange/209708885716392" target="_blank"></a>
-            </li>
-            <li>
-              <a className="twitter" href="http://twitter.com" target="_blank"></a>
-            </li>
-            <li>
-              <a className="instagram" href="http://instagram.com" target="_blank"></a>
+              <a className="web" href="http://www.universityoforange.org" target="_blank"></a>
             </li>
             <div style={{ clear: 'both' }}></div>
           </ul>

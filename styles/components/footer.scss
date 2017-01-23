@@ -81,31 +81,24 @@ footer {
     }
 
     a {
-        background-color: white;
-        background-position: center center;
         background-repeat: no-repeat;
-        background-size: 25px;
-        border-radius: 50%;
         display: inline-block;
         height: 35px;
-        width: 35px;
     }
 
     .mail {
+        background-color: white;
         background-image: url(/img/social-media/mail.png);
+        background-position: center center;
+        background-size: 25px;
+        border-radius: 50%;
+        width: 35px;
     }
 
-    .facebook {
-        background-image: url(/img/social-media/facebook.png);
-        background-size: 15px;
-    }
-
-    .instagram {
-        background-image: url(/img/social-media/instagram.png);
-    }
-
-    .twitter {
-        background-image: url(/img/social-media/twitter.png);
+    .web {
+        background-image: url(/img/social-media/uofo-logo.jpg);
+        background-size: contain;
+        width: 140px;
     }
 }
 
