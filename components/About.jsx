@@ -75,7 +75,6 @@ function PageComponent({ bios, blurbs, children, funders, pages, route, slidesho
                 </li>
               );
             })}
-            <li style={{clear: 'both'}}></li>
           </ul>
         </section>
         <section className="about-funders">

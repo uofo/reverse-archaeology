@@ -53,10 +53,13 @@ body.about-page {
 }
 
 .bio-list {
+    @include display-flex;
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    @include justify-content(space-around);
     list-style: none;
 
     .bio-item {
-        float: left;
         max-width: 200px;
         margin: 0 20px;
         padding: 0;
