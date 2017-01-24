@@ -1,3 +1,4 @@
+@import "breakpoints";
 @import "spacing";
 
 @mixin full-screen-page() {
@@ -16,6 +17,11 @@
     margin-left: -$body-margin;
     position: absolute;
     width: 400px;
+
+    @include respond-to('phone-down') {
+        margin-left: 0;
+        width: 100%;
+    }
 
     h2 {
         background-image: url(/img/blurb-header.png);
