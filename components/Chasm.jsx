@@ -41,7 +41,11 @@ function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
             </div>
           </div>
         </div>
-        <DynamicContent innerHTML={page.content} />
+        <div className="chasm-body">
+          <DynamicContent innerHTML={page.content} />
+          <img className="serial-displacement-timeline" src="/img/chasm/serial-displacement-timeline.png" />
+          <img className="serial-displacement-crack" src="/img/chasm/serial-displacement-crack.png" />
+        </div>
       </div>
     );
   }

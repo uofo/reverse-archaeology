@@ -1,3 +1,4 @@
+@import "../colors";
 @import "../screen";
 
 .chasm {
@@ -13,7 +14,24 @@
 }
 
 body.chasm-section {
+    background-image: url('/img/backgrounds/paper.jpg');
+    background-position: top center;
+
     .logo-link {
         background-image: url(/img/chasm-icon.png);
+    }
+}
+
+.chasm-body {
+    background-image: url(/img/backgrounds/chasm.jpg);
+    color: $red;
+    padding: 50px;
+    font-variant: small-caps;
+
+    .serial-displacement-crack,
+    .serial-displacement-timeline {
+        display: block;
+        max-width: 100%;
+        margin: 20px auto;
     }
 }
