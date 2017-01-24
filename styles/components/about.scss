@@ -1,5 +1,11 @@
+@import "compass";
+
 @import "../breakpoints";
 @import "../screen";
+
+body.about-page {
+    background-image: url(/img/backgrounds/about.jpg);
+}
 
 .about {
     @include full-screen-page();
@@ -13,9 +19,15 @@
     }
 }
 
-.about-our-work {
-    margin: 0 auto;
+@mixin about-section() {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 50px auto;
+    padding: 50px;
     width: 90%;
+}
+
+.about-our-work {
+    @include about-section;
 
     @include respond-to('phone-down') {
         width: 100%;
@@ -28,8 +40,7 @@
 }
 
 .about-team {
-    margin: 0 auto;
-    width: 90%;
+    @include about-section;
 
     @include respond-to('phone-down') {
         width: 100%;
@@ -72,6 +83,8 @@
 }
 
 .about-funders {
+    @include about-section;
+
     h3 {
         color: black;
         text-align: center;
@@ -79,10 +92,14 @@
 }
 
 .funder-list {
+    @include display-flex;
+    @include flex-direction(row);
+    @include justify-content(space-between);
     list-style: none;
 
     .funder-item {
-        float: left;
+        margin: 0;
+        padding: 0;
         width: 250px;
 
         @include respond-to('phone-down') {
