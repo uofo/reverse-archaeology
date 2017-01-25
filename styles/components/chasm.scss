@@ -23,9 +23,11 @@ body.chasm-section {
 }
 
 .chasm-body {
-    background-image: url(/img/backgrounds/chasm.jpg);
+    background-image: url(/img/backgrounds/chasm.png);
+    background-size: contain;
     color: $red;
-    padding: 50px;
+    margin-top: 50px;
+    padding: 100px;
     font-variant: small-caps;
 
     .serial-displacement-crack,
@@ -33,5 +35,41 @@ body.chasm-section {
         display: block;
         max-width: 100%;
         margin: 20px auto;
+    }
+
+    .policy-item {
+        margin: 15px 0;
+    }
+
+    .policy-item-header {
+        background-image: url(/img/chasm-policy-header.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: white;
+        display: inline-block;
+        font-family: "affogato-regular";
+        font-size: 20px;
+        font-variant: small-caps;
+        margin: 0;
+        margin-left: -20px;
+        padding: 5px 20px;
+    }
+
+    .policy-item-image-container {
+        background-image: url(/img/chasm-figure-background.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        float: left;
+        padding: 25px;
+        width: 30%;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .policy-item-body {
+        float: right;
+        width: 50%;
     }
 }

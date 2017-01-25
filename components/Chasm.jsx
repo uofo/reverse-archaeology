@@ -1,19 +1,35 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import config from '../config';
 import DynamicContent from './DynamicContent';
 import Slideshow from './Slideshow';
 
 import '../styles/components/chasm.scss';
 
-const propTypes = {
-  children: PropTypes.element,
-  pages: PropTypes.object,
-  route: PropTypes.object,
-  slideshowimages: PropTypes.array,
-};
+function PolicyItem({ policy }) {
+  let imgUrl = policy.image_url;
+  if (imgUrl && !imgUrl.startsWith('http')) {
+    imgUrl = config.imageUrlBase + imgUrl;
+  }
 
-function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
+  return (
+    <div className="policy-item">
+      { imgUrl ? (
+        <div className="policy-item-image-container">
+          <img className="policy-item-image" src={imgUrl} />
+        </div>
+        ) : null }
+      <div className="policy-item-body">
+        <h2 className="policy-item-header">{policy.name}</h2>
+        <DynamicContent innerHTML={policy.content} />
+      </div>
+      <div style={{ clear: 'both' }}></div>
+    </div>
+  );
+}
+
+function PageComponent({ blurbs, chasmpolicies, children, pages, route, slideshowimages }) {
   let body;
   let page;
 
@@ -45,6 +61,11 @@ function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
           <DynamicContent innerHTML={page.content} />
           <img className="serial-displacement-timeline" src="/img/chasm/serial-displacement-timeline.png" />
           <img className="serial-displacement-crack" src="/img/chasm/serial-displacement-crack.png" />
+          <div className="chasm-figures">
+            {chasmpolicies.map(policy => {
+              return <PolicyItem policy={policy} key={policy.order} />;
+            })}
+          </div>
         </div>
       </div>
     );
@@ -61,6 +82,13 @@ function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
     </div>
   );
 }
+
+const propTypes = {
+  children: PropTypes.element,
+  pages: PropTypes.object,
+  route: PropTypes.object,
+  slideshowimages: PropTypes.array,
+};
 
 PageComponent.propTypes = propTypes;
 
