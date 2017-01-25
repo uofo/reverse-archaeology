@@ -147,13 +147,29 @@ class Chasm extends React.Component {
               isOpen={this.state.figureLightboxIsOpen}
               images={this.state.figureImageSet}
             />
-            <DynamicContent innerHTML={page.content} />
-            <img className="serial-displacement-timeline" src="/img/chasm/serial-displacement-timeline.png" />
-            <img className="serial-displacement-crack" src="/img/chasm/serial-displacement-crack.png" />
-            <div className="chasm-figures">
-              {this.props.chasmpolicies.map(policy => {
-                return <PolicyItem policy={policy} key={policy.order} imageClick={this.openLightbox.bind(this)} />;
-              })}
+            <div className="chasm-body-page">
+              <DynamicContent innerHTML={page.content} />
+              <img className="serial-displacement-timeline" src="/img/chasm/serial-displacement-timeline.png" />
+              <img className="serial-displacement-crack" src="/img/chasm/serial-displacement-crack.png" />
+            </div>
+
+            <div className="chasm-body-page">
+              <div>
+                These are some of the series of policies that are part of Serial Forced Displacement:
+              </div>
+
+              <div className="chasm-figures">
+                {this.props.chasmpolicies.map(policy => {
+                  return <PolicyItem policy={policy} key={policy.order} imageClick={this.openLightbox.bind(this)} />;
+                })}
+              </div>
+
+              <div>
+                <p>Serial forced displacement is a particularly grave threat to health because it repeatedly attacks the very foundation of human health: the stable neighborhood that has intergenerational knowledge of how to survive in a given place.  Destruction of neighborhoods traumatizes people and destroys wealth of all kinds, including people’s economic, political, social, and cultural capital. Serial forced displacement is unjust and creates inequity.</p>
+                <p>
+                  <Link to="/prism"><strong>The Chasm is Real. Help Bridge the Chasm.</strong></Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>

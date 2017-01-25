@@ -23,12 +23,19 @@ body.chasm-section {
 }
 
 .chasm-body {
-    background-image: url(/img/backgrounds/chasm.png);
-    background-size: contain;
     color: $red;
-    margin-top: 50px;
-    padding: 100px;
     font-variant: small-caps;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    .chasm-body-page {
+        background-image: url(/img/backgrounds/chasm.png);
+        background-position: top center;
+        margin-top: 50px;
+        padding: 100px;
+        width: 100%;
+    }
 
     .serial-displacement-crack,
     .serial-displacement-timeline {
