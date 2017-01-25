@@ -82,6 +82,7 @@ function PageComponent({ bios, blurbs, children, funders, pages, route, slidesho
             Funders
             <div className="header-separator"></div>
           </h3>
+          <p>Thank you to our funders for the generous support:</p>
           <ul className="funder-list">
             {funders.map((funder) => {
               let imgUrl = funder.image_url;
