@@ -17,6 +17,10 @@
     &:hover .artifact-grid-item-inner {
         display: block;
     }
+
+    @include respond-to('phone-down') {
+        height: auto;
+    }
 }
 
 .artifact-grid-container {
