@@ -11,7 +11,7 @@ const iconMenuPositions = {
     top: 800
   },
   default: {
-    left: 545,
+    left: 500,
     top: 325
   }
 };

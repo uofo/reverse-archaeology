@@ -32,16 +32,18 @@ body.home-section {
 }
 
 .home-icon-menu {
-    min-width: 200px;
+    max-width: 22vw;
     transform: rotate(-8deg);
+    width: 22vw;
 
     a {
+        background-position: center center;
         background-repeat: no-repeat;
         background-size: contain;
         display: inline-block;
         height: 50px;
-        margin-left: 20px;
-        width: 50px;
+        margin-left: 5%;
+        width: 30%;
 
         &:first-of-type {
             margin-left: 0;
