@@ -32,9 +32,12 @@ body.home-section {
 }
 
 .home-icon-menu {
-    max-width: 22vw;
     transform: rotate(-8deg);
     width: 22vw;
+
+    @include respond-to('phone-down') {
+        width: 50vw;
+    }
 
     a {
         background-position: center center;
