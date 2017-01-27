@@ -13,13 +13,17 @@ export default class DynamicContent extends React.Component {
       const link = links[i];
       const href = link.getAttribute('href');
 
-      // If link is internal
       if (!href.toLowerCase().startsWith('http')) {
-        // Add an event listener that pushes onto the router rather than the default
+        // If link is internal, add an event listener that pushes onto the 
+        // router rather than the default
         link.addEventListener('click', (e) => {
           e.preventDefault();
           this.context.router.push(href);
         });
+      }
+      else {
+        // Else, link is external. Make it open in a new tab.
+        link.setAttribute('target', '_blank');
       }
     }
   }
