@@ -125,6 +125,10 @@ class Chasm extends React.Component {
     }
 
     if (page) {
+      const chasmpolicies = this.props.chasmpolicies.sort((a, b) => {
+        return a.order - b.order;
+      });
+
       body = (
         <div className="chasm">
           <Slideshow images={chasmSlideshowImages} />
@@ -159,7 +163,7 @@ class Chasm extends React.Component {
               </div>
 
               <div className="chasm-figures">
-                {this.props.chasmpolicies.map(policy => {
+                {chasmpolicies.map(policy => {
                   return <PolicyItem policy={policy} key={policy.order} imageClick={this.openLightbox.bind(this)} />;
                 })}
               </div>
