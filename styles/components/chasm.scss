@@ -40,6 +40,10 @@ $chasm-body-page-padding: 100px;
         padding: $chasm-body-page-padding;
         width: 100%;
 
+        p {
+            position: relative;
+        }
+
         @include respond-to('phone-down') {
             padding: 10px;
         }
