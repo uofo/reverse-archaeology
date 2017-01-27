@@ -36,6 +36,7 @@ $chasm-body-page-padding: 100px;
     .chasm-body-page {
         background-image: url(/img/backgrounds/chasm.png);
         background-position: top center;
+        background-size: cover;
         margin-top: 50px;
         padding: $chasm-body-page-padding;
         width: 100%;
