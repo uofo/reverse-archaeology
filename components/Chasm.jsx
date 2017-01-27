@@ -152,6 +152,15 @@ class Chasm extends React.Component {
               images={this.state.figureImageSet}
             />
             <div className="chasm-body-page">
+              <div className="chasm-body-key">
+                <div className="chasm-body-key-separator"></div>
+                <div className="chasm-body-key-image"></div>
+                <div className="chasm-body-key-text">
+“In that searing moment, I realized the loss he was describing was, in a crucial way, the collective loss. It was the loss of a massive web of connections - a way of being - that had been destroyed by urban renewal; it was as if thousands of people, who seemed to be with me in sunlight, were at some deeper level of their being wandering lost in a dense fog, unable to find one another for the rest of their lives.”
+                </div>
+                <div style={{ clear: 'both' }}></div>
+                <div className="chasm-body-key-separator"></div>
+              </div>
               <DynamicContent innerHTML={page.content} />
               <img className="serial-displacement-timeline" src="/img/chasm/serial-displacement-timeline.png" />
               <img className="serial-displacement-crack" src="/img/chasm/serial-displacement-crack.png" />
