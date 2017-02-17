@@ -10,6 +10,11 @@
     .prism-blurb {
         @include full-screen-blurb();
     }
+
+    .project-item {
+        float: left;
+        width: 200px;
+    }
 }
 
 body.prism-section {

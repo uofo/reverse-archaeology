@@ -13,7 +13,31 @@ const propTypes = {
   slideshowimages: PropTypes.array,
 };
 
-function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
+function ProjectItem({ project }) {
+  let imgUrl = project.image_url;
+  if (imgUrl && !imgUrl.startsWith('http')) {
+    imgUrl = config.imageUrlBase + imgUrl;
+  }
+
+  return (
+    <div className="project-item">
+      { imgUrl ? (
+        <div className="project-item-image-container">
+          <img
+            className="project-item-image"
+            src={imgUrl}
+          />
+        </div>
+        ) : null }
+      <div className="project-item-body">
+        <DynamicContent innerHTML={project.content} />
+      </div>
+      <div style={{ clear: 'both' }}></div>
+    </div>
+);
+}
+
+function PageComponent({ blurbs, children, pages, prismprojects, route, slideshowimages }) {
   let body;
   let page;
 
@@ -42,6 +66,12 @@ function PageComponent({ blurbs, children, pages, route, slideshowimages }) {
           </div>
         </div>
         <DynamicContent innerHTML={page.content} />
+        <div className="prism-projects">
+          {prismprojects.map(project => {
+            return <ProjectItem project={project} key={project.order} />;
+          })}
+          <div style={{ clear: 'both' }}></div>
+        </div>
       </div>
     );
   }

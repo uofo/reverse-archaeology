@@ -35,6 +35,7 @@ var App = React.createClass({
               chasmpolicies: this.props.chasmpolicies,
               funders: this.props.funders,
               pages: this.props.pages,
+              prismprojects: this.props.prismprojects,
               section: this.props.section,
               slideshowimages: this.props.slideshowimages,
               themes: this.props.themes
@@ -57,6 +58,7 @@ function mapStateToProps(state, ownProps) {
     funders: state.funders,
     menuOpen: state.menuOpen,
     pages: state.pages,
+    prismprojects: state.prismprojects,
     section: route.section,
     slideshowimages: state.slideshowimages,
     themes: state.themes
