@@ -27,7 +27,16 @@ class PolicyItem extends React.Component {
           </div>
           ) : null }
         <div className="policy-item-body">
-          <h2 className="policy-item-header">{this.props.policy.name}</h2>
+          <h2 className="policy-item-header">
+            <span className="policy-item-header-text">{this.props.policy.name}</span>
+            { this.props.policy.figure_number ? (
+              <img 
+                className="policy-item-header-figure"
+                src={`/img/chasm/fig_${this.props.policy.figure_number}.png`} 
+                onClick={() => { this.props.imageClick(this.props.policy.figure_number - 1) }}
+              />
+            ) : null }
+          </h2>
           <DynamicContent innerHTML={this.props.policy.content} />
         </div>
         <div style={{ clear: 'both' }}></div>
