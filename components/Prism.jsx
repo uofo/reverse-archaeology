@@ -65,12 +65,14 @@ function PageComponent({ blurbs, children, pages, prismprojects, route, slidesho
             </div>
           </div>
         </div>
-        <DynamicContent innerHTML={page.content} />
-        <div className="prism-projects">
-          {prismprojects.map(project => {
-            return <ProjectItem project={project} key={project.order} />;
-          })}
-          <div style={{ clear: 'both' }}></div>
+        <div className="prism-body">
+          <DynamicContent innerHTML={page.content} />
+          <div className="prism-projects">
+            {prismprojects.map(project => {
+              return <ProjectItem project={project} key={project.order} />;
+            })}
+            <div style={{ clear: 'both' }}></div>
+          </div>
         </div>
       </div>
     );
