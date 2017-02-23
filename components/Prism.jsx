@@ -95,7 +95,6 @@ function PageComponent({ blurbs, children, pages, prismprojects, route, slidesho
                   {row.map(project => {
                     return <ProjectItem project={project} key={project.order} />;
                   })}
-                  <div style={{ clear: 'both' }}></div>
                 </div>
               );
             })}
