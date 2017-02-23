@@ -1,3 +1,6 @@
+@import "compass";
+
+@import "../breakpoints";
 @import "../screen";
 
 .prism {
@@ -11,9 +14,25 @@
         @include full-screen-blurb();
     }
 
+    .prism-projects-row {
+        @include display-flex;
+        @include flex-direction(row);
+        @include justify-content(space-around);
+    }
+
     .project-item {
-        float: left;
+        @include flex(0 auto);
         width: 200px;
+
+        @include respond-to('phone-down') {
+            float: none;
+            width: 100%;
+        }
+    }
+
+    .project-item-image {
+        display: block;
+        margin: 0 auto;
     }
 }
 

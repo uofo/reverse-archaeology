@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import config from '../config';
 import DynamicContent from './DynamicContent';
 import Slideshow from './Slideshow';
 
@@ -53,6 +54,15 @@ function PageComponent({ blurbs, children, pages, prismprojects, route, slidesho
   }
 
   if (page) {
+    prismprojects = prismprojects.sort((a, b) => {
+      return a.order - b.order;
+    });
+    const halfIndex = Math.round(prismprojects.length / 2);
+    const projectRows = [
+      prismprojects.slice(0, halfIndex),
+      prismprojects.slice(halfIndex)
+    ];
+
     body = (
       <div className="prism">
         <Slideshow images={prismSlideshowImages} />
@@ -68,10 +78,16 @@ function PageComponent({ blurbs, children, pages, prismprojects, route, slidesho
         <div className="prism-body">
           <DynamicContent innerHTML={page.content} />
           <div className="prism-projects">
-            {prismprojects.map(project => {
-              return <ProjectItem project={project} key={project.order} />;
+            {projectRows.map((row, i) => {
+              return (
+                <div className="prism-projects-row" key={i}>
+                  {row.map(project => {
+                    return <ProjectItem project={project} key={project.order} />;
+                  })}
+                  <div style={{ clear: 'both' }}></div>
+                </div>
+              );
             })}
-            <div style={{ clear: 'both' }}></div>
           </div>
         </div>
       </div>
