@@ -40,10 +40,12 @@ function ProjectItem({ project }) {
 
 function PageComponent({ blurbs, children, pages, prismprojects, route, slideshowimages }) {
   let body;
-  let page;
+  let page_top;
+  let page_bottom;
 
   if (pages) {
-    page = pages.data.items.filter(page => page.title === route.title)[0];
+    page_bottom = pages.data.items.filter(page => page.slug === 'prism_bottom')[0];
+    page_top = pages.data.items.filter(page => page.slug === 'prism_top')[0];
   }
 
   const prismSlideshowImages = slideshowimages.filter(image => image.page === 'prism');
@@ -53,7 +55,7 @@ function PageComponent({ blurbs, children, pages, prismprojects, route, slidesho
     blurb = blurbs.filter(blurb => blurb.page === 'prism')[0];
   }
 
-  if (page) {
+  if (page_top && page_bottom) {
     prismprojects = prismprojects.sort((a, b) => {
       return a.order - b.order;
     });
@@ -76,7 +78,16 @@ function PageComponent({ blurbs, children, pages, prismprojects, route, slidesho
           </div>
         </div>
         <div className="prism-body">
-          <DynamicContent innerHTML={page.content} />
+          <div className="prism-top">
+            <h2>The Chasm is Real</h2>
+            <DynamicContent innerHTML={page_top.content} />
+            <h2>With light. With magic,<br></br>With a<br></br>prism</h2>
+            <div className="prism-arrow"></div>
+          </div>
+          <div className="prism-bottom">
+            <DynamicContent innerHTML={page_bottom.content} />
+            <div className="prism-arrow"></div>
+          </div>
           <div className="prism-projects">
             {projectRows.map((row, i) => {
               return (

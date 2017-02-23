@@ -1,6 +1,7 @@
 @import "compass";
 
 @import "../breakpoints";
+@import "../colors";
 @import "../screen";
 
 .prism {
@@ -12,6 +13,38 @@
 
     .prism-blurb {
         @include full-screen-blurb();
+    }
+
+    .prism-top,
+    .prism-bottom {
+        font-variant: small-caps;
+        margin: 25px auto;
+        width: 33%;
+
+        @include respond-to('phone-down') {
+            margin: 0;
+            width: 100%;
+        }
+    }
+
+    .prism-top {
+        font-size: 24px;
+
+        h2 {
+            color: $blue;
+            font-family: "affogato-regular";
+            font-variant: none;
+            text-align: center;
+        }
+    }
+
+    .prism-arrow {
+        background-image: url(/img/prism/blue-triangle.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin: 0 auto;
+        height: 27px;
+        width: 48px;
     }
 
     .prism-projects-row {
@@ -51,6 +84,6 @@ body.prism-section {
     background-image: url(/img/backgrounds/prism.jpg);
     background-position: top center;
     background-size: cover;
-    color: #4BADBD;
+    color: $blue;
     padding: 25px;
 }
