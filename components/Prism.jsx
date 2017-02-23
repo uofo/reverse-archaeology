@@ -84,6 +84,9 @@ function PageComponent({ blurbs, children, pages, prismprojects, route, slidesho
             <h2>With light. With magic,<br></br>With a<br></br>prism</h2>
             <div className="prism-arrow"></div>
           </div>
+          <div className="prism-middle">
+            <img src='/img/prism/wheel.png' />
+          </div>
           <div className="prism-bottom">
             <DynamicContent innerHTML={page_bottom.content} />
             <div className="prism-arrow"></div>

@@ -38,6 +38,15 @@
         }
     }
 
+    .prism-middle {
+        margin: 0 auto;
+        width: 66%;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
     .prism-arrow {
         background-image: url(/img/prism/blue-triangle.png);
         background-repeat: no-repeat;
