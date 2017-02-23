@@ -51,6 +51,10 @@
         @include display-flex;
         @include flex-direction(row);
         @include justify-content(space-around);
+
+        @include respond-to('phone-down') {
+            @include flex-direction(column);
+        }
     }
 
     .project-item {
@@ -58,7 +62,7 @@
         width: 200px;
 
         @include respond-to('phone-down') {
-            float: none;
+            margin: 25px 0;
             width: 100%;
         }
     }
