@@ -67,7 +67,7 @@
 
     .project-item {
         @include flex(0 auto);
-        width: 200px;
+        width: 20%;
 
         @include respond-to('phone-down') {
             margin: 25px 0;
