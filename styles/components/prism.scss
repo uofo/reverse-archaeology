@@ -13,6 +13,7 @@
 
     .prism-blurb {
         @include full-screen-blurb();
+        margin-left: 0;
     }
 
     .prism-top,
