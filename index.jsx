@@ -58,11 +58,13 @@ function onRouteUpdate() {
 function togglePageClass(page) {
   const currentPage = `${page}-page`;
   document.body.classList.add();
-  document.body.classList.forEach(function (className) {
+  const classList = document.body.classList;
+  for (let i = 0; i < classList.length; i++) {
+    const className = classList[i];
     if (className !== currentPage && className.endsWith('-page')) {
-      document.body.classList.remove(className);
+      classList.remove(className);
     }
-  });
+  }
   document.body.classList.add(currentPage);
 }
 
