@@ -94,6 +94,11 @@
         display: block;
         margin: 0 auto;
     }
+
+    .project-item-title {
+        color: $blue;
+        font-family: "affogato-regular";
+    }
 }
 
 body.prism-section {

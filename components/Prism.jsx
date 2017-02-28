@@ -30,6 +30,9 @@ function ProjectItem({ project }) {
           />
         </div>
         ) : null }
+      <h3 className="project-item-title">
+        {project.name}
+      </h3>
       <div className="project-item-body">
         <DynamicContent innerHTML={project.content} />
       </div>
