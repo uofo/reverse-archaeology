@@ -43,7 +43,7 @@ header {
         height: 63px;
         width: 100%;
 
-        @include respond-to('tablet-down') {
+        @include respond-to('phone-down') {
             height: 80%;
             margin-top: 10%;
         }
