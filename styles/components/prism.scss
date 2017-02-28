@@ -23,7 +23,7 @@
         margin: 25px auto;
         width: 33%;
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             margin: 0;
             width: 100%;
         }
@@ -62,7 +62,7 @@
         @include flex-direction(row);
         @include justify-content(space-around);
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             @include flex-direction(column);
         }
     }
@@ -71,7 +71,7 @@
         @include flex(0 auto);
         width: 20%;
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             margin: 25px 0;
             width: 100%;
         }

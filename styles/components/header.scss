@@ -12,7 +12,7 @@ header {
     width: calc(100% - #{2 * $body-margin});
     z-index: 100;
 
-    @include respond-to('phone-down') {
+    @include respond-to('tablet-down') {
         background-color: rgba(118, 16, 105, 0.5);
         display: block;
         height: 80px;
@@ -26,7 +26,7 @@ header {
         @include flex(0 0 auto);
         width: 20%;
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             float: none;
             height: 100%;
             margin: 0 auto;
@@ -43,14 +43,14 @@ header {
         height: 63px;
         width: 100%;
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             height: 80%;
             margin-top: 10%;
         }
     }
 
     .header-menu {
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             background-color: rgba(118, 16, 105, 0.5);
             height: 0;
             overflow: hidden;
@@ -70,7 +70,7 @@ header {
         @include display-flex;
         padding: 15px;
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             display: block;
         }
     }
@@ -80,7 +80,7 @@ header {
         margin-left: 20px;
         margin-top: 20px;
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             float: none;
             margin: 0;
             width: 100%;
@@ -92,7 +92,7 @@ header {
         margin-left: 20px;
         margin-top: 20px;
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             float: none;
             margin-left: 0;
             width: 100%;
@@ -117,7 +117,7 @@ header {
             width: 100%;
         }
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             display: block;
         }
     }

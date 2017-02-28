@@ -1,12 +1,10 @@
 // break points
-$breakpoint-phone: 768 !default;
+$breakpoint-phone: 767 !default;
 $breakpoint-tablet: 1024 !default;
 
 $breakpoints: (
     'phone-down': 'max-width: #{$breakpoint-phone}px',
     'tablet-down': 'max-width: #{$breakpoint-tablet}px',
-    'phone-up': 'min-width: #{$breakpoint-phone}px',
-    'tablet-up': 'mmin-width: #{$breakpoint-tablet}px',
 );
 
 @mixin respond-to($breakpoint) { 

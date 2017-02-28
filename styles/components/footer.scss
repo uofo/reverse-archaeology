@@ -19,7 +19,7 @@ footer {
 @mixin footer-cell {
     float: left;
 
-    @include respond-to('phone-down') {
+    @include respond-to('tablet-down') {
         margin-top: 30px;
         width: 100%;
 
