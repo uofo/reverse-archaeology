@@ -17,6 +17,11 @@ html, body, div, span, a, p, ul, li, h1, code, nav {
 
 html {
     box-sizing: border-box;
+    
+    @include respond-to('tablet-down') {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
 }
 
 *, *:before, *:after {
