@@ -55,16 +55,30 @@ $chasm-body-page-padding: 100px;
         font-family: Linowrite;
         font-size: 28px;
         margin: 0 (-$chasm-body-page-padding);
+
+        @include respond-to('phone-down') {
+            margin: 0;
+        }
     }
 
     .chasm-body-key-image {
         float: left;
         width: 40%;
+
+        @include respond-to('phone-down') {
+            float: none;
+            width: 100%;
+        }
     }
 
     .chasm-body-key-text {
         float: right;
         width: 60%;
+
+        @include respond-to('phone-down') {
+            float: none;
+            width: 100%;
+        }
     }
 
     .chasm-body-key-separator {

@@ -1,12 +1,20 @@
+@import "../breakpoints";
+
+$link-size: 35px;
+
 .dynamic-content-theme-link {
     background-repeat: no-repeat;
     background-size: contain;
     display: block;
     font-size: 0;
-    height: 35px;
+    height: $link-size;
     left: -50px;
     position: absolute;
-    width: 35px;
+    width: $link-size;
+
+    @include respond-to('phone-down') {
+        left: -$link-size;
+    }
 
     &.theme-corner-good-hope {
         background-image: url(/img/themes/corner-good-hope.png);
