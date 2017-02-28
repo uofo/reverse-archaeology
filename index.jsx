@@ -71,11 +71,13 @@ function togglePageClass(page) {
 function toggleSectionClass(section) {
   const currentSection = `${section}-section`;
   document.body.classList.add();
-  document.body.classList.forEach(function (className) {
+  const classList = document.body.classList;
+  for (let i = 0; i < classList.length; i++) {
+    const className = classList[i];
     if (className !== currentSection && className.endsWith('-section')) {
-      document.body.classList.remove(className);
+      classList.remove(className);
     }
-  });
+  }
   document.body.classList.add(currentSection);
 }
 
