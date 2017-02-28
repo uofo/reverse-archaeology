@@ -43,6 +43,10 @@
         margin: 0 auto;
         width: 66%;
 
+        @include respond-to('tablet-down') {
+            width: 90%;
+        }
+
         img {
             width: 100%;
         }
@@ -72,6 +76,11 @@
         width: 20%;
 
         @include respond-to('tablet-down') {
+            margin: 0 auto;
+            width: 75%;
+        }
+
+        @include respond-to('phone-down') {
             margin: 25px 0;
             width: 100%;
         }
