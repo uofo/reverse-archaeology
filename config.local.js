@@ -1,7 +1,7 @@
 export default {
   dataUrls: {
-    data: 'http://localhost:4000/reverse-archaeology-content/data/data.json'
+    data: 'http://192.168.1.15:4000/reverse-archaeology-content/data/data.json'
   },
 
-  imageUrlBase: 'http://localhost:4000/reverse-archaeology-content/'
+  imageUrlBase: 'http://192.168.1.15:4000/reverse-archaeology-content/'
 };
