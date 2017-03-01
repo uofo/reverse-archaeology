@@ -44,6 +44,10 @@ $chasm-body-page-padding: 100px;
         @include respond-to('tablet-down') {
             height: 150px;
         }
+
+        @include respond-to('phone-down') {
+            height: 50px;
+        }
     }
 
     .chasm-body-page-bottom {
@@ -56,6 +60,10 @@ $chasm-body-page-padding: 100px;
 
         @include respond-to('tablet-down') {
             height: 125px;
+        }
+
+        @include respond-to('phone-down') {
+            height: 50px;
         }
     }
 
