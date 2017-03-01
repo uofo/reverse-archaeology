@@ -40,6 +40,10 @@ $chasm-body-page-padding: 100px;
         height: 260px;
         margin-top: 50px;
         width: 100%;
+
+        @include respond-to('tablet-down') {
+            height: 150px;
+        }
     }
 
     .chasm-body-page-bottom {
@@ -49,6 +53,10 @@ $chasm-body-page-padding: 100px;
         background-size: 100%;
         height: 200px;
         width: 100%;
+
+        @include respond-to('tablet-down') {
+            height: 125px;
+        }
     }
 
     .chasm-body-page {
