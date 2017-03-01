@@ -160,6 +160,8 @@ class Chasm extends React.Component {
               isOpen={this.state.figureLightboxIsOpen}
               images={this.state.figureImageSet}
             />
+
+            <div className="chasm-body-page-top"></div>
             <div className="chasm-body-page">
               <div className="chasm-body-key">
                 <div className="chasm-body-key-separator"></div>
@@ -175,7 +177,9 @@ class Chasm extends React.Component {
               <img className="serial-displacement-timeline" src="/img/chasm/serial-displacement-timeline.png" />
               <img className="serial-displacement-crack" src="/img/chasm/serial-displacement-crack.png" />
             </div>
+            <div className="chasm-body-page-bottom"></div>
 
+            <div className="chasm-body-page-top"></div>
             <div className="chasm-body-page">
               <div>
                 These are some of the series of policies that are part of Serial Forced Displacement:
@@ -194,6 +198,8 @@ class Chasm extends React.Component {
                 </p>
               </div>
             </div>
+            <div className="chasm-body-page-bottom"></div>
+
           </div>
         </div>
       );
