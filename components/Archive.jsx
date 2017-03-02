@@ -28,6 +28,25 @@ ThemeButton.propTypes = {
   theme: PropTypes.string.isRequired
 };
 
+const positions = {
+  tablet: {
+    'corner-good-hope': [120, 250],
+    'crossroads': [120, 600],
+    'history-us-cities': [120, 950],
+    'industry-and-infrastructure': [120, 1400],
+    'lifecycle': [120, 1750],
+    'nostalgia': [120, 2100],
+  },
+  default: {
+    'corner-good-hope': [485, 450],
+    'crossroads': [820, 670],
+    'history-us-cities': [490, 670],
+    'industry-and-infrastructure': [820, 260],
+    'lifecycle': [1160, 670],
+    'nostalgia': [820, 460],
+  }
+};
+
 function Archive({ blurbs, children, themes }) {
   const themeSlugs = Object.keys(themes);
 
@@ -37,19 +56,15 @@ function Archive({ blurbs, children, themes }) {
     );
   }
 
-  const positions = {
-    'corner-good-hope': [485, 450],
-    'crossroads': [820, 670],
-    'history-us-cities': [490, 670],
-    'industry-and-infrastructure': [820, 260],
-    'lifecycle': [1160, 670],
-    'nostalgia': [820, 460],
-  };
-
   let blurb;
   if (blurbs) {
     blurb = blurbs.filter(blurb => blurb.page === 'archive')[0];
   }
+
+  const windowWidth = document.body.clientWidth;
+  const themePositions = ((windowWidth <= 768) ?
+      positions.tablet :
+      positions.default);
 
   return (
     <div>
@@ -66,7 +81,7 @@ function Archive({ blurbs, children, themes }) {
           </div>
           <ul>
             {themeSlugs.map((slug) => {
-              const position = positions[slug];
+              const position = themePositions[slug];
               return (
                 <PinnedOverlay key={slug} overlaid={document.body} left={position[0]} top={position[1]}>
                   <ThemeButton slug={slug} theme={themes[slug]} />

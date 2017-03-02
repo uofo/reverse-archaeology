@@ -15,7 +15,7 @@ header {
     @include respond-to('tablet-down') {
         background-color: rgba(118, 16, 105, 0.5);
         display: block;
-        height: 80px;
+        height: $header-height;
         margin: 0;
         padding: 0;
         position: fixed;
