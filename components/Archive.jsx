@@ -30,6 +30,14 @@ ThemeButton.propTypes = {
 
 const positions = {
   tablet: {
+    'corner-good-hope': [120, 175],
+    'crossroads': [120, 550],
+    'history-us-cities': [120, 900],
+    'industry-and-infrastructure': [120, 1300],
+    'lifecycle': [120, 1650],
+    'nostalgia': [120, 2020],
+  },
+  phone: {
     'corner-good-hope': [120, 250],
     'crossroads': [120, 620],
     'history-us-cities': [120, 950],
@@ -62,9 +70,13 @@ function Archive({ blurbs, children, themes }) {
   }
 
   const windowWidth = document.body.clientWidth;
-  const themePositions = ((windowWidth <= 768) ?
-      positions.tablet :
-      positions.default);
+  let themePositions = positions.default;
+  if (windowWidth <= 768) {
+    themePositions = positions.tablet;
+  }
+  if (windowWidth <= 400) {
+    themePositions = positions.phone;
+  }
 
   return (
     <div>
