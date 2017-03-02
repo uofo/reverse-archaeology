@@ -7,6 +7,21 @@
     .archive-screen {
         @include full-screen-container();
         height: 66.5vw;
+
+        @include respond-to('tablet-down') {
+            height: 250vh;
+        }
+
+        // Undo pinning on smaller screens
+        .pinned-overlay {
+            @include respond-to('tablet-down') {
+                height: 175px;
+                left: inherit !important;
+                position: relative !important;
+                top: inherit !important;
+                width: 100%;
+            }
+        }
     }
 
     .archive-blurb {
@@ -22,14 +37,18 @@
         width: 20vw;
 
         @include respond-to('tablet-down') {
-            height: 30px;
-            width: 50px;
+            transform: inherit;
+            width: 100%;
         }
 
         .theme-button-inactive {
             img {
                 display: block;
                 margin: 0 auto;
+            }
+
+            @include respond-to('tablet-down') {
+                display: none;
             }
         }
 
@@ -42,6 +61,12 @@
             font-weight: normal;
             padding: 10px;
             margin-top: -25px;
+
+            @include respond-to('tablet-down') {
+                display: block;
+                margin: 0 auto;
+                width: 200px;
+            }
 
             .theme-button-label {
                 padding: 10px 0;
@@ -66,6 +91,10 @@ body.archive-section {
         background-position: top center;
         background-repeat: no-repeat;
         background-size: contain;
+
+        @include respond-to('tablet-down') {
+            background-repeat: repeat-y;
+        }
 
         footer {
             margin-top: 0;
