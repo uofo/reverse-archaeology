@@ -31,9 +31,9 @@ ThemeButton.propTypes = {
 const positions = {
   tablet: {
     'corner-good-hope': [120, 250],
-    'crossroads': [120, 600],
+    'crossroads': [120, 620],
     'history-us-cities': [120, 950],
-    'industry-and-infrastructure': [120, 1400],
+    'industry-and-infrastructure': [120, 1350],
     'lifecycle': [120, 1750],
     'nostalgia': [120, 2100],
   },

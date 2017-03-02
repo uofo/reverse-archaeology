@@ -12,19 +12,6 @@
         @include respond-to('tablet-down') {
             height: 250vh;
         }
-
-        // Undo pinning on smaller screens
-        /*
-        .pinned-overlay {
-            @include respond-to('tablet-down') {
-                height: 175px;
-                left: inherit !important;
-                position: relative !important;
-                top: inherit !important;
-                width: 100%;
-            }
-        }
-        */
     }
 
     .archive-blurb {
@@ -41,7 +28,7 @@
 
         @include respond-to('tablet-down') {
             transform: inherit;
-            width: 100%;
+            width: 200px;
         }
 
         .theme-button-inactive {
@@ -51,7 +38,9 @@
             }
 
             @include respond-to('tablet-down') {
-                display: none;
+                height: 50px;
+                margin: 0 auto;
+                width: 50px;
             }
         }
 
@@ -68,7 +57,11 @@
             @include respond-to('tablet-down') {
                 display: block;
                 margin: 0 auto;
-                width: 200px;
+                width: 100%;
+
+                img {
+                    display: none;
+                }
             }
 
             .theme-button-label {
