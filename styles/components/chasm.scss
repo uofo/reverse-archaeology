@@ -79,6 +79,11 @@ $chasm-body-page-padding: 100px;
             position: relative;
         }
 
+        @include respond-to('tablet-down') {
+            padding: 50px;
+            padding-top: 5px;
+        }
+
         @include respond-to('phone-down') {
             padding: 10px;
         }
@@ -89,6 +94,10 @@ $chasm-body-page-padding: 100px;
         font-family: Linowrite;
         font-size: 28px;
         margin: 0 (-$chasm-body-page-padding);
+
+        @include respond-to('tablet-down') {
+            margin: 0 -50px;
+        }
 
         @include respond-to('phone-down') {
             margin: 0;

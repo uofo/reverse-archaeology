@@ -12,6 +12,10 @@ $link-size: 35px;
     position: absolute;
     width: $link-size;
 
+    @include respond-to('tablet-down') {
+        left: -($link-size + 5);
+    }
+
     @include respond-to('phone-down') {
         left: -$link-size;
     }
