@@ -140,6 +140,20 @@ img {
     }
 }
 
+@include respond-to('tablet-down') {
+    .artifact {
+        background-size: cover;
+    }
+
+    .previous-artifact {
+        left: -20px;
+    }
+
+    .next-artifact {
+        right: -20px;
+    }
+}
+
 @include respond-to('phone-down') {
     .artifact {
         background-image: none;
@@ -166,14 +180,6 @@ img {
             max-height: none;
             overflow: inherit;
         }
-    }
-
-    .previous-artifact {
-        left: -20px;
-    }
-
-    .next-artifact {
-        right: -20px;
     }
 }
 
