@@ -18,6 +18,10 @@
         display: block;
     }
 
+    @include respond-to('tablet-down') {
+        height: 300px;
+    }
+
     @include respond-to('phone-down') {
         height: auto;
     }
