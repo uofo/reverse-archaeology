@@ -63,7 +63,7 @@
         text-align: center;
         width: 100%;
 
-        @include respond-to('phone-down') {
+        @include respond-to('tablet-down') {
             display: block;
         }
     }
