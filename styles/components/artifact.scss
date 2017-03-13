@@ -96,8 +96,11 @@ img {
     &-image-container {
         @include display-flex;
         @include flex-direction(column);
-        height: 66%;
-        max-height: 66%;
+        @include flex-grow(3);
+    }
+
+    &-left-text {
+        @include flex-grow(1);
     }
 
     &-image {
