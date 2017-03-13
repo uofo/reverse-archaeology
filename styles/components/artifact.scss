@@ -123,6 +123,11 @@ img {
         & p:first-of-type {
             margin-top: 0;
         }
+
+        @include respond-to('tablet-down') {
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
     }
 
     &-label {
