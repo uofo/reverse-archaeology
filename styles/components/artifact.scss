@@ -82,6 +82,7 @@ img {
 
     &-body {
         @include display-flex;
+        @include flex(1 1 auto);
         @include flex-direction(row);
         overflow: hidden;
     }
