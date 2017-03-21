@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Dimensions from 'react-dimensions'
 import { Link } from 'react-router';
 
 import DynamicContent from './DynamicContent';
@@ -55,63 +56,67 @@ const positions = {
   }
 };
 
-function Archive({ blurbs, children, themes }) {
-  const themeSlugs = Object.keys(themes);
+class Archive extends React.Component {
+  render() {
+    const themeSlugs = Object.keys(this.props.themes);
 
-  if (!themeSlugs.length) {
+    if (!themeSlugs.length) {
+      return (
+        <div>loading</div>
+      );
+    }
+
+    let blurb;
+    if (this.props.blurbs) {
+      blurb = this.props.blurbs.filter(blurb => blurb.page === 'archive')[0];
+    }
+
+    // const windowWidth = document.body.clientWidth;
+    const windowWidth = this.props.containerWidth + 50;
+    let themePositions = positions.default;
+    if (windowWidth <= 1024) {
+      themePositions = positions.tablet;
+    }
+    if (windowWidth <= 767) {
+      themePositions = positions.phone;
+    }
+
     return (
-      <div>loading</div>
-    );
-  }
-
-  let blurb;
-  if (blurbs) {
-    blurb = blurbs.filter(blurb => blurb.page === 'archive')[0];
-  }
-
-  const windowWidth = document.body.clientWidth;
-  let themePositions = positions.default;
-  if (windowWidth <= 768) {
-    themePositions = positions.tablet;
-  }
-  if (windowWidth <= 400) {
-    themePositions = positions.phone;
-  }
-
-  return (
-    <div>
-      <div className="archive">
-        <div className="archive-screen">
-          <div className="archive-blurb">
-            <h2>The Archive</h2>
-            <div>
-              <div className="header-separator"></div>
-              {blurb ?
-                <DynamicContent innerHTML={blurb.content} /> :
-                null}
+      <div style={{ paddingTop: '100px' }}>
+        <div className="archive">
+          <div className="archive-screen">
+            <div className="archive-blurb">
+              <h2>The Archive</h2>
+              <div>
+                <div className="header-separator"></div>
+                {blurb ?
+                  <DynamicContent innerHTML={blurb.content} /> :
+                  null}
+              </div>
             </div>
+            <ul>
+              {themeSlugs.map((slug) => {
+                const position = themePositions[slug];
+                return (
+                  <PinnedOverlay key={slug} overlaid={document.body} left={position[0]} top={position[1]}>
+                    <ThemeButton slug={slug} theme={this.props.themes[slug]} />
+                  </PinnedOverlay>
+                );
+              })}
+            </ul>
+            {this.props.children}
           </div>
-          <ul>
-            {themeSlugs.map((slug) => {
-              const position = themePositions[slug];
-              return (
-                <PinnedOverlay key={slug} overlaid={document.body} left={position[0]} top={position[1]}>
-                  <ThemeButton slug={slug} theme={themes[slug]} />
-                </PinnedOverlay>
-              );
-            })}
-          </ul>
-          {children}
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 Archive.propTypes = {
   blurbs: PropTypes.array,
   children: PropTypes.element,
+  containerWidth: PropTypes.number,
   themes: PropTypes.object,
 };
 
-export default Archive;
+export default Dimensions()(Archive);
