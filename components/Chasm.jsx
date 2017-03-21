@@ -61,9 +61,17 @@ class Chasm extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.updateImageSet();
+  }
+
   componentWillReceiveProps(props) {
-    const imageSet = this.createImageSet(props.chasmpolicies);
-    this.setState(prevState => {
+    this.updateImageSet();
+  }
+
+  updateImageSet() {
+    this.setState((prevState, props) => {
+      const imageSet = this.createImageSet(props.chasmpolicies);
       return {
         figureLightboxCount: imageSet.length,
         figureImageSet: imageSet,
