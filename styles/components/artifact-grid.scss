@@ -66,6 +66,11 @@
         text-align: center;
         text-transform: uppercase;
         width: 100%;
+        word-break: break-word;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
 
         @include respond-to('tablet-down') {
             display: block;
