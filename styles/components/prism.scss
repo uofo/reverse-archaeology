@@ -13,9 +13,9 @@
 
     .prism-blurb {
         @include full-screen-blurb();
+        margin-left: 0;
 
         @include respond-to('phone-down') {
-            margin-left: 0;
             width: 100%;
         }
     }
