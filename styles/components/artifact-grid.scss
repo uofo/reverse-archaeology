@@ -59,12 +59,12 @@
         background-color: rgba(122, 72, 76, 0.75);
         display: none;
         font-family: Linowrite, serif;
-        font-size: 30px;
-        font-variant: small-caps;
+        font-size: 26px;
         height: 100%;
         line-height: 28px;
         padding: 10px 12%;
         text-align: center;
+        text-transform: uppercase;
         width: 100%;
 
         @include respond-to('tablet-down') {
