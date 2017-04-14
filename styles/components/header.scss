@@ -32,6 +32,10 @@ header {
             margin: 0 auto;
             width: 25%;
         }
+
+        @include respond-to('phone-down') {
+            width: 40%;
+        }
     }
 
     .logo-link {
@@ -44,7 +48,7 @@ header {
         width: 100%;
 
         @include respond-to('tablet-down') {
-            height: 80%;
+            height: 90%;
             margin-top: 5%;
         }
     }
