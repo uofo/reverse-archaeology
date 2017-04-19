@@ -21,15 +21,19 @@
         display: none;
     }
 
-    &-prev, &-next {
-        color: $gold;
+    &-prev,
+    &-next {
+        height: 49px;
+        width: 28px;
     }
 
     &-prev {
         @include prev-arrow();
+        background-image: url(/img/gold-left-arrow.png);
     }
 
     &-next {
         @include next-arrow();
+        background-image: url(/img/gold-right-arrow.png);
     }
 }

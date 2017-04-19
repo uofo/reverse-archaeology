@@ -41,8 +41,8 @@ class Slideshow extends React.Component {
       <div className="slideshow">
         <div className="slideshow-current-image" style={{ backgroundImage: `url(${currentImage.image_url})` }}></div>
         <img className="slideshow-next-image" src={nextImage.image_url} />
-        <div className="slideshow-prev" onClick={this.previous.bind(this)}>&lsaquo;</div>
-        <div className="slideshow-next" onClick={this.next.bind(this)}>&rsaquo;</div>
+        <div className="slideshow-prev" onClick={this.previous.bind(this)}></div>
+        <div className="slideshow-next" onClick={this.next.bind(this)}></div>
       </div>
     );
   }
