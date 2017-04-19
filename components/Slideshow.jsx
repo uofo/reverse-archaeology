@@ -2,31 +2,28 @@ import React, { PropTypes } from 'react';
 
 import '../styles/components/slideshow.scss';
 
-var Slideshow = React.createClass({
-  propTypes: {
-    images: PropTypes.array.isRequired,
-  },
-
-  getInitialState: () => {
-    return {
+class Slideshow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       currentImageIndex: 0
     };
-  },
+  }
 
-  next: function () {
+  next() {
     this.setState({
       currentImageIndex: (this.state.currentImageIndex + 1) % this.props.images.length
     });
-  },
+  }
 
-  previous: function () {
+  previous() {
     const newIndex = this.state.currentImageIndex - 1;
     this.setState({
       currentImageIndex: newIndex < 0 ? (this.props.images.length - 1): newIndex
     });
-  },
+  }
 
-  render: function () {
+  render() {
     const currentImage = this.props.images[this.state.currentImageIndex];
     return (
       <div className="slideshow">
@@ -37,6 +34,10 @@ var Slideshow = React.createClass({
       </div>
     );
   }
-});
+}
+
+Slideshow.propTypes = {
+  images: PropTypes.array.isRequired,
+};
 
 export default Slideshow;
