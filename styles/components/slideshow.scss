@@ -17,6 +17,10 @@
         z-index: -1;
     }
 
+    &-next-image {
+        display: none;
+    }
+
     &-prev, &-next {
         color: $gold;
     }

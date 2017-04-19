@@ -8,12 +8,23 @@ class Slideshow extends React.Component {
     this.state = {
       currentImageIndex: 0
     };
+    this.intervalLength = 5000;
+  }
+
+  componentWillMount() {
+    this.interval = setInterval(this.next.bind(this), this.intervalLength);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  nextIndex() {
+    return (this.state.currentImageIndex + 1) % this.props.images.length;
   }
 
   next() {
-    this.setState({
-      currentImageIndex: (this.state.currentImageIndex + 1) % this.props.images.length
-    });
+    this.setState({ currentImageIndex: this.nextIndex() });
   }
 
   previous() {
@@ -25,19 +36,20 @@ class Slideshow extends React.Component {
 
   render() {
     const currentImage = this.props.images[this.state.currentImageIndex];
+    const nextImage = this.props.images[this.nextIndex()];
     return (
       <div className="slideshow">
-        <div className="slideshow-current-image" style={{ backgroundImage: `url(${currentImage.image_url})` }}>
-        </div>
-        <div className="slideshow-prev" onClick={this.previous}>&lsaquo;</div>
-        <div className="slideshow-next" onClick={this.next}>&rsaquo;</div>
+        <div className="slideshow-current-image" style={{ backgroundImage: `url(${currentImage.image_url})` }}></div>
+        <img className="slideshow-next-image" src={nextImage.image_url} />
+        <div className="slideshow-prev" onClick={this.previous.bind(this)}>&lsaquo;</div>
+        <div className="slideshow-next" onClick={this.next.bind(this)}>&rsaquo;</div>
       </div>
     );
   }
 }
 
 Slideshow.propTypes = {
-  images: PropTypes.array.isRequired,
+  images: PropTypes.array.isRequired
 };
 
 export default Slideshow;
