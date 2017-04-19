@@ -52,7 +52,7 @@ function mapStateToProps(state, ownProps) {
   const route = ownProps.routes[ownProps.routes.length - 1];
   return {
     artifacts: state.artifacts,
-    bios: state.bios,
+    bios: state.bios.sort((a, b) => a.order - b.order),
     blurbs: state.blurbs,
     chasmpolicies: state.chasmpolicies,
     funders: state.funders,
