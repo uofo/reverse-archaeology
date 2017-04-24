@@ -178,6 +178,12 @@ main {
     margin-right: $body-margin;
     width: calc(100% - #{2 * $body-margin});
 
+    @include respond-to('phone-down') {
+        margin-left: $body-margin-phone;
+        margin-right: $body-margin-phone;
+        width: calc(100% - #{2 * $body-margin-phone});
+    }
+
     & > div {
         padding-top: 100px;
     }
