@@ -118,6 +118,10 @@ img {
         @include flex-direction(column);
         padding: 10px;
         width: 45%;
+
+        @include respond-to('phone-down') {
+            padding: 0;
+        }
     }
 
     &-text {
@@ -189,6 +193,16 @@ img {
             max-height: none;
             overflow: inherit;
         }
+    }
+
+    .previous-artifact {
+        left: -10px;
+        top: 300px;
+    }
+
+    .next-artifact {
+        right: -10px;
+        top: 300px;
     }
 }
 
