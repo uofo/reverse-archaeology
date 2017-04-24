@@ -58,6 +58,8 @@ img {
 
         @include respond-to('phone-down') {
             color: black;
+            text-align: center;
+            width: 100%;
         }
     }
 
@@ -71,6 +73,11 @@ img {
         bottom: 0;
         right: 0;
         position: absolute;
+
+        @include respond-to('phone-down') {
+            position: relative;
+            text-align: center;
+        }
     }
 
     &-header-theme {
