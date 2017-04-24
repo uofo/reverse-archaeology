@@ -53,6 +53,8 @@ img {
         color: white;
         font-family: "affogato-regular";
         font-weight: normal;
+        margin-bottom: 5px;
+        width: 80%;
 
         @include respond-to('phone-down') {
             color: black;
