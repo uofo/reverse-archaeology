@@ -46,6 +46,7 @@ $chasm-body-page-padding: 100px;
         }
 
         @include respond-to('phone-down') {
+            background-image: none;
             height: 50px;
         }
     }
@@ -63,6 +64,7 @@ $chasm-body-page-padding: 100px;
         }
 
         @include respond-to('phone-down') {
+            background-image: none;
             height: 50px;
         }
     }
@@ -85,6 +87,7 @@ $chasm-body-page-padding: 100px;
         }
 
         @include respond-to('phone-down') {
+            background-image: none;
             padding: 10px;
         }
     }
