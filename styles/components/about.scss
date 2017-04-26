@@ -3,6 +3,8 @@
 @import "../breakpoints";
 @import "../screen";
 
+$phone-blurb-margin: 150px;
+
 body.about-page {
     background-image: url(/img/backgrounds/about.jpg);
 }
@@ -16,6 +18,10 @@ body.about-page {
 
     .about-blurb {
         @include full-screen-blurb();
+
+        @include respond-to('phone-down') {
+            bottom: -$phone-blurb-margin;
+        }
     }
 }
 
@@ -36,6 +42,10 @@ body.about-page {
 
     @include respond-to('tablet-down') {
         width: 100%;
+    }
+
+    @include respond-to('phone-down') {
+        padding-top: $phone-blurb-margin;
     }
 
     h3 {
