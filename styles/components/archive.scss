@@ -16,6 +16,10 @@
 
     .archive-blurb {
         @include full-screen-blurb();
+
+        @include respond-to('phone-down') {
+            top: $header-height + 25;
+        }
     }
 
     .theme-button {

@@ -39,12 +39,12 @@ const positions = {
     'nostalgia': [120, 2020],
   },
   phone: {
-    'corner-good-hope': [120, 250],
-    'crossroads': [120, 620],
-    'history-us-cities': [120, 950],
-    'industry-and-infrastructure': [120, 1350],
-    'lifecycle': [120, 1750],
-    'nostalgia': [120, 2100],
+    'corner-good-hope': [120, 1000],
+    'crossroads': [120, 1370],
+    'history-us-cities': [120, 1700],
+    'industry-and-infrastructure': [120, 2100],
+    'lifecycle': [120, 2500],
+    'nostalgia': [120, 2850],
   },
   default: {
     'corner-good-hope': [485, 450],
