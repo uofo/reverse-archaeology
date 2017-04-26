@@ -19,7 +19,7 @@ const iconMenuPositions = {
 const textMenuPositions = {
   phone: {
     left: 700,
-    top: 1600
+    top: 1500
   },
   default: {
     left: 695,
