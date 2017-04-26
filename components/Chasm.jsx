@@ -173,7 +173,9 @@ class Chasm extends React.Component {
             <div className="chasm-body-page">
               <div className="chasm-body-key">
                 <div className="chasm-body-key-separator"></div>
-                <div className="chasm-body-key-image"></div>
+                <div className="chasm-body-key-image">
+                  <img src={`${config.imageUrlBase}images/RootShock_standin.jpg`} />
+                </div>
                 <div className="chasm-body-key-text">
 “In that searing moment, I realized the loss he was describing was, in a crucial way, the collective loss. It was the loss of a massive web of connections - a way of being - that had been destroyed by urban renewal; it was as if thousands of people, who seemed to be with me in sunlight, were at some deeper level of their being wandering lost in a dense fog, unable to find one another for the rest of their lives.”
                   <div className='chasm-body-key-text-attribution'>&mdash;Dr. Mindy Thompson Fullilove, Root Shock: How Tearing Up City Neighborhoods Hurt America, and What We Can Do About It</div>
