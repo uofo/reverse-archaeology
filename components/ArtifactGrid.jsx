@@ -17,7 +17,8 @@ function artifactIsNarrow(artifact) {
 
 var ArtifactGridItem = React.createClass({
   propTypes: {
-    artifact: PropTypes.object.isRequired
+    artifact: PropTypes.object.isRequired,
+    themeSlug: PropTypes.string
   },
 
   contextTypes: {
@@ -25,7 +26,11 @@ var ArtifactGridItem = React.createClass({
   },
 
   onClick: function () {
-    this.context.router.push('/artifacts/' + this.props.artifact.slug);
+    let url = `/artifacts/${this.props.artifact.slug}`;
+    if (this.props.themeSlug) {
+      url += `?theme=${this.props.themeSlug}`;
+    }
+    this.context.router.push(url);
   },
 
   render: function () {
@@ -59,7 +64,7 @@ var ArtifactGridItem = React.createClass({
   }
 });
 
-function ArtifactGrid({ artifacts }) {
+function ArtifactGrid({ artifacts, themeSlug }) {
   const gridWidth = 3;
   const wideWidth = 2;
   const narrowWidth = 1;
@@ -99,7 +104,7 @@ function ArtifactGrid({ artifacts }) {
     <div>
       <ul className="artifact-grid">
         {sortArtifacts(artifacts).map((artifact) => {
-          return <ArtifactGridItem artifact={artifact} key={artifact.slug} />;
+          return <ArtifactGridItem artifact={artifact} key={artifact.slug} themeSlug={themeSlug} />;
         })}
       </ul>
       <div style={{ clear: 'both' }}></div>

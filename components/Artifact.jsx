@@ -12,31 +12,47 @@ class Artifact extends React.Component {
     super(props);
   }
 
-  getNextArtifactUrl(artifacts, index) {
+  getNextArtifactUrl(artifacts, index, themeSlug) {
     const nextArtifact = artifacts[(index + 1) % artifacts.length];
-    return '/artifacts/' + nextArtifact.slug;
+    let url = `/artifacts/${nextArtifact.slug}`;
+    if (themeSlug) {
+      url += `?theme=${themeSlug}`;
+    }
+    return url;
   }
 
-  getPreviousArtifactUrl(artifacts, index) {
+  getPreviousArtifactUrl(artifacts, index, themeSlug) {
     const previousArtifact = artifacts[(index - 1) < 0 ? artifacts.length - 1 : index - 1];
-    return '/artifacts/' + previousArtifact.slug;
+    let url = `/artifacts/${previousArtifact.slug}`;
+    if (themeSlug) {
+      url += `?theme=${themeSlug}`;
+    }
+    return url;
   }
 
   render() {
     const windowWidth = document.body.clientWidth;
     const isPhone = windowWidth <= phoneWidth;
-    const artifactItems = this.props.artifacts.data.items;
+
+    const themeSlug = this.props.location.query.theme;
+    let artifactItems = this.props.artifacts.data.items;
+    if (themeSlug) {
+      artifactItems = artifactItems.filter(item => {
+        return item.themes.indexOf(themeSlug) >= 0;
+      });
+    }
     const artifactIndex = artifactItems.findIndex((a) => a.slug === this.props.params.slug);
     const artifact = artifactItems[artifactIndex];
+
 
     let body;
 
     function swipeLeft() {
-      this.context.router.push(this.getNextArtifactUrl(artifactItems, artifactIndex));
+      this.context.router.push(this.getNextArtifactUrl(artifactItems, artifactIndex, themeSlug));
     }
 
     function swipeRight() {
-      this.context.router.push(this.getPreviousArtifactUrl(artifactItems, artifactIndex));
+      this.context.router.push(this.getPreviousArtifactUrl(artifactItems, artifactIndex, themeSlug));
     }
 
     if (artifact) {
@@ -56,8 +72,8 @@ class Artifact extends React.Component {
         <Swipeable className="artifact-container"
           onSwipedLeft={swipeLeft.bind(this)}
           onSwipedRight={swipeRight.bind(this)}>
-          <Link className='previous-artifact' to={this.getPreviousArtifactUrl(artifactItems, artifactIndex)}></Link>
-          <Link className='next-artifact' to={this.getNextArtifactUrl(artifactItems, artifactIndex)}></Link>
+          <Link className='previous-artifact' to={this.getPreviousArtifactUrl(artifactItems, artifactIndex, themeSlug)}></Link>
+          <Link className='next-artifact' to={this.getNextArtifactUrl(artifactItems, artifactIndex, themeSlug)}></Link>
           <div className="artifact">
             <div className="artifact-header">
               <h2>{artifact.headline}</h2>

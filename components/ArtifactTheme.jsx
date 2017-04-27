@@ -20,7 +20,7 @@ function ArtifactTheme({ artifacts, children, params, themes }) {
   return (
     <div className="artifact-grid-container">
       <h2 className="artifact-theme">{themes[theme]}</h2>
-      <ArtifactGrid artifacts={themeArtifacts} />
+      <ArtifactGrid artifacts={themeArtifacts} themeSlug={theme} />
       {children}
       <div style={{clear: 'both'}}></div>
     </div>
