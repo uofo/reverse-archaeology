@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import Autocomplete from 'react-autocomplete';
 
 import { ArtifactGrid } from './ArtifactGrid';
+import { phoneWidth } from '../core/constants';
 
 import '../styles/components/search.scss';
 
@@ -93,7 +94,7 @@ var SearchBar = React.createClass({
     };
 
     const windowWidth = document.body.clientWidth;
-    if (windowWidth <= 400 || this.props.autocomplete === false) {
+    if (windowWidth <= phoneWidth || this.props.autocomplete === false) {
       autocompleteProps.open = false;
     }
 

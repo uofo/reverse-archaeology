@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import PinnedOverlay from './PinnedOverlay';
+import { phoneWidth } from '../core/constants';
 
 import '../styles/components/home.scss';
 
@@ -29,10 +30,10 @@ const textMenuPositions = {
 
 function Home() {
   const windowWidth = document.body.clientWidth;
-  const iconMenuPosition = ((windowWidth <= 400) ?
+  const iconMenuPosition = ((windowWidth <= phoneWidth) ?
       iconMenuPositions.phone :
       iconMenuPositions.default);
-  const textMenuPosition = ((windowWidth <= 400) ?
+  const textMenuPosition = ((windowWidth <= phoneWidth) ?
       textMenuPositions.phone :
       textMenuPositions.default);
 
