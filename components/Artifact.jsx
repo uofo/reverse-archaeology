@@ -3,6 +3,7 @@ import Swipeable from 'react-swipeable';
 import { Link } from 'react-router';
 
 import DynamicContent from './DynamicContent';
+import { phoneWidth } from '../core/constants';
 
 import '../styles/components/artifact.scss';
 
@@ -22,6 +23,8 @@ class Artifact extends React.Component {
   }
 
   render() {
+    const windowWidth = document.body.clientWidth;
+    const isPhone = windowWidth <= phoneWidth;
     const artifactItems = this.props.artifacts.data.items;
     const artifactIndex = artifactItems.findIndex((a) => a.slug === this.props.params.slug);
     const artifact = artifactItems[artifactIndex];
@@ -37,6 +40,18 @@ class Artifact extends React.Component {
     }
 
     if (artifact) {
+      const details = (
+        <div className="artifact-left-text">
+          <div className="artifact-details">
+            <span className="artifact-label">Title:</span>
+            {artifact.title}
+          </div>
+          <div className="artifact-themes">
+            <span className="artifact-label">Themes:</span>
+            {artifact.themes.map(t => this.props.themes[t]).join(', ')}
+          </div>
+        </div>
+      );
       body = (
         <Swipeable className="artifact-container"
           onSwipedLeft={swipeLeft.bind(this)}
@@ -66,21 +81,13 @@ class Artifact extends React.Component {
                   }}></div>
                   {artifact.image_caption ? <div className='artifact-image-caption'>{artifact.image_caption}</div> : ''}
                 </div>
-                <div className="artifact-left-text">
-                  <div className="artifact-details">
-                    <span className="artifact-label">Title:</span>
-                    {artifact.title}
-                  </div>
-                  <div className="artifact-themes">
-                    <span className="artifact-label">Themes:</span>
-                    {artifact.themes.map(t => this.props.themes[t]).join(', ')}
-                  </div>
-                </div>
+                {(!isPhone ? details : '')}
               </div>
               <div className="artifact-right">
                 <div className="artifact-text">
                   <DynamicContent innerHTML={artifact.content} />
                 </div>
+                {(isPhone ? details : '')}
               </div>
             </div>
           </div>
